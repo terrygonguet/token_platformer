@@ -48,6 +48,12 @@ const TP = {}; // Namespace
     // Sprites ----------------------------------------
 
     // Sounds ----------------------------------------
+    {id: "Pew", src:"resources/sounds/pew.wav"},
+    {id: "Boup", src:"resources/sounds/boup.wav"},
+    {id: "Ping", src:"resources/sounds/ping.wav"},
+    {id: "RadarSearch", src:"resources/sounds/radar.wav"},
+    {id: "RadarWrong", src:"resources/sounds/radar_wrong.wav"},
+    {id: "Kick", src:"resources/sounds/kick.wav"}
 
   ];
   queue.loadManifest(queue.manifest);
