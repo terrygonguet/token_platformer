@@ -38,6 +38,7 @@ class Config extends createjs.EventDispatcher {
     };
     input.lockedBindings = [ "menu" ];
     input.hiddenBindings = [ "pause", "debug" ];
+  }
 
   /**
    * toggles display on the menu

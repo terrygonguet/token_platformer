@@ -1,0 +1,22 @@
+{
+  "name": "token_platformer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/terrygonguet/token_platformer.git"
+  },
+  "author": "terrygonguet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/terrygonguet/token_platformer/issues"
+  },
+  "homepage": "https://github.com/terrygonguet/token_platformer#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
