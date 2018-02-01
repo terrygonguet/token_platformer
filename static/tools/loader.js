@@ -42,6 +42,9 @@ const TP = {}; // Namespace
     {id: "Input Manager", src:"tools/input.js"},
     {id: "Game", src:"model/game.js"},
     {id: "Config", src:"model/config.js"},
+    {id: "Player", src:"model/player.js"},
+    {id: "Plateform", src:"model/plateform.js"},
+    {id: "Collider", src:"model/collider.js"},
 
     {id: "QuickText", src:"model/quickText.js"},
 

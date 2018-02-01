@@ -16,13 +16,10 @@ class Game extends createjs.Stage {
     this.txtFps       = new QuickText({ x: 10, y: 30 });
     this.txtrendertime= new QuickText({ x: 10, y: 50 });
     this.txtqwerty    = new QuickText({ x: 10, y: 10, text: debug ? "Escape for the menu" : "" });
-    this.entities     = {};
     this.collidables  = [];
-    this.player       = null;
-    this.dimensions   = null;
-    this.background   = null;
-    this.foreground   = null;
     this.renderVals   = [];
+    this.collider     = new Collider();
+    this.gravity      = $V([ 0, 200 ]);
     this.screencenter = $V([window.innerWidth/2, window.innerHeight/2]);
 
     this.setHandlers();
@@ -35,6 +32,8 @@ class Game extends createjs.Stage {
     createjs.Ticker.timingMode = createjs.Ticker.RAF ;
     createjs.Ticker.framerate = 60;
     createjs.Ticker.on("tick", this.update, this);
+
+    createjs.Ticker.on("tick", this.init, this, true);
 
     input.enableMouseMouve();
 
@@ -52,8 +51,30 @@ class Game extends createjs.Stage {
    */
   init (data) {
     this.removeAllChildren();
-    this.entities     = {};
     this.collidables  = [];
+
+    this.addChild(this.txtFps);
+    this.addChild(this.txtrendertime);
+    this.addChild(this.txtqwerty);
+    this.addChild(new Player({
+      position: $V([ 150, 50 ])
+    }));
+    this.addChild(new Plateform({
+      pt1: $V([ 100, 100 ]),
+      pt2: $V([ 200, 100 ]),
+    }));
+    this.addChild(new Plateform({
+      pt1: $V([ 300, 300 ]),
+      pt2: $V([ 400, 200 ]),
+    }));
+    this.addChild(new Plateform({
+      pt1: $V([ 200, 450 ]),
+      pt2: $V([ 600, 450 ]),
+    }));
+    this.addChild(new Plateform({
+      pt1: $V([ 600, 450 ]),
+      pt2: $V([ 600, 400 ]),
+    }));
   }
 
   /**
@@ -66,6 +87,7 @@ class Game extends createjs.Stage {
     // more perf monitoring
     this.rendertime = 0;
     !e.paused && this.children.forEach(c => c.update && c.update(e));
+    this.collider.update();
     super.update(e);
     game.rendertime += (performance.now() - time);
     this.renderVals.push(game.rendertime);
@@ -74,18 +96,13 @@ class Game extends createjs.Stage {
   }
 
   addChild (child) {
-    if (child.isEntity) {
-      if (this.entities[child.id]) return;
-      this.entities[child.id] = child;
-    }
-
+    super.addChild(child);
     if (child.isCollidable && this.collidables.indexOf(child) === -1)
       this.collidables.push(child);
   }
 
   removeChild (child) {
     super.removeChild(child);
-    if (child.isEntity) delete this.entities[child.id];
     if (child.isCollidable) this.collidables.splice(this.collidables.indexOf(child), 1);
   }
 
