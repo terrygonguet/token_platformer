@@ -19,8 +19,9 @@ class Game extends createjs.Stage {
     this.collidables  = [];
     this.renderVals   = [];
     this.collider     = new Collider();
-    this.gravity      = $V([ 0, 200 ]);
+    this.gravity      = $V([ 0, 900 ]);
     this.screencenter = $V([window.innerWidth/2, window.innerHeight/2]);
+    this.maxdelta     = 300;
 
     this.setHandlers();
   }
@@ -64,16 +65,16 @@ class Game extends createjs.Stage {
       pt2: $V([ 200, 100 ]),
     }));
     this.addChild(new Plateform({
-      pt1: $V([ 300, 300 ]),
-      pt2: $V([ 400, 200 ]),
+      pt1: $V([ 500, 380 ]),
+      pt2: $V([ 900, 300 ]),
     }));
     this.addChild(new Plateform({
       pt1: $V([ 200, 450 ]),
-      pt2: $V([ 600, 450 ]),
+      pt2: $V([ 1500, 450 ]),
     }));
     this.addChild(new Plateform({
-      pt1: $V([ 600, 450 ]),
-      pt2: $V([ 600, 400 ]),
+      pt1: $V([ 1000, 400 ]),
+      pt2: $V([ 1050, 280 ]),
     }));
   }
 
@@ -86,9 +87,11 @@ class Game extends createjs.Stage {
     this.txtFps.text = (debug ? createjs.Ticker.getMeasuredFPS().toFixed(0) + " FPS" : "");
     // more perf monitoring
     this.rendertime = 0;
-    !e.paused && this.children.forEach(c => c.update && c.update(e));
-    this.collider.update();
-    super.update(e);
+    if (e.delta <= this.maxdelta && !e.paused) {
+      this.children.forEach(c => c.update && c.update(e));
+      this.collider.update(e);
+      super.update(e);
+    }
     game.rendertime += (performance.now() - time);
     this.renderVals.push(game.rendertime);
     if (this.renderVals.length > 100) this.renderVals.shift(); // render values smoother

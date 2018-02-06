@@ -8,15 +8,16 @@
     this.cache = {};
   }
 
-  update() {
+  update(e) {
     for (let collidable1 of game.collidables) {
       for (let collidable2 of game.collidables) {
-
+        if (collidable1.id == collidable2.id) continue;
+        
         let cache = this.cache[collidable1.id + "_" + collidable2.id];
         if (cache) {
           cache.res.overlapN.reverse();
           cache.res.overlapV.reverse();
-          cache.collided && collidable1.onCollide && collidable1.onCollide(collidable2, cache.res);
+          cache.collided && collidable1.onCollide && collidable1.onCollide(collidable2, cache.res, e);
           continue;
         }
 
@@ -25,7 +26,7 @@
           (collidable2.hitbox instanceof SAT.Circle ? "Circle" : "Polygon");
         const res = new SAT.Response();
         const collided = SAT[test](collidable1.hitbox, collidable2.hitbox, res);
-        collided && collidable1.onCollide && collidable1.onCollide(collidable2, res);
+        collided && collidable1.onCollide && collidable1.onCollide(collidable2, res, e);
         this.cache[collidable2.id + "_" + collidable1.id] = { collided, res };
       }
     }
