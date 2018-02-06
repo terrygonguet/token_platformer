@@ -19,10 +19,7 @@ class Game extends createjs.Stage {
     this.collidables  = [];
     this.renderVals   = [];
     this.collider     = new Collider();
-<<<<<<< HEAD
     this.camera       = new Camera();
-=======
->>>>>>> 5ac0b2d40138abfee0846c189517d1cc668fc424
     this.gravity      = $V([ 0, 900 ]);
     this.screencenter = $V([window.innerWidth/2, window.innerHeight/2]);
     this.maxdelta     = 300;
@@ -75,13 +72,6 @@ class Game extends createjs.Stage {
     this.addChild(new Plateform({
       pt1: $V([ 200, 450 ]),
       pt2: $V([ 1500, 450 ]),
-<<<<<<< HEAD
-=======
-    }));
-    this.addChild(new Plateform({
-      pt1: $V([ 1000, 400 ]),
-      pt2: $V([ 1050, 280 ]),
->>>>>>> 5ac0b2d40138abfee0846c189517d1cc668fc424
     }));
   }
 
@@ -97,10 +87,7 @@ class Game extends createjs.Stage {
     if (e.delta <= this.maxdelta && !e.paused) {
       this.children.forEach(c => c.update && c.update(e));
       this.collider.update(e);
-<<<<<<< HEAD
       this.camera.update(e);
-=======
->>>>>>> 5ac0b2d40138abfee0846c189517d1cc668fc424
       super.update(e);
     }
     game.rendertime += (performance.now() - time);
