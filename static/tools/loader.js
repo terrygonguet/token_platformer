@@ -45,8 +45,10 @@ const TP = {}; // Namespace
     {id: "Player", src:"model/player.js"},
     {id: "Plateform", src:"model/plateform.js"},
     {id: "Collider", src:"model/collider.js"},
+    {id: "Camera", src:"model/camera.js"},
 
     {id: "QuickText", src:"model/quickText.js"},
+    {id: "Neon", src:"model/neon.js"},
 
     // Sprites ----------------------------------------
 

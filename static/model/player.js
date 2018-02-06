@@ -12,25 +12,34 @@ class Player extends createjs.Shape {
     this.radius         = 20;
     this.hitbox         = new SAT.Circle(params.position.toSAT(), this.radius);
     this.position       = params.position;
+    this.startpos       = params.position.dup();
     this.hasJumped      = false;
     this.jumpForce      = 500;
     this.momentum       = $V([0,0]);
     this.acceleration   = 2700;
     this.rotationSpeed  = 1.7;
+    this.shadow         = new Neon("E1E");
     this.colors         = {
-      hasJump: "#373", noJump: "#733",
+      hasJump: "#1E1", noJump: "#E11",
     };
     this.maxSpeed       = {
       down: 1200, horizontal: 400
     };
 
-    this.graphics.c().s("#888").f(this.colors.hasJump).dp(0,0,this.radius,3,0.5,-90);
+    this.graphics.c().s("#888").f("#000").dp(0,0,this.radius,3,0,-90);
     debug && this.graphics.ef().dc(0,0,this.radius);
 
-    this.set({ x: this.position.e(1), y: this.position.e(2) });
+    input.on("debug", ()=>{
+      this.graphics.c().s("#888").f("#000").dp(0,0,this.radius,3,0,-90);
+      debug && this.graphics.ef().dc(0,0,this.radius);
+    });
   }
 
   update(e) {
+    if (this.position.e(2) > innerHeight + 100) {
+      this.position = this.startpos.dup();
+      return;
+    }
     var moveforce = input.direction.x(e.sdelta * this.acceleration);
     var gravforce = game.gravity.x(e.sdelta);
     this.momentum = this.momentum.add(gravforce).add(moveforce);
@@ -53,24 +62,26 @@ class Player extends createjs.Shape {
     this.rotation += this.position.subtract(oldpos).e(1) * this.rotationSpeed;
 
     var color = this.hasJumped ? this.colors.noJump : this.colors.hasJump;
-    this.graphics.c().s("#888").f(color).dp(0,0,this.radius,3,0.5,-90);
-    debug && this.graphics.ef().dc(0,0,this.radius);
+    this.shadow.color !== color && (this.shadow = new Neon(color));
   }
 
   setPos(pos) {
     this.position = pos.dup();
     this.hitbox.pos = this.position.toSAT();
-    this.set({ x: this.position.e(1), y: this.position.e(2) });
   }
 
   onCollide(otherObj, collision, e) {
     if (otherObj.isSolid) {
-      this.setPos(this.position.subtract(collision.overlapV.toSylv()));
-      this.momentum = this.momentum.subtract(collision.overlapV.toSylv().x(1 / e.sdelta));
+      var knockback = null;
       var anglefrom	= otherObj.hitbox.edges[0].toSylv().angleFrom($V([1,0]));
-      if (anglefrom < Math.PI / 4 || anglefrom > 3 * Math.PI / 4) {
-        this.hasJumped = false;
+      if (anglefrom <= Math.PI / 4 || anglefrom >= 3 * Math.PI / 4) {
+        knockback = $V([0, collision.overlapV.y]);
+        collision.overlapN.toSylv().angleFrom($V([0,1])) <= Math.PI / 4 && (this.hasJumped = false);
+      } else {
+        knockback = collision.overlapV.toSylv();
       }
+      this.setPos(this.position.subtract(knockback));
+      this.momentum = this.momentum.subtract(knockback.x(1 / e.sdelta));
     }
   }
 

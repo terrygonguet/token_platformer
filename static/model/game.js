@@ -19,6 +19,7 @@ class Game extends createjs.Stage {
     this.collidables  = [];
     this.renderVals   = [];
     this.collider     = new Collider();
+    this.camera       = new Camera();
     this.gravity      = $V([ 0, 900 ]);
     this.screencenter = $V([window.innerWidth/2, window.innerHeight/2]);
     this.maxdelta     = 300;
@@ -61,8 +62,8 @@ class Game extends createjs.Stage {
       position: $V([ 150, 50 ])
     }));
     this.addChild(new Plateform({
-      pt1: $V([ 100, 100 ]),
-      pt2: $V([ 200, 100 ]),
+      pt1: $V([ 100, 250 ]),
+      pt2: $V([ 200, 250 ]),
     }));
     this.addChild(new Plateform({
       pt1: $V([ 500, 380 ]),
@@ -71,10 +72,6 @@ class Game extends createjs.Stage {
     this.addChild(new Plateform({
       pt1: $V([ 200, 450 ]),
       pt2: $V([ 1500, 450 ]),
-    }));
-    this.addChild(new Plateform({
-      pt1: $V([ 1000, 400 ]),
-      pt2: $V([ 1050, 280 ]),
     }));
   }
 
@@ -90,6 +87,7 @@ class Game extends createjs.Stage {
     if (e.delta <= this.maxdelta && !e.paused) {
       this.children.forEach(c => c.update && c.update(e));
       this.collider.update(e);
+      this.camera.update(e);
       super.update(e);
     }
     game.rendertime += (performance.now() - time);

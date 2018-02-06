@@ -17,8 +17,6 @@
      this.position       = params.pt1;
 
      this.graphics.c().s("#EEE").ss(3).mt(0,0).lt(...pt2offset.elements);
-
-     this.set({ x: this.position.e(1), y: this.position.e(2) });
    }
 
    update(e) {
