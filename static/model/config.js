@@ -28,10 +28,17 @@ class Config extends createjs.EventDispatcher {
 
     var localBindings = JSON.parse(localStorage.getItem("bindings")) || {};
     input.bindings = {
+<<<<<<< HEAD
       jump      : localBindings.jump        || ["ArrowUp", "Space", "z"],
       // down      : localBindings.down      || ["s"],
       left      : localBindings.left      || ["ArrowLeft", "q"],
       right     : localBindings.right     || ["ArrowRight", "d"],
+=======
+      jump      : localBindings.jump        || ["z"],
+      // down      : localBindings.down      || ["s"],
+      left      : localBindings.left      || ["q"],
+      right     : localBindings.right     || ["d"],
+>>>>>>> 5ac0b2d40138abfee0846c189517d1cc668fc424
       pause     : localBindings.pause     || ["p"],
       debug     : localBindings.debug     || ["o"],
       menu      : localBindings.menu      || ["Escape"],
