@@ -1,0 +1,8 @@
+{
+  "playerPos": { "x":0, "y":0 },
+  "deathLine": 600,
+  "objects": [
+    { "type":"Plateform", "params": { "pt1": { "x":-1000, "y":100 }, "pt2": { "x":1000, "y":100 } } },
+    { "type":"Plateform", "params": { "pt1": { "x":-1000, "y":400 }, "pt2": { "x":1000, "y":400 } } }
+  ]
+}

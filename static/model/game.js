@@ -20,11 +20,15 @@ class Game extends createjs.Stage {
     this.renderVals   = [];
     this.collider     = new Collider();
     this.camera       = new Camera();
+    this.player       = null;
     this.gravity      = $V([ 0, 900 ]);
     this.screencenter = $V([window.innerWidth/2, window.innerHeight/2]);
     this.maxdelta     = 300;
+    this.deathLine    = 0;
 
     this.setHandlers();
+
+    this.loadLevel("lvl1");
   }
 
   /**
@@ -34,8 +38,6 @@ class Game extends createjs.Stage {
     createjs.Ticker.timingMode = createjs.Ticker.RAF ;
     createjs.Ticker.framerate = 60;
     createjs.Ticker.on("tick", this.update, this);
-
-    createjs.Ticker.on("tick", this.init, this, true);
 
     input.enableMouseMouve();
 
@@ -54,25 +56,29 @@ class Game extends createjs.Stage {
   init (data) {
     this.removeAllChildren();
     this.collidables  = [];
+    this.deathLine = data.deathLine;
 
+    var deathLine = new createjs.Shape();
+    deathLine.position = $V([0, this.deathLine]);
+    deathLine.graphics
+      .ss(2).s("#E11")
+      .mt(-5000,0)
+      .lt(5000,0)
+
+    this.addChild(deathLine);
     this.addChild(this.txtFps);
     this.addChild(this.txtrendertime);
     this.addChild(this.txtqwerty);
-    this.addChild(new Player({
-      position: $V([ 150, 50 ])
-    }));
-    this.addChild(new Plateform({
-      pt1: $V([ 100, 250 ]),
-      pt2: $V([ 200, 250 ]),
-    }));
-    this.addChild(new Plateform({
-      pt1: $V([ 500, 380 ]),
-      pt2: $V([ 900, 300 ]),
-    }));
-    this.addChild(new Plateform({
-      pt1: $V([ 200, 450 ]),
-      pt2: $V([ 1500, 450 ]),
-    }));
+    this.player = new Player({ position: data.playerPos });
+    this.addChild(this.player);
+
+    for (var object of data.objects) {
+      this.addChild(new TP[object.type](object.params));
+    }
+  }
+
+  loadLevel(filename) {
+    $.getJSON(`../levels/${filename}.json`, data => this.init(data));
   }
 
   /**
