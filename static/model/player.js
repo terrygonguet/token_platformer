@@ -5,19 +5,20 @@ class Player extends createjs.Shape {
 
   constructor(params) {
     super();
+    const settings = makeSettings({}, params);
     this.id             = nextID();
     this.isPlayer       = true;
     this.isCollidable   = true;
     this.isSolid        = true;
     this.radius         = 20;
-    this.hitbox         = new SAT.Circle(params.position.toSAT(), this.radius);
-    this.position       = params.position;
-    this.startpos       = params.position.dup();
+    this.hitbox         = new SAT.Circle(settings.position.toSAT(), this.radius);
+    this.position       = settings.position;
+    this.startpos       = settings.position.dup();
     this.hasJumped      = false;
     this.jumpForce      = 500;
     this.momentum       = $V([0,0]);
     this.acceleration   = 2700;
-    this.rotationSpeed  = 1.7;
+    this.rotationSpeed  = 1.6;
     this.shadow         = new Neon("E1E");
     this.colors         = {
       hasJump: "#1E1", noJump: "#E11",
@@ -36,7 +37,7 @@ class Player extends createjs.Shape {
   }
 
   update(e) {
-    if (this.position.e(2) > innerHeight + 100) {
+    if (this.position.e(2) > game.deathLine) {
       this.position = this.startpos.dup();
       return;
     }
