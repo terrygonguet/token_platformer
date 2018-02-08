@@ -1,11 +1,8 @@
 {
-  "playerPos": {
-    "x": -200,
-    "y": 0
-  },
   "deathLine": 250,
   "name": "Tutorial 2",
   "objects": [
+    { "type":"SpawnPoint", "params": { "point": { "x":-200, "y":0 }, "state":"green" } },
     {
       "type": "Plateform",
       "params": {

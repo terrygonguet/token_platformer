@@ -62,6 +62,7 @@ class EndZone extends createjs.Shape {
         position: { x:this.position.e(1), y:this.position.e(2) },
         dimensions: { x:this.dimensions.e(1), y:this.dimensions.e(2) },
         nextLevel: this.nextLevel,
+        color: this.color,
       }
     };
   }

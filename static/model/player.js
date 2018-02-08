@@ -5,7 +5,9 @@ class Player extends createjs.Shape {
 
   constructor(params) {
     super();
-    const settings = makeSettings({}, params);
+    const settings = makeSettings({
+      position: { x:0, y:0 }
+    }, params);
     this.id             = nextID();
     this.isPlayer       = true;
     this.isCollidable   = true;
@@ -13,16 +15,15 @@ class Player extends createjs.Shape {
     this.radius         = 20;
     this.hitbox         = new SAT.Circle(settings.position.toSAT(), this.radius);
     this.position       = settings.position;
-    this.startpos       = settings.position.dup();
-    this.hasJumped      = false;
+    this.state          = "green"; // enum { green, red }
     this.jumpForce      = 500;
     this.momentum       = $V([0,0]);
     this.acceleration   = 2700;
     this.rotationSpeed  = 1.6;
-    this.shadow         = new Neon("E1E");
     this.colors         = {
-      hasJump: "#1E1", noJump: "#E11",
+      green: "#1E1", red: "#E11",
     };
+    this.shadow         = new Neon(this.color);
     this.maxSpeed       = {
       down: 1200, horizontal: 400
     };
@@ -36,9 +37,15 @@ class Player extends createjs.Shape {
     });
   }
 
+  get color() {
+    return this.colors[this.state];
+  }
+
   update(e) {
     if (this.position.e(2) > game.deathLine) {
-      this.position = this.startpos.dup();
+      var sp = _.values(game.children).find(c => c.isSpawnPoint);
+      if (!sp) throw "Level doesn't have a spawn point (anymore ?)";
+      sp.spawn();
       return;
     }
     var moveforce = input.direction.x(e.sdelta * this.acceleration);
@@ -50,8 +57,8 @@ class Player extends createjs.Shape {
       else
         this.momentum = this.momentum.subtract($V([this.momentum.toUnitVector().e(1), 0]).x(this.acceleration * e.sdelta));
     };
-    if (input.keys.jump && !this.hasJumped) {
-      this.hasJumped = true;
+    if (input.keys.jump && this.state === "green") {
+      this.state = "red";
       this.momentum.elements[1] = -this.jumpForce;
     }
     this.momentum = $V([
@@ -62,8 +69,7 @@ class Player extends createjs.Shape {
     this.setPos(this.position.add(this.momentum.x(e.sdelta)));
     this.rotation += this.position.subtract(oldpos).e(1) * this.rotationSpeed;
 
-    var color = this.hasJumped ? this.colors.noJump : this.colors.hasJump;
-    this.shadow.color !== color && (this.shadow = new Neon(color));
+    this.shadow.color !== this.color && (this.shadow = new Neon(this.color));
   }
 
   setPos(pos) {
@@ -74,15 +80,15 @@ class Player extends createjs.Shape {
   onCollide(otherObj, collision, e) {
     if (otherObj.isSolid) {
       var knockback = null;
-      var anglefrom	= otherObj.hitbox.edges[0].toSylv().angleFrom($V([1,0]));
+      var anglefrom	= collision.overlapN.toSylv().angleFrom($V([0,1]));
+      // var anglefrom	= otherObj.hitbox.edges[0].toSylv().angleFrom($V([1,0]));
       if (anglefrom <= Math.PI / 4 || anglefrom >= 3 * Math.PI / 4) {
         knockback = $V([0, collision.overlapV.y]);
-        collision.overlapN.toSylv().angleFrom($V([0,1])) <= Math.PI / 4 && (this.hasJumped = false);
       } else {
         knockback = collision.overlapV.toSylv();
       }
       this.setPos(this.position.subtract(knockback));
-      this.momentum = this.momentum.subtract(knockback.x(1 / e.sdelta));
+      e.sdelta !== 0 && (this.momentum = this.momentum.subtract(knockback.x(1 / e.sdelta)));
     }
   }
 

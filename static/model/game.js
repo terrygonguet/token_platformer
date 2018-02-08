@@ -71,12 +71,16 @@ class Game extends createjs.Stage {
     this.addChild(this.txtFps);
     this.addChild(this.txtrendertime);
     this.addChild(this.txtqwerty);
-    this.player = new Player({ position: data.playerPos });
+    this.player = new Player();
     this.addChild(this.player);
 
     for (var object of data.objects) {
       this.addChild(new TP[object.type](object.params));
     }
+
+    var sp = _.values(this.children).find(c => c.isSpawnPoint);
+    if (!sp) throw "No spawn point found";
+    sp.spawn();
   }
 
   loadLevel(filename) {

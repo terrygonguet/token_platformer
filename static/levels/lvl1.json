@@ -1,8 +1,8 @@
 {
-  "playerPos": { "x":-250, "y":0 },
   "deathLine": 250,
   "name": "Tutorial 1",
   "objects": [
+    { "type":"SpawnPoint", "params": { "point": { "x":-200, "y":0 }, "state":"green" } },
     { "type":"Plateform", "params": { "pt1": { "x":-300, "y":100 }, "pt2": { "x":300, "y":100 } } },
     { "type":"EndZone", "params": { "position": { "x":230, "y":50 }, "dimensions": { "x":50, "y":50 }, "nextLevel":"lvl2" } }
   ]

@@ -41,6 +41,7 @@ function openEditor(c) {
             .append(
               $("<button>New</button>").click(()=>{
                 game.addChild(new TP[$("#className").val()]());
+                game.update({ delta:0, paused:false });
               })
             )
         );

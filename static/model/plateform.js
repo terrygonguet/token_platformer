@@ -78,6 +78,8 @@
          pt2: { x:this.pt2.e(1), y:this.pt2.e(2) },
          thickness: this.thickness,
          edgeOffset: this.edgeOffset,
+         strokeColor: this.strokeColor,
+         fillColor: this.fillColor,
        }
      };
    }
