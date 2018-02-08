@@ -2,6 +2,7 @@ function openEditor(c) {
   if (!debug || !c.getEditor) return;
   var apply = c.getEditor($("#editor").show().empty());
   input.enabledListeners.keydown = false;
+  createjs.Ticker.paused = true;
   $("#editor")
   .append(
     $("<div></div>")
@@ -11,17 +12,18 @@ function openEditor(c) {
         var newobj = apply();
         game.addChild(newobj);
         openEditor(newobj);
+        game.update({ delta:0, paused:false });
       })
     )
     .append(
       $("<button>Remove</button>").click(function () {
         game.removeChild(c);
-        $("#editor").hide();
-        input.enabledListeners.keydown = true;
+        closeEditor();
       })
     )
     .append(
       $("<button>JSON</button>").click(function () {
+        $("#editor textarea").detach();
         var area = $("<textarea cols=50 rows=25></textarea>");
         var lvl = _.assign({}, game.levelData, { objects:[] });
         for (var child of game.children) {
@@ -46,11 +48,16 @@ function openEditor(c) {
     )
     .append(
       $("<button>Cancel</button>").click(function () {
-        $("#editor").hide();
-        input.enabledListeners.keydown = true;
+        closeEditor();
       })
     )
   );
+}
+
+function closeEditor() {
+  createjs.Ticker.paused = false;
+  $("#editor").hide();
+  input.enabledListeners.keydown = true;
 }
 
 input.on("mousedown", e => {
