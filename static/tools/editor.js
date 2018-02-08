@@ -7,7 +7,7 @@ function openEditor(c) {
   .append(
     $("<div></div>")
     .append(
-      $("<button>Apply</button>").click(function () {
+      $("<button class='NeonButton'>Apply</button>").click(function () {
         game.removeChild(c);
         var newobj = apply();
         game.addChild(newobj);
@@ -16,13 +16,13 @@ function openEditor(c) {
       })
     )
     .append(
-      $("<button>Remove</button>").click(function () {
+      $("<button class='NeonButton'>Remove</button>").click(function () {
         game.removeChild(c);
         closeEditor();
       })
     )
     .append(
-      $("<button>JSON</button>").click(function () {
+      $("<button class='NeonButton'>JSON</button>").click(function () {
         $("#editor textarea").detach();
         var area = $("<textarea cols=50 rows=25></textarea>");
         var lvl = _.assign({}, game.levelData, { objects:[] });
@@ -34,12 +34,12 @@ function openEditor(c) {
       })
     )
     .append(
-      $("<button>Create</button>").click(function () {
+      $("<button class='NeonButton'>Create</button>").click(function () {
         $("#editor").prepend(
           $("<label>Class name : </label>")
             .append("<input type='text' value='Plateform' id='className'/>")
             .append(
-              $("<button>New</button>").click(()=>{
+              $("<button class='NeonButton'>New</button>").click(()=>{
                 game.addChild(new TP[$("#className").val()]());
                 game.update({ delta:0, paused:false });
               })
@@ -48,7 +48,7 @@ function openEditor(c) {
       })
     )
     .append(
-      $("<button>Cancel</button>").click(function () {
+      $("<button class='NeonButton'>Cancel</button>").click(function () {
         closeEditor();
       })
     )
