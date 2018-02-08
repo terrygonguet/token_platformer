@@ -127,9 +127,42 @@ html, body {
 	padding: 5px;
 }
 
+#editor label{
+	padding:4px;
+}
+
+#editor div button{
+	background-color: #000000;
+    border: none;
+    color: #f7abc3;
+    text-shadow: 1px 1px 2px #ff0051;
+    box-shadow: inset 0px 0px 10px 2px #ff0051;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+	margin-bottom: 10px;
+}
+
+#editor div button:hover{
+	box-shadow: inset 0px 0px 15px 2px #ff0051;
+	background-color: #330010;
+}
+
+#editor div button:active{
+	box-shadow: inset 0px 0px 15px 2px #90002e;
+	background-color: #a76f81;
+}
+
+#editor div {
+	padding: 10px;
+}
+
 #editor>* {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
 	width: 100%;
+	flex-wrap: wrap;
 }

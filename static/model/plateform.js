@@ -43,14 +43,14 @@
    getEditor(container) {
      $(container)
       .append(
-        $("<label>Point 1 : </label>")
-          .append(`<input type='number' placeholder='x' size=4 id='pt1x' value=${this.position.e(1)}>`)
-          .append(`<input type='number' placeholder='y' size=4 id='pt1y' value=${this.position.e(2)}>`)
+        $("<label>Point 1  </label>")
+          .append(`X : <input type='number' placeholder='x' size=4 id='pt1x' value=${this.position.e(1)}>`)
+          .append(`Y : <input type='number' placeholder='y' size=4 id='pt1y' value=${this.position.e(2)}>`)
       )
       .append(
-        $("<label>Point 2 : </label>")
-          .append(`<input type='number' placeholder='x' size=4 id='pt2x' value=${this.pt2.e(1)}>`)
-          .append(`<input type='number' placeholder='y' size=4 id='pt2y' value=${this.pt2.e(2)}>`)
+        $("<label>Point 2  </label>")
+          .append(`X : <input type='number' placeholder='x' size=4 id='pt2x' value=${this.pt2.e(1)}>`)
+          .append(`Y : <input type='number' placeholder='y' size=4 id='pt2y' value=${this.pt2.e(2)}>`)
       )
       .append(
         $("<label>Thickness : </label>")
