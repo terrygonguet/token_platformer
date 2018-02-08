@@ -50,6 +50,7 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
     {id: "Camera", src:"model/camera.js"},
 
     {id: "Plateform", src:"model/plateform.js"},
+    {id: "ColorPlateform", src:"model/colorplateform.js"},
     {id: "EndZone", src:"model/endzone.js"},
     {id: "SpawnPoint", src:"model/spawnpoint.js"},
 

@@ -59,6 +59,14 @@
       .append(
         $("<label>Edge offset : </label>")
           .append(`<input type='number' placeholder='15' size=4 id='edgeOffset' min=0 value=${this.edgeOffset}>`)
+      )
+      .append(
+        $("<label>Edge color : </label>")
+          .append(`<input type='color' size=4 id='strokeColor' value=${this.strokeColor}>`)
+      )
+      .append(
+        $("<label>Fill color : </label>")
+          .append(`<input type='color' size=4 id='fillColor' value=${this.fillColor}>`)
       );
       return ()=>{
         return new Plateform({
@@ -66,6 +74,8 @@
           pt2: { x:Number($("#pt2x").val()), y:Number($("#pt2y").val()) },
           thickness: $("#thickness").val(),
           edgeOffset: $("#edgeOffset").val(),
+          strokeColor: $("#strokeColor").val(),
+          fillColor: $("#fillColor").val(),
         });
       };
    }
