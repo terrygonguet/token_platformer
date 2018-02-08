@@ -3,9 +3,11 @@
  */
  class Plateform extends createjs.Shape {
 
-   constructor(params) {
+   constructor(params={}) {
      super();
      const settings = makeSettings({
+       pt1: $V([0,0]),
+       pt2: $V([100,0]),
        thickness: 20,
        edgeOffset: 15,
        strokeColor: "#EEE",
@@ -28,6 +30,7 @@
      ];
      this.hitbox         = new SAT.Polygon(settings.pt1.toSAT(), this.points.map(p => p.toSAT()));
      this.position       = settings.pt1;
+     this.pt2            = settings.pt2;
 
      this.graphics.c().f(this.fillColor).s(this.strokeColor).ss(3)
       .mt(0,0)
@@ -35,6 +38,48 @@
       .lt(...this.points[2].elements)
       .lt(...this.points[3].elements)
       .lt(0,0).cp();
+   }
+
+   getEditor(container) {
+     $(container)
+      .append(
+        $("<label>Point 1 : </label>")
+          .append(`<input type='number' placeholder='x' size=4 id='pt1x' value=${this.position.e(1)}>`)
+          .append(`<input type='number' placeholder='y' size=4 id='pt1y' value=${this.position.e(2)}>`)
+      )
+      .append(
+        $("<label>Point 2 : </label>")
+          .append(`<input type='number' placeholder='x' size=4 id='pt2x' value=${this.pt2.e(1)}>`)
+          .append(`<input type='number' placeholder='y' size=4 id='pt2y' value=${this.pt2.e(2)}>`)
+      )
+      .append(
+        $("<label>Thickness : </label>")
+          .append(`<input type='number' placeholder='20' size=4 id='thickness' min=0 value=${this.thickness}>`)
+      )
+      .append(
+        $("<label>Edge offset : </label>")
+          .append(`<input type='number' placeholder='15' size=4 id='edgeOffset' min=0 value=${this.edgeOffset}>`)
+      );
+      return ()=>{
+        return new Plateform({
+          pt1: { x:Number($("#pt1x").val()), y:Number($("#pt1y").val()) },
+          pt2: { x:Number($("#pt2x").val()), y:Number($("#pt2y").val()) },
+          thickness: $("#thickness").val(),
+          edgeOffset: $("#edgeOffset").val(),
+        });
+      };
+   }
+
+   toJSON() {
+     return {
+       type: "Plateform",
+       params: {
+         pt1: { x:this.position.e(1), y:this.position.e(2) },
+         pt2: { x:this.pt2.e(1), y:this.pt2.e(2) },
+         thickness: this.thickness,
+         edgeOffset: this.edgeOffset,
+       }
+     };
    }
 
    // update(e) {

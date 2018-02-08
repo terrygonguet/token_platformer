@@ -96,7 +96,7 @@ function neonColor () {
  * @return {Object} the completed settings object
  */
 function makeSettings(defaults, params) {
-  const ret = _.merge(defaults, params);
+  const ret = _.assign(defaults, params);
   _.forOwn(ret, (v, k) => {
     if (_.xor(_.keys(v), ["x", "y"]).length === 0) {
       ret[k] = $V([v.x, v.y]);

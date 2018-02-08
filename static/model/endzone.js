@@ -1,8 +1,11 @@
 class EndZone extends createjs.Shape {
 
-  constructor(params) {
+  constructor(params={}) {
     super();
     const settings = makeSettings({
+      position: $V([0,0]),
+      dimensions: $V([10,10]),
+      nextLevel: "lvl1",
       color: "rgba(80,230,80,0.3)",
     }, params);
     this.id            = nextID();
@@ -22,6 +25,45 @@ class EndZone extends createjs.Shape {
       .lt(...pts[3].toSylv().elements)
       .lt(0,0)
       .cp();
+  }
+
+  getEditor(container) {
+    $(container)
+     .append(
+       $("<label>Position : </label>")
+         .append(`<input type='number' placeholder='x' size=4 id='pt1x' value=${this.position.e(1)}>`)
+         .append(`<input type='number' placeholder='y' size=4 id='pt1y' value=${this.position.e(2)}>`)
+     )
+     .append(
+       $("<label>Width : </label>")
+         .append(`<input type='number' size=4 id='width' min=0 value=${this.dimensions.e(1)}>`)
+     )
+     .append(
+       $("<label>Height : </label>")
+         .append(`<input type='number' size=4 id='height' min=0 value=${this.dimensions.e(2)}>`)
+     )
+     .append(
+       $("<label>Next Level : </label>")
+         .append(`<input type='text' size=4 id='nextLevel' value=${this.nextLevel}>`)
+     );
+     return ()=>{
+       return new EndZone({
+         position: { x:Number($("#pt1x").val()), y:Number($("#pt1y").val()) },
+         dimensions: { x:Number($("#width").val()), y:Number($("#height").val()) },
+         nextLevel: $("#nextLevel").val(),
+       });
+     };
+  }
+
+  toJSON() {
+    return {
+      type: "EndZone",
+      params: {
+        position: { x:this.position.e(1), y:this.position.e(2) },
+        dimensions: { x:this.dimensions.e(1), y:this.dimensions.e(2) },
+        nextLevel: this.nextLevel,
+      }
+    };
   }
 
   onCollide(otherObj, collision) {

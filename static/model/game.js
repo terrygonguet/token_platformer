@@ -21,6 +21,7 @@ class Game extends createjs.Stage {
     this.collider     = new Collider();
     this.camera       = new Camera();
     this.player       = null;
+    this.levelData    = null;
     this.gravity      = $V([ 0, 900 ]);
     this.screencenter = $V([window.innerWidth/2, window.innerHeight/2]);
     this.maxdelta     = 300;
@@ -56,6 +57,7 @@ class Game extends createjs.Stage {
   init (data) {
     this.removeAllChildren();
     this.collidables  = [];
+    this.levelData = data;
     this.deathLine = data.deathLine;
 
     var deathLine = new createjs.Shape();

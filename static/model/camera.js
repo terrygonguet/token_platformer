@@ -33,5 +33,9 @@ class Camera extends createjs.EventDispatcher {
     }
   }
 
+  globalToLocal(pos) {
+    return pos.add(this.center).subtract($V([ innerWidth/2, innerHeight/2 ]));
+  }
+
 }
 TP.Camera = Camera;

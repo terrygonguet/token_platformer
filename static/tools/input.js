@@ -140,13 +140,13 @@ class InputManager extends createjs.EventDispatcher {
         break;
       case "keydown": {
         if (this.ignoredKeys.indexOf(e.key) !== -1) break;
-        e.preventDefault();
         if (!this.enabledListeners[e.type]) {
           Object.keys(this.keys).forEach(k => {
             k !== "mouse1" && k !== "mouse2" && (this.keys[k] = false);
           });
           break;
         }
+        e.preventDefault();
         // patterns
         this.lastkeys = (e.key + this.lastkeys).slice(0,500);
         for (var pattern in this.keypatterns) {
