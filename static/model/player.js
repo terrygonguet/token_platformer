@@ -21,7 +21,7 @@ class Player extends createjs.Shape {
     this.acceleration   = 2700;
     this.rotationSpeed  = 1.6;
     this.colors         = {
-      green: "#1E1", red: "#E11",
+      green: "#11EE11", red: "#EE1111",
     };
     this.shadow         = new Neon(this.color);
     this.maxSpeed       = {

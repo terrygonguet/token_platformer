@@ -10,8 +10,8 @@
        pt2: $V([100,0]),
        thickness: 20,
        edgeOffset: 15,
-       strokeColor: "#EEE",
-       fillColor: "#000",
+       strokeColor: "#EEEEEE",
+       fillColor: "#000000",
      }, params);
      const pt2offset = settings.pt2.subtract(settings.pt1);
      const thickDir = pt2offset.toUnitVector().rotate(Math.PI/2, Vector.Zero(2)).x(settings.thickness);
@@ -29,7 +29,8 @@
        Vector.Zero(2).add(pt2offset.toUnitVector().x(settings.edgeOffset)).add(thickDir),
      ];
      this.hitbox         = new SAT.Polygon(settings.pt1.toSAT(), this.points.map(p => p.toSAT()));
-     this.position       = settings.pt1;
+     this.position       = settings.pt1.dup();
+     this.pt1            = settings.pt1;
      this.pt2            = settings.pt2;
 
      this.graphics.c().f(this.fillColor).s(this.strokeColor).ss(3)
