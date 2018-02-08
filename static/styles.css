@@ -132,27 +132,29 @@ html, body {
 }
 
 #editor div button{
-	background-color: #000000;
+	background-color: #00000000;
     border: none;
-    color: #f7abc3;
-    text-shadow: 1px 1px 2px #ff0051;
-    box-shadow: inset 0px 0px 10px 2px #ff0051;
-    padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-	margin-bottom: 10px;
+    margin: 10px;
+    color: #ff83aa;
+    text-shadow: 0 0 1px #ff0051, 0 0 2px #ff0051, 0 0 4px #ff0051, 0 0 8px #ff0051, 0 0 16px #ff0051, 0 0 32px #ff0051, 0 0 64px #ff0051, 0 0 128px #ff0051;
 }
 
 #editor div button:hover{
-	box-shadow: inset 0px 0px 15px 2px #ff0051;
-	background-color: #330010;
+	text-shadow: 0 0 1px #ff0051, 0 0 2px #ff0051, 0 0 4px #ff0051, 0 0 8px #ff0051, 0 0 16px #ff0051, 0 0 32px #ff0051, 0 0 64px #ff0051, 0 0 128px #ff0051, 0 0 256px #ff0051;
+	color: #ffd3e1;
 }
 
 #editor div button:active{
-	box-shadow: inset 0px 0px 15px 2px #90002e;
-	background-color: #a76f81;
+	text-shadow:0 0 1px #ff0051, 0 0 2px #ff0051, 0 0 4px #ff6495, 0 0 8px #ff709d, 0 0 16px #ffa8c4, 0 0 32px #ffadc7, 0 0 64px #ffadc7, 0 0 128px #ffadc7;
+	color:#ffa8c4;
+}
+
+#editor div button:focus{
+	outline: none;
 }
 
 #editor div {
@@ -165,4 +167,30 @@ html, body {
 	justify-content: space-around;
 	width: 100%;
 	flex-wrap: wrap;
+}
+
+.NeonButton{
+	background-color: #00000000;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px;
+    color: #ff83aa;
+    text-shadow: 0 0 1px #ff0051, 0 0 2px #ff0051, 0 0 4px #ff0051, 0 0 8px #ff0051, 0 0 16px #ff0051, 0 0 32px #ff0051, 0 0 64px #ff0051, 0 0 128px #ff0051;
+}
+
+.NeonButton:hover{
+	text-shadow: 0 0 1px #ff0051, 0 0 2px #ff0051, 0 0 4px #ff0051, 0 0 8px #ff0051, 0 0 16px #ff0051, 0 0 32px #ff0051, 0 0 64px #ff0051, 0 0 128px #ff0051, 0 0 256px #ff0051;
+	color: #ffd3e1;
+}
+
+.NeonButton:active{
+	text-shadow:0 0 1px #ff0051, 0 0 2px #ff0051, 0 0 4px #ff6495, 0 0 8px #ff709d, 0 0 16px #ffa8c4, 0 0 32px #ffadc7, 0 0 64px #ffadc7, 0 0 128px #ffadc7;
+	color:#ffa8c4;
+}
+
+.NeonButton:focus{
+	outline: none;
 }
