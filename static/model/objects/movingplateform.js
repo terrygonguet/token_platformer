@@ -52,3 +52,4 @@ class MovingPlateform extends Plateform {
 
 }
 TP.MovingPlateform = MovingPlateform;
+MovingPlateform.inCreate = true;

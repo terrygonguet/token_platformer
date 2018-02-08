@@ -34,25 +34,38 @@ function openEditor(c) {
       })
     )
     .append(
-      $("<button class='NeonButton'>Create</button>").click(function () {
-        $("#editor").prepend(
-          $("<label>Class name : </label>")
-            .append("<input type='text' value='Plateform' id='className'/>")
-            .append(
-              $("<button class='NeonButton'>New</button>").click(()=>{
-                game.addChild(new TP[$("#className").val()]());
-                game.update({ delta:0, paused:false });
-              })
-            )
-        );
-      })
-    )
-    .append(
       $("<button class='NeonButton'>Cancel</button>").click(function () {
         closeEditor();
       })
     )
   );
+}
+
+function openCreate() {
+  if (!debug) return;
+  var apply = $("#editor").show().empty();
+  input.enabledListeners.keydown = false;
+  createjs.Ticker.paused = true;
+  $("#editor")
+    .append(
+      $("<label>Class name : </label>")
+        .append("<select id='className'></select>")
+        .append(
+          $("<button class='NeonButton'>New</button>").click(()=>{
+            game.addChild(new TP[$("#className").val()]());
+            game.update({ delta:0, paused:false });
+          })
+        )
+        .append(
+          $("<button class='NeonButton'>Cancel</button>").click(closeEditor)
+        )
+    );
+  for (var className in TP) {
+    if (TP[className].inCreate) {
+      $("#className").append(`<option value="${className}">${className}</option>`);
+    }
+  }
+  $("#className:first-child").attr("selected", "selected");
 }
 
 function closeEditor() {
@@ -61,7 +74,7 @@ function closeEditor() {
   input.enabledListeners.keydown = true;
 }
 
-input.on("mousedown", e => {
+input.on("mouse1", e => {
   const local = game.camera.globalToLocal(input.mousePos).toSAT();
   for (var collidable of game.collidables) {
     const test = "pointIn" + (collidable.hitbox instanceof SAT.Circle ? "Circle" : "Polygon");
@@ -71,3 +84,4 @@ input.on("mousedown", e => {
     }
   }
 });
+input.on("mouse2", openCreate);

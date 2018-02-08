@@ -74,3 +74,4 @@ class ShittyPlateform extends Plateform {
 
 }
 TP.ShittyPlateform = ShittyPlateform;
+ShittyPlateform.inCreate = true;

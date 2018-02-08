@@ -105,3 +105,4 @@
 
  }
  TP.Plateform = Plateform;
+Plateform.inCreate = true;

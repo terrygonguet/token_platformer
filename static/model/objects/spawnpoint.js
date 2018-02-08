@@ -28,3 +28,4 @@ class SpawnPoint extends createjs.DisplayObject {
 
 }
 TP.SpawnPoint = SpawnPoint;
+SpawnPoint.inCreate = true;

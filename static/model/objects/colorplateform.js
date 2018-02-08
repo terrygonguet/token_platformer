@@ -35,3 +35,4 @@ class ColorPlateform extends Plateform {
 
 }
 TP.ColorPlateform = ColorPlateform;
+ColorPlateform.inCreate = true;

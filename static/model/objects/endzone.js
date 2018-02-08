@@ -76,3 +76,4 @@ class EndZone extends createjs.Shape {
 
 }
 TP.EndZone = EndZone;
+EndZone.inCreate = true;
