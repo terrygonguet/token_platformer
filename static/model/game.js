@@ -78,7 +78,14 @@ class Game extends createjs.Stage {
   }
 
   loadLevel(filename) {
-    $.getJSON(`../levels/${filename}.json`, data => this.init(data));
+    $.getJSON(`levels/${filename}.json`, (data, status) => this.init(data))
+    .fail(err => {
+      console.log(err);
+      $("#messagebox").show();
+      $("#game").hide();
+      $("#title").text("Error");
+      $("#message").html(err.responseText);
+    });
   }
 
   /**

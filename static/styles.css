@@ -84,3 +84,31 @@ html, body {
 .lockedBinding:hover {
 	box-shadow: 0 0 10px 3px #E11 !important;
 }
+
+/* --------------- Mobile --------------- */
+.mobile {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	flex-direction: row;
+	height: 13vw;
+	background: rgba(150,150,150,0.3);
+	font-size: 10vw;
+}
+
+.mobile>i {
+	pointer-events: none;
+}
+
+#horizontal {
+	width: 26vw;
+	left: 0;
+	bottom: 0;
+}
+
+#jump {
+	width: 13vw;
+	right: 0;
+	bottom: 0;
+}

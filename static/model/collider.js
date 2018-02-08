@@ -12,11 +12,12 @@
     for (let collidable1 of game.collidables) {
       for (let collidable2 of game.collidables) {
         if (collidable1.id == collidable2.id) continue;
-        
+
         let cache = this.cache[collidable1.id + "_" + collidable2.id];
         if (cache) {
           cache.res.overlapN.reverse();
           cache.res.overlapV.reverse();
+          cache.res.bInA = [cache.res.aInB, cache.res.bInA = cache.res.aInB][0]; // swap
           cache.collided && collidable1.onCollide && collidable1.onCollide(collidable2, cache.res, e);
           continue;
         }

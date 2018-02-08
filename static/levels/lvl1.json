@@ -1,8 +1,9 @@
 {
-  "playerPos": { "x":0, "y":0 },
-  "deathLine": 600,
+  "playerPos": { "x":-250, "y":0 },
+  "deathLine": 250,
+  "name": "Tutorial 1",
   "objects": [
-    { "type":"Plateform", "params": { "pt1": { "x":-1000, "y":100 }, "pt2": { "x":1000, "y":100 } } },
-    { "type":"Plateform", "params": { "pt1": { "x":-1000, "y":400 }, "pt2": { "x":1000, "y":400 } } }
+    { "type":"Plateform", "params": { "pt1": { "x":-300, "y":100 }, "pt2": { "x":300, "y":100 } } },
+    { "type":"EndZone", "params": { "position": { "x":230, "y":50 }, "dimensions": { "x":50, "y":50 }, "nextLevel":"lvl2" } }
   ]
 }
