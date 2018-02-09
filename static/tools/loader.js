@@ -53,6 +53,7 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
     {id: "ColorPlateform", src:"model/objects/colorplateform.js"},
     {id: "MovingPlateform", src:"model/objects/movingplateform.js"},
     {id: "ShittyPlateform", src:"model/objects/shittyplateform.js"},
+    // {id: "BouncyPlateform", src:"model/objects/bouncyplateform.js"},
     {id: "Zone", src:"model/objects/zone.js"},
     {id: "EndZone", src:"model/objects/endzone.js"},
     {id: "ForceZone", src:"model/objects/forcezone.js"},

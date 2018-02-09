@@ -81,7 +81,6 @@ class Player extends createjs.Shape {
     if (otherObj.isSolid) {
       var knockback = null;
       var anglefrom	= collision.overlapN.toSylv().angleFrom($V([0,1]));
-      // var anglefrom	= otherObj.hitbox.edges[0].toSylv().angleFrom($V([1,0]));
       if (anglefrom <= Math.PI / 4 || anglefrom >= 3 * Math.PI / 4) {
         knockback = $V([0, collision.overlapV.y]);
       } else {
