@@ -57,7 +57,7 @@ class Zone extends createjs.Shape {
          position: { x:Number($("#pt1x").val()), y:Number($("#pt1y").val()) },
          dimensions: { x:Number($("#width").val()), y:Number($("#height").val()) },
          color: $("#color").val(),
-         alpha: $("#alpha").val(),
+         alpha: Number($("#alpha").val()),
        });
      };
   }

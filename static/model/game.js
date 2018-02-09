@@ -16,7 +16,6 @@ class Game extends createjs.Stage {
     this.txtFps       = new QuickText({ x: 10, y: 30 });
     this.txtrendertime= new QuickText({ x: 10, y: 50 });
     this.txtqwerty    = new QuickText({ x: 10, y: 10, text: debug ? "Escape for the menu" : "" });
-    this.collidables  = [];
     this.renderVals   = [];
     this.collider     = new Collider();
     this.camera       = new Camera();
@@ -56,7 +55,6 @@ class Game extends createjs.Stage {
    */
   init (data) {
     this.removeAllChildren();
-    this.collidables  = [];
     this.levelData = data;
     this.deathLine = data.deathLine;
 
@@ -115,15 +113,16 @@ class Game extends createjs.Stage {
     this.txtrendertime.text = (debug ? "render time " + (this.renderVals.reduce((a,b)=>a+b, 0)/100).toPrecision(3) + " ms" : "");
   }
 
+  get collidables() {
+    return this.children.filter(c => c.isCollidable);
+  }
+
   addChild (child) {
     super.addChild(child);
-    if (child.isCollidable && this.collidables.indexOf(child) === -1)
-      this.collidables.push(child);
   }
 
   removeChild (child) {
     super.removeChild(child);
-    if (child.isCollidable) this.collidables.splice(this.collidables.indexOf(child), 1);
   }
 
 }

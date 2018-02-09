@@ -29,8 +29,8 @@ class ForceZone extends Zone {
       );
      return ()=>{
        return new ForceZone(_.merge(apply().toJSON().params, {
-         acceleration: $("#acceleration").val(),
-         direction: { x:$("#dirx").val(), y:$("#diry").val() },
+         acceleration: Number($("#acceleration").val()),
+         direction: { x:Number($("#dirx").val()), y:Number($("#diry").val()) },
        }));
      };
   }

@@ -34,8 +34,8 @@ class MovingPlateform extends Plateform {
       );
     return ()=>{
       return new MovingPlateform(_.merge(apply().toJSON().params, {
-        moveTo: { x:$("#mt1x").val(), y:$("#mt1y").val() },
-        speed: $("#speed").val(),
+        moveTo: { x:Number($("#mt1x").val()), y:Number($("#mt1y").val()) },
+        speed: Number($("#speed").val()),
       }));
     };
   }

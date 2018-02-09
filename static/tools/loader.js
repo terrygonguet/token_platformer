@@ -58,6 +58,7 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
     {id: "ForceZone", src:"model/objects/forcezone.js"},
     {id: "SpawnPoint", src:"model/objects/spawnpoint.js"},
     {id: "Gate", src:"model/objects/gate.js"},
+    {id: "Pickup", src:"model/objects/pickup.js"},
 
     {id: "QuickText", src:"model/quickText.js"},
     {id: "Neon", src:"model/neon.js"},

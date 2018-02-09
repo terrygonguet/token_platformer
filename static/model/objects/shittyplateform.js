@@ -56,8 +56,8 @@ class ShittyPlateform extends Plateform {
       );
     return ()=>{
       return new ShittyPlateform(_.merge(apply().toJSON().params, {
-        disapearTime: $("#disapearTime").val(),
-        respawnTime: $("#respawnTime").val(),
+        disapearTime: Number($("#disapearTime").val()),
+        respawnTime: Number($("#respawnTime").val()),
       }));
     };
   }

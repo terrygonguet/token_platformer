@@ -73,8 +73,8 @@
         return new Plateform({
           pt1: { x:Number($("#pt1x").val()), y:Number($("#pt1y").val()) },
           pt2: { x:Number($("#pt2x").val()), y:Number($("#pt2y").val()) },
-          thickness: $("#thickness").val(),
-          edgeOffset: $("#edgeOffset").val(),
+          thickness: Number($("#thickness").val()),
+          edgeOffset: Number($("#edgeOffset").val()),
           strokeColor: $("#strokeColor").val(),
           fillColor: $("#fillColor").val(),
         });
