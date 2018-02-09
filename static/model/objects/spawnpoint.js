@@ -6,6 +6,7 @@ class SpawnPoint extends createjs.DisplayObject {
       point: { x:0, y:0 },
       state: "green"
     }, params);
+    this.id               = nextID();
     this.isSpawnPoint     = true;
     this.point            = settings.point;
     this.state            = settings.state;

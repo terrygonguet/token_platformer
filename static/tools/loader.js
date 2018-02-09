@@ -53,7 +53,9 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
     {id: "ColorPlateform", src:"model/objects/colorplateform.js"},
     {id: "MovingPlateform", src:"model/objects/movingplateform.js"},
     {id: "ShittyPlateform", src:"model/objects/shittyplateform.js"},
+    {id: "Zone", src:"model/objects/zone.js"},
     {id: "EndZone", src:"model/objects/endzone.js"},
+    {id: "ForceZone", src:"model/objects/forcezone.js"},
     {id: "SpawnPoint", src:"model/objects/spawnpoint.js"},
 
     {id: "QuickText", src:"model/quickText.js"},
@@ -62,12 +64,12 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
     // Sprites ----------------------------------------
 
     // Sounds ----------------------------------------
-    {id: "Pew", src:"resources/sounds/pew.wav"},
-    {id: "Boup", src:"resources/sounds/boup.wav"},
-    {id: "Ping", src:"resources/sounds/ping.wav"},
-    {id: "RadarSearch", src:"resources/sounds/radar.wav"},
-    {id: "RadarWrong", src:"resources/sounds/radar_wrong.wav"},
-    {id: "Kick", src:"resources/sounds/kick.wav"}
+    // {id: "Pew", src:"resources/sounds/pew.wav"},
+    // {id: "Boup", src:"resources/sounds/boup.wav"},
+    // {id: "Ping", src:"resources/sounds/ping.wav"},
+    // {id: "RadarSearch", src:"resources/sounds/radar.wav"},
+    // {id: "RadarWrong", src:"resources/sounds/radar_wrong.wav"},
+    // {id: "Kick", src:"resources/sounds/kick.wav"}
 
   ];
   queue.loadManifest(queue.manifest);
