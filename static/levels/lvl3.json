@@ -1,6 +1,6 @@
 {
   "deathLine": 250,
-  "name": "Tutorial 2",
+  "name": "Tutorial 1",
   "objects": [
     {
       "type": "SpawnPoint",
@@ -16,12 +16,12 @@
       "type": "Plateform",
       "params": {
         "pt1": {
-          "x": 100,
-          "y": -20
+          "x": -300,
+          "y": 100
         },
         "pt2": {
-          "x": 220,
-          "y": -20
+          "x": 300,
+          "y": 100
         },
         "thickness": 20,
         "edgeOffset": 15,
@@ -30,20 +30,29 @@
       }
     },
     {
-      "type": "Plateform",
+      "type": "Gate",
       "params": {
         "pt1": {
-          "x": -300,
-          "y": 100
+          "x": 200,
+          "y": -100
         },
         "pt2": {
-          "x": -100,
+          "x": 200,
           "y": 100
         },
-        "thickness": "20",
-        "edgeOffset": "15",
-        "strokeColor": "#EEEEEE",
-        "fillColor": "#000000"
+        "state": "red"
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -150,
+          "y": 80
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
       }
     },
     {
@@ -52,8 +61,8 @@
         "type": "Zone",
         "params": {
           "position": {
-            "x": 130,
-            "y": -80
+            "x": 210,
+            "y": 40
           },
           "dimensions": {
             "x": 60,
@@ -62,7 +71,7 @@
           "color": "#3af735",
           "alpha": 0.3
         },
-        "nextLevel": "lvl3"
+        "nextLevel": "lvl1"
       }
     }
   ]
