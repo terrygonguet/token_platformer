@@ -58,20 +58,17 @@
     {
       "type": "EndZone",
       "params": {
-        "type": "Zone",
-        "params": {
-          "position": {
-            "x": 210,
-            "y": 40
-          },
-          "dimensions": {
-            "x": 60,
-            "y": 60
-          },
-          "color": "#3af735",
-          "alpha": 0.3
+        "position": {
+          "x": 210,
+          "y": 40
         },
-        "nextLevel": "lvl1"
+        "dimensions": {
+          "x": 60,
+          "y": 60
+        },
+        "nextLevel": "lvl1",
+        "color": "#3af735",
+        "alpha": 0.3
       }
     }
   ]

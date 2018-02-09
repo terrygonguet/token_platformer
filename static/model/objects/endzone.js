@@ -27,12 +27,12 @@ class EndZone extends Zone {
   }
 
   toJSON() {
-    return {
+    return _.merge(super.toJSON(), {
       type: "EndZone",
-      params: _.merge(super.toJSON(), {
+      params: {
         nextLevel: this.nextLevel,
-      })
-    };
+      }
+    });
   }
 
 }

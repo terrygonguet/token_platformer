@@ -4,7 +4,7 @@ class Zone extends createjs.Shape {
     super();
     const settings = makeSettings({
       position: $V([0,0]),
-      dimensions: $V([10,10]),
+      dimensions: $V([50,50]),
       color: "#3af735",
       alpha: 0.3,
     }, params);

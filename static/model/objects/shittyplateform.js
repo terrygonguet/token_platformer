@@ -47,11 +47,11 @@ class ShittyPlateform extends Plateform {
     var apply = super.getEditor(container);
     $(container)
       .append(
-        $("<label>Move to  </label>")
+        $("<label>Disapear time : </label>")
           .append(`<input type='number' min=0 size=4 id='disapearTime' value=${this.disapearTime}>`)
       )
       .append(
-        $("<label>Speed  </label>")
+        $("<label>Respawn time : </label>")
           .append(`<input type='number' min=0 size=4 id='respawnTime' value=${this.respawnTime}>`)
       );
     return ()=>{
