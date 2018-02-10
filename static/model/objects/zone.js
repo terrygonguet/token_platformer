@@ -8,8 +8,9 @@ class Zone extends createjs.Shape {
       color: "#3af735",
       alpha: 0.3,
     }, params);
-    this.id            = nextID();
+    // this.id            = nextID();
     this.isZone        = true;
+    this.inEditorList  = true;
     this.position      = settings.position;
     this.dimensions    = settings.dimensions;
     this.color         = settings.color;
@@ -31,6 +32,7 @@ class Zone extends createjs.Shape {
 
   getEditor(container) {
     $(container)
+     .append(`<p>ID : ${this.id}</p>`)
      .append(
        $("<label>Position : </label>")
          .append(`<input type='number' placeholder='x' size=4 id='pt1x' value=${this.position.e(1)}>`)

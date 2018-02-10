@@ -15,10 +15,11 @@
      }, params);
      const pt2offset = settings.pt2.subtract(settings.pt1);
      const thickDir = pt2offset.toUnitVector().rotate(Math.PI/2, Vector.Zero(2)).x(settings.thickness);
-     this.id             = nextID();
+     // this.id             = nextID();
      this.isPlateform    = true;
      this.isCollidable   = true;
      this.isSolid        = true;
+     this.inEditorList   = true;
      this.thickness      = settings.thickness;
      this.edgeOffset     = settings.edgeOffset;
      this.strokeColor    = settings.strokeColor;
@@ -43,6 +44,7 @@
 
    getEditor(container) {
      $(container)
+      .append(`<p>ID : ${this.id}</p>`)
       .append(
         $("<label>Point 1  </label>")
           .append(`X : <input type='number' placeholder='x' size=4 id='pt1x' value=${this.position.e(1)}>`)

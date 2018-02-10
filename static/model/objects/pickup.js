@@ -8,9 +8,10 @@ class Pickup extends createjs.Shape {
       radius: 10,
       state: "green"
     }, params);
-    this.id               = nextID();
+    // this.id               = nextID();
     this.isPickup         = true;
     this.isCollidable     = true;
+    this.inEditorList     = true;
     this.respawnTime      = settings.respawnTime;
     this.position         = settings.position;
     this.state            = settings.state;
@@ -31,6 +32,7 @@ class Pickup extends createjs.Shape {
 
   getEditor(container) {
     $(container)
+     .append(`<p>ID : ${this.id}</p>`)
      .append(
        $("<label>Position : </label>")
          .append(`<input type='number' placeholder='x' size=4 id='pt1x' value=${this.position.e(1)}>`)

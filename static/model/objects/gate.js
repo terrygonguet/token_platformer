@@ -12,10 +12,11 @@
      }, params);
      const pt2offset = settings.pt2.subtract(settings.pt1);
      const thickDir = pt2offset.toUnitVector().rotate(Math.PI/2, Vector.Zero(2));
-     this.id             = nextID();
+     // this.id             = nextID();
      this.isGate         = true;
      this.isCollidable   = true;
      this.isSolid        = true;
+     this.inEditorList   = true;
      this.state          = settings.state;
      this.color          = game.player.colors[this.state];
      this.points         = [
@@ -34,6 +35,7 @@
 
    getEditor(container) {
      $(container)
+      .append(`<p>ID : ${this.id}</p>`)
       .append(
         $("<label>Point 1  </label>")
           .append(`X : <input type='number' placeholder='x' size=4 id='pt1x' value=${this.pt1.e(1)}>`)

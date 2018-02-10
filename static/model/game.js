@@ -39,8 +39,6 @@ class Game extends createjs.Stage {
     createjs.Ticker.framerate = 60;
     createjs.Ticker.on("tick", this.update, this);
 
-    input.enableMouseMouve();
-
     // Events stuff ----------------------------------------------------------------------
     window.addEventListener("resize", e => this.screencenter = $V([window.innerWidth/2, window.innerHeight/2]));
 
@@ -118,11 +116,11 @@ class Game extends createjs.Stage {
   }
 
   addChild (child) {
-    super.addChild(child);
+    return super.addChild(child);
   }
 
   removeChild (child) {
-    super.removeChild(child);
+    return super.removeChild(child);
   }
 
 }

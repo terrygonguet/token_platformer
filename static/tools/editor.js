@@ -15,8 +15,9 @@ class Editor {
 
   static apply() {
     game.removeChild(Editor.object);
-    Editor.object = (Editor.objMaker ? Editor.objMaker() : null);
-    game.addChild(Editor.object);
+    var obj = (Editor.objMaker ? Editor.objMaker() : null);
+    Editor.objID = obj.id;
+    game.addChild(obj);
     Editor.open();
     game.update({ delta:0, paused:false });
   }
@@ -37,17 +38,30 @@ class Editor {
 
   static open(type="editor") {
     if (!debug) return;
+    Editor.containers.hide();
     switch (type) {
       case "editor":
-        if (!Editor.object || !Editor.object.getEditor) return;
-        Editor.objMaker = Editor.object.getEditor(Editor.propsContainer.empty().show());
+        if (!Editor.object) return;
+        else if (Editor.object.getEditor) Editor.objMaker = Editor.object.getEditor(Editor.propsContainer.empty().show());
         Editor.btnContainer.show();
         break;
       case "create":
         Editor.createContainer.show();
+        Editor.propsContainer.empty().show();
+        for (let object of game.children) {
+          if (object.inEditorList) {
+            $(`<p objID='${object.id}'>${object.toJSON().type} : ${object.id}</p>`).click(function (e) {
+              Editor.objID = Number($(this).attr("objID"));
+              Editor.containers.hide();
+              Editor.open();
+            }).appendTo(Editor.propsContainer);
+          }
+        }
         break;
     }
     Editor.el.show();
+    input.enableMouseMouve(true);
+    Editor.cursorPos.show();
     input.enabledListeners.keydown = false;
     createjs.Ticker.paused = true;
   }
@@ -57,6 +71,7 @@ class Editor {
     Editor.objMaker = null;
     Editor.el.hide();
     Editor.containers.hide();
+    input.enableMouseMouve(false);
     createjs.Ticker.paused = false;
     input.enabledListeners.keydown = true;
   }
@@ -75,11 +90,21 @@ Editor.btnClose         = $("<button class='NeonButton'>Close</button>").click(e
 Editor.txtJSON          = $("<textarea cols=50 rows=25></textarea>");
 Editor.ddlClassName     = $("<select id='className'></select>");
 Editor.btnNew           = $("<button class='NeonButton'>New</button>").click(e => Editor.create());
-Editor.containers       = $([Editor.propsContainer[0], Editor.createContainer[0], Editor.btnContainer[0], Editor.txtJSON[0]]);
+Editor.cursorPos        = $("<p></p>").css({ position:"absolute", "pointer-events":"none", "padding-left":20 }).appendTo(document.body).hide();
+Editor.containers       = $([Editor.propsContainer[0], Editor.createContainer[0], Editor.btnContainer[0], Editor.txtJSON[0], Editor.cursorPos[0]]);
 Editor.objID            = null;
 Editor.objMaker         = null;
 
 Editor.el
+  .append(
+    Editor.createContainer
+    .append(
+      $("<label>Class name : </label>")
+      .append(Editor.ddlClassName)
+      .append(Editor.btnNew)
+      .append(Editor.btnClose.clone(true))
+    )
+  )
   .append(Editor.propsContainer)
   .append(
     Editor.btnContainer
@@ -87,15 +112,6 @@ Editor.el
       .append(Editor.btnRemove)
       .append(Editor.btnJSON)
       .append(Editor.btnClose)
-  )
-  .append(
-    Editor.createContainer
-      .append(
-        $("<label>Class name : </label>")
-          .append(Editor.ddlClassName)
-          .append(Editor.btnNew)
-          .append(Editor.btnClose.clone(true))
-      )
   )
   .append(Editor.txtJSON);
 
@@ -121,6 +137,17 @@ input.on("mouse1", e => {
   }
 });
 input.on("mouse2", e => Editor.open("create"));
+input.on("mousemove", e => {
+  if (!debug) {
+    Editor.cursorPos.hide();
+    return;
+  }
+  var pos = game.camera.globalToLocal(input.mousePos);
+  Editor.cursorPos
+    .show()
+    .text(pos.inspect())
+    .css({ top:input.mousePos.e(2), left:input.mousePos.e(1) });
+});
 
 $(document.body).append(`
 <datalist id="states">
