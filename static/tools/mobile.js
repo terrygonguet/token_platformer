@@ -1,6 +1,7 @@
 (function () {
   if(isMobile) {
     $(".mobile").show();
+    debug = false;
     function touch(e) {
       e.preventDefault();
       screenfull.request();

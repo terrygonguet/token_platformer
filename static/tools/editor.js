@@ -10,6 +10,7 @@ class Editor {
 
   static create() {
     game.addChild(new TP[Editor.ddlClassName.val()]());
+    Editor.open("create");
     game.update({ delta:0, paused:false });
   }
 
