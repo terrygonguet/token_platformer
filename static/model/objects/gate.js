@@ -46,7 +46,7 @@
       )
       .append(
         $("<label>State : </label>")
-          .append(`<input type='text' size=4 id='state' min=0 value=${this.state}>`)
+          .append(`<input type='text' size=4 id='state' list='states' min=0 value=${this.state}>`)
       );
       return ()=>{
         return new Gate({

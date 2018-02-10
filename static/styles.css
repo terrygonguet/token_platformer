@@ -144,6 +144,13 @@ html, body {
 	flex-wrap: wrap;
 }
 
+#propsContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+}
+
 .NeonButton{
 	background-color: #00000000;
     border: none;

@@ -46,7 +46,7 @@ class Pickup extends createjs.Shape {
      )
      .append(
        $("<label>State : </label>")
-         .append(`<input type='text' size=4 id='state' value=${this.state}>`)
+         .append(`<input type='text' size=4 id='state' list='states' value=${this.state}>`)
      );
      return ()=>{
        return new Pickup({
