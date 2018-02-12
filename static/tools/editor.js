@@ -176,6 +176,13 @@ TP.Editor.DragManager = DragManager;
         .append(Editor.btnNew)
         .append(Editor.btnClose.clone(true))
       )
+      .append(
+        $("<label>Jump to level : </label>")
+        .append("<input type='text' id='txblvl' value='lvl1'/>")
+        .append(
+          $("<button class='NeonButton'>Jump</button>").click(e => game.loadLevel($("#txblvl").val()))
+        )
+      )
     )
     .append(Editor.propsContainer)
     .append(
