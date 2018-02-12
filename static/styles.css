@@ -48,7 +48,12 @@ html, body {
 	border: 2px solid #1EE;
 	width: 70%;
 	background-color: #111;
-	box-shadow: 0 0 20px 3px #E1E;
+	box-shadow: 0 0 32px 0 #ff0051;
+	animation-name: GlowBox;
+	animation-iteration-count: infinite;
+    animation-duration: 4s;
+    animation-direction: alternate;
+	
 }
 
 .keylist td, .keylist th {
@@ -191,4 +196,16 @@ html, body {
 
 .NeonButton:focus{
 	outline: none;
+}
+
+@keyframes GlowBox{
+	0%   
+	{
+		box-shadow-color:#ff0051;
+	}
+	100%  
+	{
+		box-shadow-color:#ffc7d9;
+	}
+
 }
