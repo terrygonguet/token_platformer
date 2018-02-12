@@ -142,7 +142,7 @@ class DragManager extends createjs.Container {
     this.children.find(c => c.name === name).set({
       x:newPos.e(1), y:newPos.e(2)
     });
-    this.points[name].pos = game.camera.globalToLocal(newPos);
+    this.points[name].pos = game.camera.globalToLocal(newPos).round();
     this.points[name].callback(this.points[name].pos);
     // game.update({ delta:0, paused:false });
   }
