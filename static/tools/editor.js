@@ -11,7 +11,7 @@ class Editor {
   static create() {
     game.addChild(new TP[Editor.ddlClassName.val()]());
     Editor.open("create");
-    game.update({ delta:0, paused:false });
+    // game.update({ delta:0, paused:false });
   }
 
   static apply() {
@@ -20,7 +20,7 @@ class Editor {
     Editor.objID = obj.id;
     game.addChild(obj);
     Editor.open();
-    game.update({ delta:0, paused:false });
+    // game.update({ delta:0, paused:false });
   }
 
   static remove() {
@@ -40,10 +40,22 @@ class Editor {
   static open(type="editor") {
     if (!debug) return;
     Editor.containers.hide();
+    game.children.forEach(c => c instanceof DragManager && (c.visible = false));
     switch (type) {
       case "editor":
         if (!Editor.object) return;
-        else if (Editor.object.getEditor) Editor.objMaker = Editor.object.getEditor(Editor.propsContainer.empty().show());
+        else if (Editor.object.getEditor) {
+          Editor.propsContainer.empty().show();
+          const id = this.objID;
+          var manager = game.children.find(c => c.objID === id);
+          if (!manager) {
+            manager = new DragManager(Editor.object);
+            game.addChild(manager);
+          }
+          manager.visible = true;
+          Editor.objMaker = Editor.object.getEditor(Editor.propsContainer, manager);
+          Editor.object.on("removed", () => game.removeChild(manager));
+        }
         Editor.btnContainer.show();
         break;
       case "create":
@@ -65,6 +77,7 @@ class Editor {
     Editor.cursorPos.show();
     input.enabledListeners.keydown = false;
     createjs.Ticker.paused = true;
+    // game.update({ delta:0, paused:false });
   }
 
   static close() {
@@ -75,10 +88,66 @@ class Editor {
     input.enableMouseMouve(false);
     createjs.Ticker.paused = false;
     input.enabledListeners.keydown = true;
+    game && game.children.forEach(c => c instanceof DragManager && (c.visible = false));
   }
 
 }
 TP.Editor = Editor;
+
+class DragManager extends createjs.Container {
+
+  constructor(object) {
+    super();
+    this.points      = {};
+    this.object      = object;
+    this.objID       = object.id;
+    this._visible    = true;
+  }
+
+  get visible() {
+    return this._visible;
+  }
+
+  set visible(val) {
+    this.children && this.children.forEach(c => {
+      var displayPos = game.camera.localToGlobal(this.points[c.name].pos);
+      c.set({ x:displayPos.e(1), y:displayPos.e(2) });
+    });
+    this._visible = val;
+  }
+
+  addPoint(name, startPos, callback) {
+    if (this.points[name]) return ;
+    this.points[name] = {
+      pos: startPos.dup(), callback: callback.bind(this.object)
+    };
+    const dragAnchor = new createjs.Shape();
+    dragAnchor.graphics.c().f(`rgba(${0x88},${0x88},${0x88},0.3)`).s("#EEE").dc(0,0,10);
+    dragAnchor.on("pressmove", () => {
+      this.onDrag(name, $V([game.mouseX, game.mouseY]));
+    });
+    var displayPos = game.camera.localToGlobal(startPos);
+    dragAnchor.set({ x:displayPos.e(1), y:displayPos.e(2), name });
+    this.addChild(dragAnchor);
+  }
+
+  updatePoint(name, pos) {
+    if (!this.points[name]) return;
+    this.points[name].pos = pos.dup();
+    var displayPos = game.camera.localToGlobal(pos);
+    this.children.find(c => c.name === name).set({ x:displayPos.e(1), y:displayPos.e(2) });
+  }
+
+  onDrag(name, newPos) {
+    this.children.find(c => c.name === name).set({
+      x:newPos.e(1), y:newPos.e(2)
+    });
+    this.points[name].pos = game.camera.globalToLocal(newPos);
+    this.points[name].callback(this.points[name].pos);
+    // game.update({ delta:0, paused:false });
+  }
+}
+TP.Editor.DragManager = DragManager;
 
 Editor.el               = $("#editor");
 Editor.propsContainer   = $("<div id='propsContainer'></div>");
@@ -95,6 +164,7 @@ Editor.cursorPos        = $("<p></p>").css({ position:"absolute", "pointer-event
 Editor.containers       = $([Editor.propsContainer[0], Editor.createContainer[0], Editor.btnContainer[0], Editor.txtJSON[0], Editor.cursorPos[0]]);
 Editor.objID            = null;
 Editor.objMaker         = null;
+Editor.dragManagers     = {};
 
 Editor.el
   .append(
@@ -146,7 +216,7 @@ input.on("mousemove", e => {
   var pos = game.camera.globalToLocal(input.mousePos);
   Editor.cursorPos
     .show()
-    .text(pos.inspect())
+    .text(pos.round().inspect())
     .css({ top:input.mousePos.e(2), left:input.mousePos.e(1) });
 });
 

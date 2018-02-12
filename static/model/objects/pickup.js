@@ -30,34 +30,40 @@ class Pickup extends createjs.Shape {
     }
   }
 
-  getEditor(container) {
+  getEditor(container, dragManager) {
     $(container)
-     .append(`<p>ID : ${this.id}</p>`)
-     .append(
+      .append(`<p>ID : ${this.id}</p>`)
+      .append(
        $("<label>Position : </label>")
          .append(`<input type='number' placeholder='x' size=4 id='pt1x' value=${this.position.e(1)}>`)
          .append(`<input type='number' placeholder='y' size=4 id='pt1y' value=${this.position.e(2)}>`)
-     )
-     .append(
+      )
+      .append(
        $("<label>Radius : </label>")
          .append(`<input type='number' size=4 id='radius' min=0 value=${this.radius}>`)
-     )
-     .append(
+      )
+      .append(
        $("<label>Respawn time : </label>")
          .append(`<input type='number' min=0 id='respawnTime' min=0 value=${this.respawnTime}>`)
-     )
-     .append(
+      )
+      .append(
        $("<label>State : </label>")
          .append(`<input type='text' size=4 id='state' list='states' value=${this.state}>`)
-     );
-     return ()=>{
-       return new Pickup({
-         position: { x:Number($("#pt1x").val()), y:Number($("#pt1y").val()) },
-         state: $("#state").val(),
-         radius: Number($("#radius").val()),
-         respawnTime: Number($("#respawnTime").val()),
-       });
-     };
+      );
+    dragManager.addPoint("position", this.position.add($V([0,25])), pos => {
+      this.position = pos.subtract($V([0,25]));
+      this.hitbox.pos = pos.subtract($V([0,25])).toSAT();
+      $("#pt!x").val(this.position.e(1));
+      $("#pt!y").val(this.position.e(2));
+    });
+    return ()=>{
+     return new Pickup({
+       position: { x:Number($("#pt1x").val()), y:Number($("#pt1y").val()) },
+       state: $("#state").val(),
+       radius: Number($("#radius").val()),
+       respawnTime: Number($("#respawnTime").val()),
+     });
+    };
   }
 
   toJSON() {

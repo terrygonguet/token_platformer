@@ -18,7 +18,7 @@ class SpawnPoint extends createjs.DisplayObject {
     game.player.state = this.state;
   }
 
-  getEditor(container) {
+  getEditor(container, dragManager) {
     $(container)
      .append(`<p>ID : ${this.id}</p>`)
      .append(
@@ -30,12 +30,17 @@ class SpawnPoint extends createjs.DisplayObject {
        $("<label>State : </label>")
          .append(`<input type='text' size=4 id='state' list='states' value=${this.state}>`)
      );
-     return ()=>{
-       return new SpawnPoint({
-         point: { x:Number($("#pt1x").val()), y:Number($("#pt1y").val()) },
-         state: $("#state").val(),
-       });
-     };
+   dragManager.addPoint("point", this.point, pos => {
+     this.point = pos;
+     $("#pt1x").val(this.point.e(1));
+     $("#pt1y").val(this.point.e(2));
+   });
+   return ()=>{
+     return new SpawnPoint({
+       point: { x:Number($("#pt1x").val()), y:Number($("#pt1y").val()) },
+       state: $("#state").val(),
+     });
+   };
   }
 
   toJSON() {

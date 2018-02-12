@@ -18,8 +18,13 @@ class Zone extends createjs.Shape {
     this.isCollidable  = true;
     this.onInside      = null;
     this.onTouch       = null;
-    this.hitbox        = (new SAT.Box(this.position.toSAT(), this.dimensions.e(1), this.dimensions.e(2))).toPolygon();
+    this.hitbox        = null;
 
+    this.redraw();
+  }
+
+  redraw() {
+    this.hitbox = (new SAT.Box(this.position.toSAT(), this.dimensions.e(1), this.dimensions.e(2))).toPolygon();
     const pts = this.hitbox.points;
     this.graphics.c().f(this.color)
       .mt(0,0)
@@ -30,38 +35,51 @@ class Zone extends createjs.Shape {
       .cp();
   }
 
-  getEditor(container) {
+  getEditor(container, dragManager) {
     $(container)
-     .append(`<p>ID : ${this.id}</p>`)
-     .append(
+      .append(`<p>ID : ${this.id}</p>`)
+      .append(
        $("<label>Position : </label>")
          .append(`<input type='number' placeholder='x' size=4 id='pt1x' value=${this.position.e(1)}>`)
          .append(`<input type='number' placeholder='y' size=4 id='pt1y' value=${this.position.e(2)}>`)
-     )
-     .append(
+      )
+      .append(
        $("<label>Width : </label>")
          .append(`<input type='number' size=4 id='width' min=0 value=${this.dimensions.e(1)}>`)
-     )
-     .append(
+      )
+      .append(
        $("<label>Height : </label>")
          .append(`<input type='number' size=4 id='height' min=0 value=${this.dimensions.e(2)}>`)
-     )
-     .append(
+      )
+      .append(
        $("<label>Color : </label>")
          .append(`<input type='color' id='color' value=${this.color}>`)
-     )
-     .append(
+      )
+      .append(
        $("<label>Alpha : </label>")
          .append(`<input type='number' min=0 max=1 step=0.1 id='alpha' value=${this.alpha}>`)
-     );
-     return ()=>{
-       return new Zone({
-         position: { x:Number($("#pt1x").val()), y:Number($("#pt1y").val()) },
-         dimensions: { x:Number($("#width").val()), y:Number($("#height").val()) },
-         color: $("#color").val(),
-         alpha: Number($("#alpha").val()),
-       });
-     };
+      );
+    dragManager.addPoint("position", this.position, pos => {
+      this.position = pos.dup();
+      this.hitbox.pos = pos.toSAT();
+      dragManager.updatePoint("dimensions", this.position.add(this.dimensions));
+      $("#pt1x").val(this.position.e(1));
+      $("#pt1y").val(this.position.e(2));
+    });
+    dragManager.addPoint("dimensions", this.position.add(this.dimensions), pos => {
+      this.dimensions = pos.subtract(this.position);
+      this.redraw();
+      $("#width").val(this.dimensions.e(1));
+      $("#height").val(this.dimensions.e(2));
+    });
+    return ()=>{
+     return new Zone({
+       position: { x:Number($("#pt1x").val()), y:Number($("#pt1y").val()) },
+       dimensions: { x:Number($("#width").val()), y:Number($("#height").val()) },
+       color: $("#color").val(),
+       alpha: Number($("#alpha").val()),
+     });
+    };
   }
 
   toJSON() {

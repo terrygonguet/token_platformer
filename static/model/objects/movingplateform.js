@@ -20,8 +20,8 @@ class MovingPlateform extends Plateform {
     this.hitbox.pos = this.position.toSAT();
   }
 
-  getEditor(container) {
-    var apply = super.getEditor(container);
+  getEditor(container, dragManager) {
+    var apply = super.getEditor(container, dragManager);
     $(container)
       .append(
         $("<label>Move to  </label>")
@@ -32,6 +32,13 @@ class MovingPlateform extends Plateform {
         $("<label>Speed  </label>")
           .append(`<input type='text' size=4 id='speed' value=${this.speed}>`)
       );
+    dragManager.addPoint("moveTo", this.moveTo, pos => {
+      this.moveTo = pos.dup();
+      this.direction = 1;
+      this.position = this.pt1;
+      $("#mt1x").val(this.moveTo.e(1));
+      $("#mt1y").val(this.moveTo.e(2));
+    });
     return ()=>{
       return new MovingPlateform(_.merge(apply().toJSON().params, {
         moveTo: { x:Number($("#mt1x").val()), y:Number($("#mt1y").val()) },

@@ -14,8 +14,8 @@ class ColorPlateform extends Plateform {
     if (otherObj.isPlayer) otherObj.state = this.state;
   }
 
-  getEditor(container) {
-    var apply = super.getEditor(container);
+  getEditor(container, dragManager) {
+    var apply = super.getEditor(container, dragManager);
     $(container)
       .append(
         $("<label>State to switch to : </label>")

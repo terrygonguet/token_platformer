@@ -43,8 +43,8 @@ class ShittyPlateform extends Plateform {
     }
   }
 
-  getEditor(container) {
-    var apply = super.getEditor(container);
+  getEditor(container, dragManager) {
+    var apply = super.getEditor(container, dragManager);
     $(container)
       .append(
         $("<label>Disapear time : </label>")

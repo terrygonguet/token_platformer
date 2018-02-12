@@ -15,8 +15,8 @@ class ForceZone extends Zone {
     };
   }
 
-  getEditor(container) {
-    var apply = super.getEditor(container);
+  getEditor(container, dragManager) {
+    var apply = super.getEditor(container, dragManager);
     $(container)
      .append(
        $("<label>Acceleration : </label>")

@@ -102,9 +102,9 @@ class Game extends createjs.Stage {
     if (e.delta <= this.maxdelta && !e.paused) {
       this.children.forEach(c => c.update && c.update(e));
       this.collider.update(e);
-      this.camera.update(e);
-      super.update(e);
     }
+    this.camera.update(e);
+    super.update(e);
     game.rendertime += (performance.now() - time);
     this.renderVals.push(game.rendertime);
     if (this.renderVals.length > 100) this.renderVals.shift(); // render values smoother

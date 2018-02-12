@@ -13,8 +13,6 @@
        strokeColor: "#EEEEEE",
        fillColor: "#000000",
      }, params);
-     const pt2offset = settings.pt2.subtract(settings.pt1);
-     const thickDir = pt2offset.toUnitVector().rotate(Math.PI/2, Vector.Zero(2)).x(settings.thickness);
      // this.id             = nextID();
      this.isPlateform    = true;
      this.isCollidable   = true;
@@ -24,16 +22,24 @@
      this.edgeOffset     = settings.edgeOffset;
      this.strokeColor    = settings.strokeColor;
      this.fillColor      = settings.fillColor;
-     this.points         = [
-       $V([0,0]), pt2offset,
-       pt2offset.subtract(pt2offset.toUnitVector().x(settings.edgeOffset)).add(thickDir),
-       Vector.Zero(2).add(pt2offset.toUnitVector().x(settings.edgeOffset)).add(thickDir),
-     ];
-     this.hitbox         = new SAT.Polygon(settings.pt1.toSAT(), this.points.map(p => p.toSAT()));
+     this.points         = null;
+     this.hitbox         = null;
      this.position       = settings.pt1.dup();
      this.pt1            = settings.pt1;
      this.pt2            = settings.pt2;
 
+     this.redraw();
+   }
+
+   redraw() {
+     const pt2offset = this.pt2.subtract(this.pt1);
+     const thickDir = pt2offset.toUnitVector().rotate(Math.PI/2, Vector.Zero(2)).x(this.thickness);
+     this.points = [
+       $V([0,0]), pt2offset,
+       pt2offset.subtract(pt2offset.toUnitVector().x(this.edgeOffset)).add(thickDir),
+       Vector.Zero(2).add(pt2offset.toUnitVector().x(this.edgeOffset)).add(thickDir),
+     ];
+     this.hitbox = new SAT.Polygon(this.pt1.toSAT(), this.points.map(p => p.toSAT()));
      this.graphics.c().f(this.fillColor).s(this.strokeColor).ss(3)
       .mt(0,0)
       .lt(...this.points[1].elements)
@@ -42,13 +48,13 @@
       .lt(0,0).cp();
    }
 
-   getEditor(container) {
+   getEditor(container, dragManager) {
      $(container)
       .append(`<p>ID : ${this.id}</p>`)
       .append(
         $("<label>Point 1  </label>")
-          .append(`X : <input type='number' placeholder='x' size=4 id='pt1x' value=${this.position.e(1)}>`)
-          .append(`Y : <input type='number' placeholder='y' size=4 id='pt1y' value=${this.position.e(2)}>`)
+          .append(`X : <input type='number' placeholder='x' size=4 id='pt1x' value=${this.pt1.e(1)}>`)
+          .append(`Y : <input type='number' placeholder='y' size=4 id='pt1y' value=${this.pt1.e(2)}>`)
       )
       .append(
         $("<label>Point 2  </label>")
@@ -71,16 +77,31 @@
         $("<label>Fill color : </label>")
           .append(`<input type='color' size=4 id='fillColor' value=${this.fillColor}>`)
       );
-      return ()=>{
-        return new Plateform({
-          pt1: { x:Number($("#pt1x").val()), y:Number($("#pt1y").val()) },
-          pt2: { x:Number($("#pt2x").val()), y:Number($("#pt2y").val()) },
-          thickness: Number($("#thickness").val()),
-          edgeOffset: Number($("#edgeOffset").val()),
-          strokeColor: $("#strokeColor").val(),
-          fillColor: $("#fillColor").val(),
-        });
-      };
+    dragManager.addPoint("pt1", this.pt1, pos => {
+      this.position = pos.dup();
+      this.pt1 = pos.dup();
+      dragManager.updatePoint("pt2", this.pt2);
+      this.redraw();
+      $("#pt1x").val(this.position.e(1));
+      $("#pt1y").val(this.position.e(2));
+    });
+    dragManager.addPoint("pt2", this.pt2, pos => {
+      this.pt2 = pos.dup();
+      dragManager.updatePoint("pt1", this.pt1);
+      this.redraw();
+      $("#pt2x").val(this.pt2.e(1));
+      $("#pt2y").val(this.pt2.e(2));
+    });
+    return ()=>{
+      return new Plateform({
+        pt1: { x:Number($("#pt1x").val()), y:Number($("#pt1y").val()) },
+        pt2: { x:Number($("#pt2x").val()), y:Number($("#pt2y").val()) },
+        thickness: Number($("#thickness").val()),
+        edgeOffset: Number($("#edgeOffset").val()),
+        strokeColor: $("#strokeColor").val(),
+        fillColor: $("#fillColor").val(),
+      });
+    };
    }
 
    toJSON() {

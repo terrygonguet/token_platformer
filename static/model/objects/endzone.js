@@ -12,8 +12,8 @@ class EndZone extends Zone {
     };
   }
 
-  getEditor(container) {
-    var apply = super.getEditor(container);
+  getEditor(container, dragManager) {
+    var apply = super.getEditor(container, dragManager);
     $(container)
      .append(
        $("<label>Next Level : </label>")

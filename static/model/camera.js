@@ -25,7 +25,7 @@ class Camera extends createjs.EventDispatcher {
     }
     for (var child of game.children) {
       if (child.position) {
-        var screenPos = $V([ innerWidth/2, innerHeight/2 ]).subtract(this.center).add(child.position);
+        var screenPos = this.localToGlobal(child.position);
         child.set({
           x: screenPos.e(1), y: screenPos.e(2)
         });
@@ -35,6 +35,10 @@ class Camera extends createjs.EventDispatcher {
 
   globalToLocal(pos) {
     return pos.add(this.center).subtract($V([ innerWidth/2, innerHeight/2 ]));
+  }
+
+  localToGlobal(pos) {
+    return $V([ innerWidth/2, innerHeight/2 ]).subtract(this.center).add(pos);
   }
 
 }
