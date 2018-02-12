@@ -66,9 +66,9 @@
           "x": 60,
           "y": 60
         },
-        "nextLevel": "lvl1",
         "color": "#3af735",
-        "alpha": 0.3
+        "alpha": 0.3,
+        "nextLevel": "lvl4"
       }
     }
   ]
