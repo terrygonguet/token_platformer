@@ -174,6 +174,7 @@ TP.Editor.DragManager = DragManager;
         $("<label>Class name : </label>")
         .append(Editor.ddlClassName)
         .append(Editor.btnNew)
+        .append(Editor.btnJSON.clone(true))
         .append(Editor.btnClose.clone(true))
       )
       .append(
@@ -237,6 +238,14 @@ TP.Editor.DragManager = DragManager;
     <option value="green"/>
     <option value="red"/>
   </datalist>`);
+
+  $.getJSON("levellist", res => {
+    var datalist = $("<datalist id='levels'></datalist>");
+    for (let lvl of res) {
+      datalist.append($("<option value='"+lvl+"'></option>"));
+    }
+    $(document.body).append(datalist);
+  });
 
   function showGrid() {
     var grid = new createjs.Shape();

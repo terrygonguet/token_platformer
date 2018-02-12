@@ -19,7 +19,7 @@ class EndZone extends Zone {
     $(container)
      .append(
        $("<label>Next Level : </label>")
-         .append(`<input type='text' size=4 id='nextLevel' value=${this.nextLevel}>`)
+         .append(`<input type='text' size=4 id='nextLevel' list='levels' value=${this.nextLevel}>`)
      );
      return ()=>{
        return new EndZone(_.merge(apply().toJSON().params, {
