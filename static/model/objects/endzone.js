@@ -8,7 +8,9 @@ class EndZone extends Zone {
     this.isEndZone     = true;
     this.nextLevel     = settings.nextLevel;
     this.onInside      = function () {
-      game.loadLevel(this.nextLevel);
+      if (debug) {
+        game.children.find(c => c.isSpawnPoint).spawn();
+      } else game.loadLevel(this.nextLevel);
     };
   }
 
