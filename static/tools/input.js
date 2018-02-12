@@ -71,6 +71,9 @@ class InputManager extends createjs.EventDispatcher {
     $("#game").on("contextmenu", null, null, false); // to prevent right click menu
     // document.addEventListener("pointerlockchange",  () => {});
     createjs.Ticker.on("tick", e => !e.paused && this.update(e), this);
+
+    this.on("debug", () => debug = !debug);
+    this.on("pause", () => createjs.Ticker.paused = !createjs.Ticker.paused);
   }
 
   /**

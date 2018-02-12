@@ -13,20 +13,22 @@ class Game extends createjs.Stage {
     this.tickEnabled  = false;
 
     // other props
-    this.txtFps       = new QuickText({ x: 10, y: 30 });
-    this.txtrendertime= new QuickText({ x: 10, y: 50 });
-    this.txtqwerty    = new QuickText({ x: 10, y: 10, text: debug ? "Escape for the menu" : "" });
+    this.txtFps       = new QuickText({ x: 10, y: 30, dontRemove: true });
+    this.txtrendertime= new QuickText({ x: 10, y: 50, dontRemove: true });
+    this.txtqwerty    = new QuickText({ x: 10, y: 10, text: debug ? "Escape for the menu" : "", dontRemove: true });
     this.renderVals   = [];
     this.collider     = new Collider();
     this.camera       = new Camera();
     this.player       = null;
     this.levelData    = null;
     this.gravity      = $V([ 0, 900 ]);
-    this.screencenter = $V([window.innerWidth/2, window.innerHeight/2]);
-    this.maxdelta     = 300;
+    this.maxdelta     = 150;
     this.deathLine    = 0;
 
     this.setHandlers();
+    this.addChild(this.txtFps);
+    this.addChild(this.txtrendertime);
+    this.addChild(this.txtqwerty);
 
     this.loadLevel("lvl1");
   }
@@ -38,13 +40,10 @@ class Game extends createjs.Stage {
     createjs.Ticker.timingMode = createjs.Ticker.RAF ;
     createjs.Ticker.framerate = 60;
     createjs.Ticker.on("tick", this.update, this);
+  }
 
-    // Events stuff ----------------------------------------------------------------------
-    window.addEventListener("resize", e => this.screencenter = $V([window.innerWidth/2, window.innerHeight/2]));
-
-    // input stuff -------------------------------------------------------------------------------
-    input.on("pause", () => createjs.Ticker.paused = !createjs.Ticker.paused);
-    input.on("debug", () => debug = !debug);
+  get screencenter() {
+    return $V([window.innerWidth/2, window.innerHeight/2]);
   }
 
   /**
@@ -52,7 +51,7 @@ class Game extends createjs.Stage {
    * @param {Object} data : the Object from the server
    */
   init (data) {
-    this.removeAllChildren();
+    this.children.slice().forEach(c => !c.dontRemove && this.removeChild(c));
     this.levelData = data;
     this.deathLine = data.deathLine;
 
@@ -64,9 +63,6 @@ class Game extends createjs.Stage {
       .lt(5000,0)
 
     this.addChild(deathLine);
-    this.addChild(this.txtFps);
-    this.addChild(this.txtrendertime);
-    this.addChild(this.txtqwerty);
     this.player = new Player();
     this.addChild(this.player);
 

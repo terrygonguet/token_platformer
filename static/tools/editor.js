@@ -149,79 +149,109 @@ class DragManager extends createjs.Container {
 }
 TP.Editor.DragManager = DragManager;
 
-Editor.el               = $("#editor");
-Editor.propsContainer   = $("<div id='propsContainer'></div>");
-Editor.btnContainer     = $("<div id='btnContainer'></div>");
-Editor.createContainer  = $("<div id='createContainer'></div>");
-Editor.btnApply         = $("<button class='NeonButton'>Apply</button>").click(e => Editor.apply());
-Editor.btnRemove        = $("<button class='NeonButton'>Remove</button>").click(e => Editor.remove());
-Editor.btnJSON          = $("<button class='NeonButton'>JSON</button>").click(e => Editor.toJSON());
-Editor.btnClose         = $("<button class='NeonButton'>Close</button>").click(e => Editor.close());
-Editor.txtJSON          = $("<textarea cols=50 rows=25></textarea>");
-Editor.ddlClassName     = $("<select id='className'></select>");
-Editor.btnNew           = $("<button class='NeonButton'>New</button>").click(e => Editor.create());
-Editor.cursorPos        = $("<p></p>").css({ position:"absolute", "pointer-events":"none", "padding-left":20 }).appendTo(document.body).hide();
-Editor.containers       = $([Editor.propsContainer[0], Editor.createContainer[0], Editor.btnContainer[0], Editor.txtJSON[0], Editor.cursorPos[0]]);
-Editor.objID            = null;
-Editor.objMaker         = null;
-Editor.dragManagers     = {};
+(function () {
+  Editor.el               = $("#editor");
+  Editor.propsContainer   = $("<div id='propsContainer'></div>");
+  Editor.btnContainer     = $("<div id='btnContainer'></div>");
+  Editor.createContainer  = $("<div id='createContainer'></div>");
+  Editor.btnApply         = $("<button class='NeonButton'>Apply</button>").click(e => Editor.apply());
+  Editor.btnRemove        = $("<button class='NeonButton'>Remove</button>").click(e => Editor.remove());
+  Editor.btnJSON          = $("<button class='NeonButton'>JSON</button>").click(e => Editor.toJSON());
+  Editor.btnClose         = $("<button class='NeonButton'>Close</button>").click(e => Editor.close());
+  Editor.txtJSON          = $("<textarea cols=50 rows=25></textarea>");
+  Editor.ddlClassName     = $("<select id='className'></select>");
+  Editor.btnNew           = $("<button class='NeonButton'>New</button>").click(e => Editor.create());
+  Editor.cursorPos        = $("<p></p>").css({ position:"absolute", "pointer-events":"none", "padding-left":20 }).appendTo(document.body).hide();
+  Editor.containers       = $([Editor.propsContainer[0], Editor.createContainer[0], Editor.btnContainer[0], Editor.txtJSON[0], Editor.cursorPos[0]]);
+  Editor.objID            = null;
+  Editor.objMaker         = null;
+  Editor.dragManagers     = {};
 
-Editor.el
-  .append(
-    Editor.createContainer
+  Editor.el
     .append(
-      $("<label>Class name : </label>")
-      .append(Editor.ddlClassName)
-      .append(Editor.btnNew)
-      .append(Editor.btnClose.clone(true))
+      Editor.createContainer
+      .append(
+        $("<label>Class name : </label>")
+        .append(Editor.ddlClassName)
+        .append(Editor.btnNew)
+        .append(Editor.btnClose.clone(true))
+      )
     )
-  )
-  .append(Editor.propsContainer)
-  .append(
-    Editor.btnContainer
-      .append(Editor.btnApply)
-      .append(Editor.btnRemove)
-      .append(Editor.btnJSON)
-      .append(Editor.btnClose)
-  )
-  .append(Editor.txtJSON);
+    .append(Editor.propsContainer)
+    .append(
+      Editor.btnContainer
+        .append(Editor.btnApply)
+        .append(Editor.btnRemove)
+        .append(Editor.btnJSON)
+        .append(Editor.btnClose)
+    )
+    .append(Editor.txtJSON);
 
-Editor.close();
+  Editor.close();
 
-for (var className in TP) {
-  if (TP[className].inCreate) {
-    Editor.ddlClassName.append(`<option value="${className}">${className}</option>`);
-  }
-}
-$("#className:first-child").attr("selected", "selected");
-
-input.on("mouse1", e => {
-  if (!debug) return;
-  const local = game.camera.globalToLocal(input.mousePos).toSAT();
-  for (var collidable of game.collidables) {
-    const test = "pointIn" + (collidable.hitbox instanceof SAT.Circle ? "Circle" : "Polygon");
-    if (SAT[test](local, collidable.hitbox)) {
-      Editor.object = collidable;
-      Editor.open();
-      break;
+  for (var className in TP) {
+    if (TP[className].inCreate) {
+      Editor.ddlClassName.append(`<option value="${className}">${className}</option>`);
     }
   }
-});
-input.on("mouse2", e => Editor.open("create"));
-input.on("mousemove", e => {
-  if (!debug) {
-    Editor.cursorPos.hide();
-    return;
-  }
-  var pos = game.camera.globalToLocal(input.mousePos);
-  Editor.cursorPos
-    .show()
-    .text(pos.round().inspect())
-    .css({ top:input.mousePos.e(2), left:input.mousePos.e(1) });
-});
+  $("#className:first-child").attr("selected", "selected");
 
-$(document.body).append(`
-<datalist id="states">
-  <option value="green"/>
-  <option value="red"/>
-</datalist>`);
+  input.on("mouse1", e => {
+    if (!debug) return;
+    const local = game.camera.globalToLocal(input.mousePos).toSAT();
+    for (var collidable of game.collidables) {
+      const test = "pointIn" + (collidable.hitbox instanceof SAT.Circle ? "Circle" : "Polygon");
+      if (SAT[test](local, collidable.hitbox)) {
+        Editor.object = collidable;
+        Editor.open();
+        break;
+      }
+    }
+  });
+  input.on("mouse2", e => Editor.open("create"));
+  input.on("mousemove", e => {
+    if (!debug) {
+      Editor.cursorPos.hide();
+      return;
+    }
+    var pos = game.camera.globalToLocal(input.mousePos);
+    Editor.cursorPos
+      .show()
+      .text(pos.round().inspect())
+      .css({ top:input.mousePos.e(2), left:input.mousePos.e(1) });
+  });
+  input.on("debug", () => {
+    if (debug) showGrid();
+    else hideGrid();
+  });
+
+  $(document.body).append(`
+  <datalist id="states">
+    <option value="green"/>
+    <option value="red"/>
+  </datalist>`);
+
+  function showGrid() {
+    var grid = new createjs.Shape();
+    grid.position = Vector.Zero(2);
+    grid.isGrid = true;
+    grid.dontRemove = true;
+    grid.graphics.c().s("rgba(255,255,255,0.3)");
+    for (var i = -1000; i <= 1000; i+=50) {
+      grid.graphics.mt(i, -1000).lt(i, 1000);
+    }
+    for (var j = -1000; j < 1000; j+=50) {
+      grid.graphics.mt(-2000, j).lt(1000, j);
+    }
+    game.addChildAt(grid, 0);
+  }
+
+  function hideGrid() {
+    game.removeChild(game.children.find(c => c.isGrid));
+  }
+
+  debug && setTimeout(function tryGrid() {
+    if (game) showGrid();
+    else setTimeout(tryGrid, 50);
+  }, 50);
+})();
