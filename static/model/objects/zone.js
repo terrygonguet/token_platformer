@@ -98,9 +98,8 @@ class Zone extends createjs.Shape {
     if (!otherObj.isPlayer) return;
     if (collision.aInB) {
       this.onInside && this.onInside.bind(this)(otherObj, collision, e);
-    } else {
-      this.onTouch && this.onTouch.bind(this)(otherObj, collision, e);
     }
+    this.onTouch && this.onTouch.bind(this)(otherObj, collision, e);
   }
 
 }
