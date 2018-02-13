@@ -29,12 +29,7 @@ class Editor {
   }
 
   static toJSON() {
-    var lvl = _.assign({}, game.levelData, { objects:[] });
-    for (var child of game.children) {
-      if (!child.toJSON) continue;
-      lvl.objects.push(child.toJSON());
-    }
-    Editor.txtJSON.show().text(JSON.stringify(lvl, null, 2));
+    Editor.txtJSON.show().text(JSON.stringify(game.toJSON(), null, 2));
   }
 
   static open(type="editor") {
@@ -182,6 +177,22 @@ TP.Editor.DragManager = DragManager;
         .append("<input type='text' id='txblvl' value='lvl1'/>")
         .append(
           $("<button class='NeonButton'>Jump</button>").click(e => game.loadLevel($("#txblvl").val()))
+        )
+      )
+      .append(
+        $("<label>Save level as : </label>")
+        .append("<input type='text' id='txbsave' value='lvl1'/>")
+        .append(
+          $("<button class='NeonButton'>Save</button>").click(function (e) {
+            $(this).attr("disabled", "");
+            game.saveLevel($("#txbsave").val(), ()=>{
+              var message = $("<label>Saved</label>").insertAfter(Editor.createContainer);
+              $(this).removeAttr("disabled");
+              setTimeout(function () {
+                message.detach();
+              }, 1500);
+            });
+          })
         )
       )
     )

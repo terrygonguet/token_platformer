@@ -35,6 +35,14 @@ class Player extends createjs.Shape {
       this.graphics.c().s("#888").f("#000").dp(0,0,this.radius,3,0,-90);
       debug && this.graphics.ef().dc(0,0,this.radius);
     });
+
+    input.on("jump", e => {
+      if (e.originalEvent.repeat) return ;
+      if (this.state === "green") {
+        this.state = "red";
+        this.momentum.elements[1] = -this.jumpForce;
+      }
+    });
   }
 
   get color() {
@@ -57,10 +65,6 @@ class Player extends createjs.Shape {
       else
         this.momentum = this.momentum.subtract($V([this.momentum.toUnitVector().e(1), 0]).x(this.acceleration * e.sdelta));
     };
-    if (input.keys.jump && this.state === "green") {
-      this.state = "red";
-      this.momentum.elements[1] = -this.jumpForce;
-    }
     this.momentum = $V([
       this.momentum.e(1).clamp(-this.maxSpeed.horizontal, this.maxSpeed.horizontal),
       this.momentum.e(2).clamp(-Infinity, this.maxSpeed.down)

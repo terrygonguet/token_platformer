@@ -201,9 +201,9 @@ class InputManager extends createjs.EventDispatcher {
     // dispatch additionnal event if we found one and the native event didnt get stopped
     if (custEvent.type && !e.cancelBubble) {
       if (custEvent.type instanceof Array) {
-        custEvent.type.forEach(ev => this.dispatchEvent(ev));
+        custEvent.type.forEach(ev => this.dispatchEvent(_.assign(new createjs.Event(ev), { originalEvent:e })));
       } else
-        this.dispatchEvent(custEvent);
+        this.dispatchEvent(_.assign(new createjs.Event(custEvent.type), { originalEvent:e }));
     }
   }
 

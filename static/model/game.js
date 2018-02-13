@@ -86,6 +86,34 @@ class Game extends createjs.Stage {
     });
   }
 
+  saveLevel(name, cb) {
+    $.post({
+      url:"/savelvl/"+name,
+      dataType:"json",
+      data:this.toJSON(),
+      success:res => {
+        cb();
+        console.log("done");
+      },
+      fail:err => {
+        console.log(err);
+        $("#messagebox").show();
+        $("#game").hide();
+        $("#title").text("Error");
+        $("#message").html(err.responseText);
+      }
+    });
+  }
+
+  toJSON() {
+    var lvl = _.assign({}, this.levelData, { objects:[] });
+    for (var child of this.children) {
+      if (!child.toJSON) continue;
+      lvl.objects.push(child.toJSON());
+    }
+    return lvl;
+  }
+
   /**
    * @param {eventdata} e
    */
