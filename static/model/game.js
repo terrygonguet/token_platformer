@@ -23,7 +23,7 @@ class Game extends createjs.Stage {
     this.levelData    = null;
     this.gravity      = $V([ 0, 900 ]);
     this.maxdelta     = 150;
-    this.deathLine    = 0;
+    this.isLoading    = false;
 
     this.setHandlers();
     this.addChild(this.txtFps);
@@ -53,16 +53,8 @@ class Game extends createjs.Stage {
   init (data) {
     this.children.slice().forEach(c => !c.dontRemove && this.removeChild(c));
     this.levelData = data;
-    this.deathLine = data.deathLine;
+    this.isLoading = false;
 
-    var deathLine = new createjs.Shape();
-    deathLine.position = $V([0, this.deathLine]);
-    deathLine.graphics
-      .ss(2).s("#E11")
-      .mt(-5000,0)
-      .lt(5000,0)
-
-    this.addChild(deathLine);
     this.player = new Player();
     this.addChild(this.player);
 
@@ -76,6 +68,7 @@ class Game extends createjs.Stage {
   }
 
   loadLevel(filename) {
+    if (this.isLoading) throw "The game is already loading a level";
     $.getJSON(`levels/${filename}.json`, (data, status) => this.init(data))
     .fail(err => {
       console.log(err);
@@ -84,6 +77,7 @@ class Game extends createjs.Stage {
       $("#title").text("Error");
       $("#message").html(err.responseText);
     });
+    this.isLoading = true;
   }
 
   saveLevel(name, cb) {
