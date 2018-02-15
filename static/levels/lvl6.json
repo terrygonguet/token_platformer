@@ -87,6 +87,12 @@
         "radius": 10,
         "respawnTime": 1000
       }
+    },
+    {
+      "type": "DeathLine",
+      "params": {
+        "height": 250
+      }
     }
   ]
 }

@@ -253,6 +253,12 @@
         "alpha": 0.3,
         "nextLevel": "lvl1"
       }
+    },
+    {
+      "type": "DeathLine",
+      "params": {
+        "height": 250
+      }
     }
   ]
 }
