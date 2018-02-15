@@ -14,6 +14,11 @@ class InputManager extends createjs.EventDispatcher {
       left    : false,
       right   : false
     };
+    // same as this.keys but keeps track of any
+    // keypress on the keyboard
+    this.keyboard = {
+
+    }
     this.mousePos   = $V([0,0]); // position of the last mouse click or last mousemove event
     this.direction  = $V([0,0]); // normalized direction using the up, down, left and right properties of this.keys
     this.mouseDelta = $V([0,0]); // mouse delta when pointer is locked to the window
@@ -71,9 +76,6 @@ class InputManager extends createjs.EventDispatcher {
     $("#game").on("contextmenu", null, null, false); // to prevent right click menu
     // document.addEventListener("pointerlockchange",  () => {});
     createjs.Ticker.on("tick", e => !e.paused && this.update(e), this);
-
-    this.on("debug", () => debug = !debug);
-    this.on("pause", () => createjs.Ticker.paused = !createjs.Ticker.paused);
   }
 
   /**
@@ -109,7 +111,7 @@ class InputManager extends createjs.EventDispatcher {
    * @param {eventdata} e Native event data
    */
   getEvent (e) {
-    const custEvent = new createjs.Event(""); // custom event to be fired if necessary
+    var custEvents = [];
 
     switch (e.type) {
       case "mousedown":
@@ -121,11 +123,11 @@ class InputManager extends createjs.EventDispatcher {
         switch (e.button) {
           case 0:
             this.keys.mouse1 = true;
-            custEvent.type = "mouse1";
+            custEvents.push("mouse1");
             break;
           case 2:
             this.keys.mouse2 = true;
-            custEvent.type = "mouse2";
+            custEvents.push("mouse2");
             break;
         }
         break;
@@ -133,20 +135,21 @@ class InputManager extends createjs.EventDispatcher {
         switch (e.button) {
           case 0:
             this.keys.mouse1 = false;
-            custEvent.type = "mouse1U";
+            custEvents.push("mouse1U");
             break;
           case 2:
             this.keys.mouse2 = false;
-            custEvent.type = "mouse2U";
+            custEvents.push("mouse2U");
             break;
         }
         break;
-      case "keydown": {
+      case "keydown":
         if (this.ignoredKeys.indexOf(e.key) !== -1) break;
         if (!this.enabledListeners[e.type]) {
           Object.keys(this.keys).forEach(k => {
             k !== "mouse1" && k !== "mouse2" && (this.keys[k] = false);
           });
+          Object.keys(this.keyboard).forEach(k => this.keyboard[k] = false);
           break;
         }
         e.preventDefault();
@@ -156,31 +159,29 @@ class InputManager extends createjs.EventDispatcher {
           if (this.keypatterns.hasOwnProperty(pattern)) {
             if (this.lastkeys.startsWith(this.keypatterns[pattern])) {
               this.dispatchEvent(pattern);
-              this.lastkeys = this.lastkeys.slice(this.keypatterns[pattern]);
+              this.lastkeys = this.lastkeys.slice(this.keypatterns[pattern].length-1);
             }
           }
         }
 
         this.keys[e.key] = true;
-        let type = Object.keys(this.bindings).filter(key => {
+        custEvents = custEvents.concat(Object.keys(this.bindings).filter(key => {
           if (this.bindings[key].indexOf(e.key) != -1) {
             this.keys[key] = true;
             return true;
           }
-        });
-        custEvent.type = (type.length ? type : ""); // custom binding event if we found a keybind
-        } break;
-      case "keyup": {
+        }));
+        break;
+      case "keyup":
         if (this.ignoredKeys.indexOf(e.key) !== -1) break;
         this.keys[e.key] = false;
-        let type = Object.keys(this.bindings).filter(key => {
+        custEvents = custEvents.concat(Object.keys(this.bindings).filter(key => {
           if (this.bindings[key].indexOf(e.key) != -1) {
             this.keys[key] = false;
             return true;
           }
-        });
-        custEvent.type = (type.length ? type.map(t => t+"U") : "");  // custom binding event if we found a keybind
-        } break;
+        }).map(t => t+"U"));
+        break;
       case "focus" : break;
       case "blur" :
         if (!this.enabledListeners[e.type]) break;
@@ -191,7 +192,7 @@ class InputManager extends createjs.EventDispatcher {
         this.mousePos = $V([ e.clientX, e.clientY ]);
         if (document.pointerLockElement) {
           // custom mouse move if the pointer is locked
-          custEvent.type = "lockedmousemove";
+          custEvents.push("lockedmousemove");
           this.mouseDelta = $V([e.movementX, e.movementY]); // update
         } else
           this.mouseDelta = $V([0,0]);
@@ -199,11 +200,8 @@ class InputManager extends createjs.EventDispatcher {
     }
     this.dispatchEvent(e);
     // dispatch additionnal event if we found one and the native event didnt get stopped
-    if (custEvent.type && !e.cancelBubble) {
-      if (custEvent.type instanceof Array) {
-        custEvent.type.forEach(ev => this.dispatchEvent(_.assign(new createjs.Event(ev), { originalEvent:e })));
-      } else
-        this.dispatchEvent(_.assign(new createjs.Event(custEvent.type), { originalEvent:e }));
+    if (custEvents.length && !e.cancelBubble) {
+      custEvents.forEach(ev => this.dispatchEvent(_.assign(new createjs.Event(ev), { originalEvent:e })));
     }
   }
 
