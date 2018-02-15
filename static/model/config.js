@@ -38,6 +38,9 @@ class Config extends createjs.EventDispatcher {
     };
     input.lockedBindings = [ "menu" ];
     input.hiddenBindings = [ "pause", "debug" ];
+
+    input.on("debug", e => debug = !debug);
+    input.on("pause", e => createjs.Ticker.paused = !createjs.Ticker.paused);
   }
 
   /**
