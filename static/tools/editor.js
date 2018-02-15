@@ -265,10 +265,10 @@ TP.Editor.DragManager = DragManager;
     grid.dontRemove = true;
     grid.graphics.c().s("rgba(255,255,255,0.3)");
     for (var i = -1000; i <= 1000; i+=50) {
-      grid.graphics.mt(i, -1000).lt(i, 1000);
+      grid.graphics.mt(i, -3000).lt(i, 1000);
     }
-    for (var j = -1000; j < 1000; j+=50) {
-      grid.graphics.mt(-2000, j).lt(1000, j);
+    for (var j = -3000; j < 1000; j+=50) {
+      grid.graphics.mt(-1000, j).lt(1000, j);
     }
     game.addChildAt(grid, 0);
   }

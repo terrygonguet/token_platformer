@@ -1,7 +1,12 @@
 {
-  "deathLine": 250,
   "name": "Leap Faith",
   "objects": [
+    {
+      "type": "DeathLine",
+      "params": {
+        "height": 250
+      }
+    },
     {
       "type": "ColorPlateform",
       "params": {

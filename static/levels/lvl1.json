@@ -1,7 +1,12 @@
 {
-  "deathLine": 250,
   "name": "Tutorial 1",
   "objects": [
+    {
+      "type": "DeathLine",
+      "params": {
+        "height": 250
+      }
+    },
     {
       "type": "SpawnPoint",
       "params": {
