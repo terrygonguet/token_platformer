@@ -34,11 +34,11 @@ class Camera extends createjs.EventDispatcher {
   }
 
   globalToLocal(pos) {
-    return pos.add(this.center).subtract($V([ innerWidth/2, innerHeight/2 ]));
+    return pos.add(this.center).subtract($V([ innerWidth/2, innerHeight/2 ]).x(1/game.scale));
   }
 
   localToGlobal(pos) {
-    return $V([ innerWidth/2, innerHeight/2 ]).subtract(this.center).add(pos);
+    return $V([ innerWidth/2, innerHeight/2 ]).x(1/game.scale).subtract(this.center).add(pos);
   }
 
 }

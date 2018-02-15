@@ -46,6 +46,15 @@ class Game extends createjs.Stage {
     return $V([window.innerWidth/2, window.innerHeight/2]);
   }
 
+  get scale() {
+    return this.scaleX;
+  }
+
+  set scale(val) {
+    this.scaleX = val;
+    this.scaleY = val;
+  }
+
   /**
    * Cleans up the Stage and builds everything according to the data supplied
    * @param {Object} data : the Object from the server
