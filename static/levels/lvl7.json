@@ -1,0 +1,258 @@
+{
+  "deathLine": 250,
+  "name": "Stars",
+  "objects": [
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -327,
+          "y": -122
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -248,
+          "y": -249
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -131,
+          "y": -362
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -52,
+          "y": -304
+        },
+        "state": "red",
+        "radius": 30,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -43,
+          "y": -396
+        },
+        "state": "green",
+        "radius": 20,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 63,
+          "y": -364
+        },
+        "state": "red",
+        "radius": 30,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 181,
+          "y": -299
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 71,
+          "y": -458
+        },
+        "state": "red",
+        "radius": 40,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Gate",
+      "params": {
+        "pt1": {
+          "x": 73,
+          "y": -551
+        },
+        "pt2": {
+          "x": 69,
+          "y": -256
+        },
+        "state": "green"
+      }
+    },
+    {
+      "type": "Gate",
+      "params": {
+        "pt1": {
+          "x": 74,
+          "y": -352
+        },
+        "pt2": {
+          "x": 653,
+          "y": -352
+        },
+        "state": "red"
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 113,
+          "y": -228
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 384,
+          "y": -400
+        },
+        "state": "red",
+        "radius": 50,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 273,
+          "y": -375
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 701,
+          "y": -399
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 659,
+          "y": -510
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 79,
+          "y": -293
+        },
+        "state": "red",
+        "radius": 30,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "SpawnPoint",
+      "params": {
+        "point": {
+          "x": -775,
+          "y": 25
+        },
+        "state": "green"
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -548,
+          "y": 3
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "ColorPlateform",
+      "params": {
+        "pt1": {
+          "x": -850,
+          "y": 150
+        },
+        "pt2": {
+          "x": -700,
+          "y": 150
+        },
+        "thickness": 20,
+        "edgeOffset": 15,
+        "strokeColor": "#11ee11",
+        "fillColor": "#000000",
+        "state": "green"
+      }
+    },
+    {
+      "type": "EndZone",
+      "params": {
+        "position": {
+          "x": 500,
+          "y": -700
+        },
+        "dimensions": {
+          "x": 200,
+          "y": 150
+        },
+        "color": "#3af735",
+        "alpha": 0.3,
+        "nextLevel": "lvl1"
+      }
+    }
+  ]
+}
