@@ -60,6 +60,7 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
     {id: "Gate", src:"model/objects/gate.js"},
     {id: "Pickup", src:"model/objects/pickup.js"},
     {id: "DeathLine", src:"model/objects/deathline.js"},
+    {id: "Propulsor", src:"model/objects/propulsor.js"},
 
     {id: "Editor", src:"tools/editor.js"},
 

@@ -122,7 +122,7 @@ class DragManager extends createjs.Container {
       this.onDrag(name, $V([game.mouseX, game.mouseY]));
     });
     var displayPos = game.camera.localToGlobal(startPos);
-    dragAnchor.set({ x:displayPos.e(1), y:displayPos.e(2), name });
+    dragAnchor.set({ x:displayPos.e(1), y:displayPos.e(2), name, isDragAnchor:true });
     this.addChild(dragAnchor);
   }
 
@@ -217,14 +217,11 @@ TP.Editor.DragManager = DragManager;
 
   input.on("mouse1", e => {
     if (!debug) return;
-    const local = game.camera.globalToLocal(input.mousePos).toSAT();
-    for (var collidable of game.collidables) {
-      const test = "pointIn" + (collidable.hitbox instanceof SAT.Circle ? "Circle" : "Polygon");
-      if (SAT[test](local, collidable.hitbox)) {
-        Editor.object = collidable;
-        Editor.open();
-        break;
-      }
+    const objs = game.getObjectsUnderPoint(...input.mousePos.elements);
+    const anchor = objs.find(o => o.isDragAnchor);
+    if (!anchor && objs[0]) {
+      Editor.object = objs[0];
+      Editor.open();
     }
   });
   input.on("mouse2", e => Editor.open("create"));

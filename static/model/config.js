@@ -25,22 +25,23 @@ class Config extends createjs.EventDispatcher {
                      .appendTo(this.container);
 
     input.on("menu", this.toggle, this);
+    input.on("debug", e => debug = !debug);
+    input.on("pause", e => createjs.Ticker.paused = !createjs.Ticker.paused);
+    input.on("restart", e => game.children.find(c => c.isSpawnPoint).spawn());
 
     var localBindings = JSON.parse(localStorage.getItem("bindings")) || {};
     input.bindings = {
-      jump      : localBindings.jump      || ["ArrowUp", " ", "z"],
+      jump      : localBindings.jump      || ["ArrowUp", "z"],
       // down      : localBindings.down      || ["s"],
       left      : localBindings.left      || ["ArrowLeft", "q"],
       right     : localBindings.right     || ["ArrowRight", "d"],
+      restart   : localBindings.restart   || ["Control", "r"],
       pause     : localBindings.pause     || ["p"],
       debug     : localBindings.debug     || ["o"],
       menu      : localBindings.menu      || ["Escape"],
     };
     input.lockedBindings = [ "menu" ];
     input.hiddenBindings = [ "pause", "debug" ];
-
-    input.on("debug", e => debug = !debug);
-    input.on("pause", e => createjs.Ticker.paused = !createjs.Ticker.paused);
   }
 
   /**

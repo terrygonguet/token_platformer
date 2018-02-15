@@ -25,7 +25,9 @@ class Player extends createjs.Shape {
     };
     this.shadow         = new Neon(this.color);
     this.maxSpeed       = {
-      down: 1200, horizontal: 400
+      down: 1200,
+      up: 1200,
+      horizontal: 400
     };
 
     this.graphics.c().s("#888").f("#000").dp(0,0,this.radius,3,0,-90);
@@ -50,12 +52,6 @@ class Player extends createjs.Shape {
   }
 
   update(e) {
-    if (this.position.e(2) > game.deathLine) {
-      var sp = _.values(game.children).find(c => c.isSpawnPoint);
-      if (!sp) throw "Level doesn't have a spawn point (anymore ?)";
-      sp.spawn();
-      return;
-    }
     var moveforce = input.direction.x(e.sdelta * this.acceleration);
     var gravforce = game.gravity.x(e.sdelta);
     this.momentum = this.momentum.add(gravforce).add(moveforce);
@@ -65,10 +61,17 @@ class Player extends createjs.Shape {
       else
         this.momentum = this.momentum.subtract($V([this.momentum.toUnitVector().e(1), 0]).x(this.acceleration * e.sdelta));
     };
-    this.momentum = $V([
-      this.momentum.e(1).clamp(-this.maxSpeed.horizontal, this.maxSpeed.horizontal),
-      this.momentum.e(2).clamp(-Infinity, this.maxSpeed.down)
-    ]);
+    var slowdown = $V([0,0]);
+    if (Math.abs(this.momentum.e(1)) > this.maxSpeed.horizontal && moveforce.modulus()) {
+      slowdown = slowdown.add($V([-this.momentum.e(1),0]).toUnitVector().x(this.acceleration * e.sdelta));
+    }
+    if (this.momentum.e(2) < -this.maxSpeed.up) {
+      slowdown = slowdown.add($V([0,-this.momentum.e(2)]).toUnitVector().x(this.acceleration * e.sdelta));
+    } else if (this.momentum.e(2) > this.maxSpeed.down) {
+      slowdown = slowdown.add($V([0,-this.momentum.e(2)]).toUnitVector().x(this.acceleration * e.sdelta));
+    }
+    this.momentum = this.momentum.add(slowdown);
+
     var oldpos = this.position.dup();
     this.setPos(this.position.add(this.momentum.x(e.sdelta)));
     this.rotation += this.position.subtract(oldpos).e(1) * this.rotationSpeed;
