@@ -5,7 +5,7 @@
  */
 var game;
 const queue = new createjs.LoadQueue();
-var debug = true;
+var debug = location.host === "localhost";
 const TP = {}; // Namespace
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
