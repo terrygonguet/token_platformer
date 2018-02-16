@@ -1,7 +1,7 @@
 class Editor {
 
   static get object() {
-    return game.children.find(c => c.id === Editor.objID);
+    return game.gbid(Editor.objID);
   }
 
   static set object(val) {
@@ -35,7 +35,7 @@ class Editor {
   static open(type="editor") {
     if (!debug) return;
     Editor.containers.hide();
-    game.children.forEach(c => c instanceof DragManager && (c.visible = false));
+    game.gbcs(DragManager).forEach(c => c.visible = false);
     switch (type) {
       case "editor":
         if (!Editor.object) return;
@@ -83,7 +83,7 @@ class Editor {
     input.enableMouseMouve(false);
     createjs.Ticker.paused = false;
     input.enabledListeners.keydown = true;
-    game && game.children.forEach(c => c instanceof DragManager && (c.visible = false));
+    game && game.gbcs(DragManager).forEach(c => c.visible = false);
   }
 
 }
@@ -219,7 +219,7 @@ TP.Editor.DragManager = DragManager;
     if (!debug) return;
     const objs = game.getObjectsUnderPoint(...input.mousePos.elements);
     const anchor = objs.find(o => o.isDragAnchor);
-    if (!anchor && objs[0]) {
+    if (!anchor && objs[0] && objs[0].inEditorList) {
       Editor.object = objs[0];
       Editor.open();
     }
@@ -261,17 +261,17 @@ TP.Editor.DragManager = DragManager;
     grid.isGrid = true;
     grid.dontRemove = true;
     grid.graphics.c().s("rgba(255,255,255,0.3)");
-    for (var i = -1000; i <= 1000; i+=50) {
-      grid.graphics.mt(i, -3000).lt(i, 1000);
+    for (var i = -3000; i <= 3000; i+=50) {
+      grid.graphics.mt(i, -3000).lt(i, 3000);
     }
-    for (var j = -3000; j < 1000; j+=50) {
-      grid.graphics.mt(-1000, j).lt(1000, j);
+    for (var j = -3000; j < 3000; j+=50) {
+      grid.graphics.mt(-3000, j).lt(3000, j);
     }
     game.addChildAt(grid, 0);
   }
 
   function hideGrid() {
-    game.removeChild(game.children.find(c => c.isGrid));
+    game.removeChild(game.gbc("Grid"));
   }
 
   debug && setTimeout(function tryGrid() {

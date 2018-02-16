@@ -55,6 +55,36 @@ class Game extends createjs.Stage {
     this.scaleY = val;
   }
 
+  getChildByClass(className) {
+    if (typeof className === "string")
+      return this.children.find(c => c["is" + className]);
+    else
+      return this.children.find(c => c instanceof className);
+  }
+
+  gbc(name) {
+    return this.getChildByClass(name);
+  }
+
+  getChildrenByClass(className) {
+    if (typeof className === "string")
+      return this.children.filter(c => c["is" + className]);
+    else
+      return this.children.filter(c => c instanceof className);
+  }
+
+  gbcs(name) {
+    return this.getChildrenByClass(name);
+  }
+
+  getChildByID(id) {
+    return this.children.find(c => c.id === id);
+  }
+
+  gbid(id) {
+    return this.getChildByID(id);
+  }
+
   /**
    * Cleans up the Stage and builds everything according to the data supplied
    * @param {Object} data : the Object from the server

@@ -27,7 +27,8 @@ class Player extends createjs.Shape {
     this.maxSpeed       = {
       down: 1200,
       up: 1200,
-      horizontal: 400
+      horizontal: 400,
+      any: 1200,
     };
 
     this.graphics.c().s("#888").f("#000").dp(0,0,this.radius,3,0,-90);
@@ -54,23 +55,20 @@ class Player extends createjs.Shape {
   update(e) {
     var moveforce = input.direction.x(e.sdelta * this.acceleration);
     var gravforce = game.gravity.x(e.sdelta);
-    this.momentum = this.momentum.add(gravforce).add(moveforce);
-    if (!moveforce.modulus()) {
+    this.momentum = this.momentum.add(gravforce);
+    if (this.momentum.modulus() > this.maxSpeed.any) {
+      this.momentum = this.momentum.add(this.momentum.toUnitVector().x(-this.acceleration * e.sdelta));
+    } else if (!moveforce.modulus()) {
       if (Math.abs(this.momentum.e(1)) < this.acceleration * e.sdelta)
         this.momentum.elements[0] = 0;
+      else if (Math.abs(this.momentum.e(1)) <= this.maxSpeed.horizontal * 1.1)
+        this.momentum = this.momentum.add(this.momentum.toUnitVector().x(-this.acceleration * e.sdelta));
       else
-        this.momentum = this.momentum.subtract($V([this.momentum.toUnitVector().e(1), 0]).x(this.acceleration * e.sdelta));
-    };
-    var slowdown = $V([0,0]);
-    if (Math.abs(this.momentum.e(1)) > this.maxSpeed.horizontal && moveforce.modulus()) {
-      slowdown = slowdown.add($V([-this.momentum.e(1),0]).toUnitVector().x(this.acceleration * e.sdelta));
+        this.momentum = this.momentum.x(1 - 0.1 * e.sdelta);
+        // this.momentum = this.momentum.subtract($V([this.momentum.toUnitVector().e(1), 0]).x(this.acceleration * e.sdelta));
+    } else if (Math.abs(this.momentum.e(1)) <= this.maxSpeed.horizontal || Math.sign(this.momentum.e(1) * input.direction.e(1)) < 0) {
+      this.momentum = this.momentum.add(moveforce);
     }
-    if (this.momentum.e(2) < -this.maxSpeed.up) {
-      slowdown = slowdown.add($V([0,-this.momentum.e(2)]).toUnitVector().x(this.acceleration * e.sdelta));
-    } else if (this.momentum.e(2) > this.maxSpeed.down) {
-      slowdown = slowdown.add($V([0,-this.momentum.e(2)]).toUnitVector().x(this.acceleration * e.sdelta));
-    }
-    this.momentum = this.momentum.add(slowdown);
 
     var oldpos = this.position.dup();
     this.setPos(this.position.add(this.momentum.x(e.sdelta)));
