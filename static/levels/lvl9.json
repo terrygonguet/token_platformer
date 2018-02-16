@@ -1,0 +1,228 @@
+{
+  "deathLine": 250,
+  "name": "Stars",
+  "objects": [
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -327,
+          "y": -122
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -248,
+          "y": -249
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -131,
+          "y": -362
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -53,
+          "y": -330
+        },
+        "state": "red",
+        "radius": 30,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -39,
+          "y": -457
+        },
+        "state": "green",
+        "radius": 20,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 71,
+          "y": -364
+        },
+        "state": "red",
+        "radius": 30,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 235,
+          "y": -298
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 71,
+          "y": -458
+        },
+        "state": "red",
+        "radius": 40,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Gate",
+      "params": {
+        "pt1": {
+          "x": 73,
+          "y": -551
+        },
+        "pt2": {
+          "x": 71,
+          "y": -319
+        },
+        "state": "green"
+      }
+    },
+    {
+      "type": "Gate",
+      "params": {
+        "pt1": {
+          "x": 74,
+          "y": -352
+        },
+        "pt2": {
+          "x": 653,
+          "y": -352
+        },
+        "state": "red"
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 113,
+          "y": -228
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 348,
+          "y": -402
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "SpawnPoint",
+      "params": {
+        "point": {
+          "x": -775,
+          "y": 25
+        },
+        "state": "green"
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -548,
+          "y": 3
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
+      }
+    },
+    {
+      "type": "ColorPlateform",
+      "params": {
+        "pt1": {
+          "x": -850,
+          "y": 150
+        },
+        "pt2": {
+          "x": -700,
+          "y": 150
+        },
+        "thickness": 20,
+        "edgeOffset": 15,
+        "strokeColor": "#11ee11",
+        "fillColor": "#000000",
+        "state": "green"
+      }
+    },
+    {
+      "type": "EndZone",
+      "params": {
+        "position": {
+          "x": 859,
+          "y": -529
+        },
+        "dimensions": {
+          "x": 103,
+          "y": 97
+        },
+        "color": "#3af735",
+        "alpha": 0.3,
+        "nextLevel": "lvl1"
+      }
+    },
+    {
+      "type": "DeathLine",
+      "params": {
+        "height": 250
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 70,
+          "y": -291
+        },
+        "state": "red",
+        "radius": 30,
+        "respawnTime": 4000
+      }
+    }
+  ]
+}

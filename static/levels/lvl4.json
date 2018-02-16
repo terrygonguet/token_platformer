@@ -1,5 +1,5 @@
 {
-  "name": "Leap Faith",
+  "name": "Gatorial",
   "objects": [
     {
       "type": "DeathLine",
@@ -8,60 +8,54 @@
       }
     },
     {
-      "type": "ColorPlateform",
-      "params": {
-        "pt1": {
-          "x": -850,
-          "y": -300
-        },
-        "pt2": {
-          "x": -750,
-          "y": -300
-        },
-        "thickness": 20,
-        "edgeOffset": 15,
-        "strokeColor": "#11ee11",
-        "fillColor": "#000000",
-        "state": "green"
-      }
-    },
-    {
       "type": "Plateform",
       "params": {
         "pt1": {
-          "x": 0,
+          "x": -300,
           "y": 100
         },
         "pt2": {
-          "x": 150,
+          "x": 300,
           "y": 100
         },
         "thickness": 20,
         "edgeOffset": 15,
-        "strokeColor": "#eeeeee",
+        "strokeColor": "#EEEEEE",
         "fillColor": "#000000"
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -250,
+          "y": 75
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 4000
       }
     },
     {
       "type": "Gate",
       "params": {
         "pt1": {
-          "x": -650,
-          "y": -500
+          "x": 200,
+          "y": -100
         },
         "pt2": {
-          "x": -650,
-          "y": 150
+          "x": 200,
+          "y": 100
         },
-        "state": "red"
+        "state": "green"
       }
     },
     {
       "type": "SpawnPoint",
       "params": {
         "point": {
-          "x": -800,
-          "y": -400
+          "x": 100,
+          "y": 0
         },
         "state": "red"
       }
@@ -70,28 +64,16 @@
       "type": "EndZone",
       "params": {
         "position": {
-          "x": 342,
-          "y": 173
+          "x": 470,
+          "y": -84
         },
         "dimensions": {
-          "x": 70,
-          "y": 70
+          "x": 60,
+          "y": 60
         },
         "color": "#3af735",
         "alpha": 0.3,
         "nextLevel": "lvl5"
-      }
-    },
-    {
-      "type": "Pickup",
-      "params": {
-        "position": {
-          "x": -125,
-          "y": 125
-        },
-        "state": "green",
-        "radius": 10,
-        "respawnTime": 500
       }
     }
   ]

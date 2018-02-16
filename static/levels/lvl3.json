@@ -1,5 +1,5 @@
 {
-  "name": "Tutorial 1",
+  "name": "Bump it !",
   "objects": [
     {
       "type": "DeathLine",
@@ -25,55 +25,46 @@
           "y": 100
         },
         "pt2": {
-          "x": 300,
+          "x": -100,
           "y": 100
         },
-        "thickness": 20,
-        "edgeOffset": 15,
+        "thickness": "20",
+        "edgeOffset": "15",
         "strokeColor": "#EEEEEE",
         "fillColor": "#000000"
-      }
-    },
-    {
-      "type": "Gate",
-      "params": {
-        "pt1": {
-          "x": 200,
-          "y": -100
-        },
-        "pt2": {
-          "x": 200,
-          "y": 100
-        },
-        "state": "red"
-      }
-    },
-    {
-      "type": "Pickup",
-      "params": {
-        "position": {
-          "x": -150,
-          "y": 80
-        },
-        "state": "green",
-        "radius": 10,
-        "respawnTime": 4000
       }
     },
     {
       "type": "EndZone",
       "params": {
         "position": {
-          "x": 210,
-          "y": 40
+          "x": 172,
+          "y": -118
         },
         "dimensions": {
-          "x": 60,
-          "y": 60
+          "x": 69,
+          "y": 70
         },
         "color": "#3af735",
         "alpha": 0.3,
         "nextLevel": "lvl4"
+      }
+    },
+    {
+      "type": "Plateform",
+      "params": {
+        "pt1": {
+          "x": 100,
+          "y": -40
+        },
+        "pt2": {
+          "x": 155,
+          "y": -40
+        },
+        "thickness": 20,
+        "edgeOffset": 15,
+        "strokeColor": "#eeeeee",
+        "fillColor": "#000000"
       }
     }
   ]

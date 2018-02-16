@@ -1,6 +1,5 @@
 {
-  "deathLine": 250,
-  "name": "Intuition",
+  "name": "Jump Forest !",
   "objects": [
     {
       "type": "SpawnPoint",
@@ -16,43 +15,12 @@
       "type": "Plateform",
       "params": {
         "pt1": {
-          "x": -300,
-          "y": 100
+          "x": 700,
+          "y": 0
         },
         "pt2": {
-          "x": 300,
-          "y": 100
-        },
-        "thickness": 20,
-        "edgeOffset": 15,
-        "strokeColor": "#EEEEEE",
-        "fillColor": "#000000"
-      }
-    },
-    {
-      "type": "Gate",
-      "params": {
-        "pt1": {
-          "x": -250,
-          "y": -25
-        },
-        "pt2": {
-          "x": -100,
-          "y": -25
-        },
-        "state": "red"
-      }
-    },
-    {
-      "type": "Plateform",
-      "params": {
-        "pt1": {
-          "x": 0,
-          "y": -850
-        },
-        "pt2": {
-          "x": 100,
-          "y": -850
+          "x": 800,
+          "y": 0
         },
         "thickness": 20,
         "edgeOffset": 15,
@@ -64,12 +32,12 @@
       "type": "EndZone",
       "params": {
         "position": {
-          "x": 200,
-          "y": -950
+          "x": 718,
+          "y": -61
         },
         "dimensions": {
-          "x": 80,
-          "y": 80
+          "x": 83,
+          "y": 63
         },
         "color": "#3af735",
         "alpha": 0.3,
@@ -77,21 +45,46 @@
       }
     },
     {
-      "type": "Pickup",
+      "type": "DeathLine",
       "params": {
-        "position": {
-          "x": -176,
-          "y": -52
-        },
-        "state": "green",
-        "radius": 10,
-        "respawnTime": 1000
+        "height": 400
       }
     },
     {
-      "type": "DeathLine",
+      "type": "ColorPlateform",
       "params": {
-        "height": 250
+        "pt1": {
+          "x": -300,
+          "y": 100
+        },
+        "pt2": {
+          "x": -100,
+          "y": 100
+        },
+        "thickness": 20,
+        "edgeOffset": 15,
+        "strokeColor": "#11ee11",
+        "fillColor": "#000000",
+        "state": "green"
+      }
+    },
+    {
+      "type": "ShittyPlateform",
+      "params": {
+        "pt1": {
+          "x": 339,
+          "y": 157
+        },
+        "pt2": {
+          "x": 701,
+          "y": 0
+        },
+        "thickness": 20,
+        "edgeOffset": 15,
+        "strokeColor": "#eeeeee",
+        "fillColor": "#000000",
+        "disapearTime": 660,
+        "respawnTime": 500
       }
     }
   ]
