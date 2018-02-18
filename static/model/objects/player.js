@@ -17,7 +17,10 @@ class Player extends createjs.Shape {
     this.position       = settings.position;
     this.state          = "green"; // enum { green, red }
     this.jumpForce      = 500;
-    this.momentum       = $V([0,0]);
+    this.momentums      = {
+      body: $V([0,0]),
+      move: $V([0,0]),
+    };
     this.acceleration   = 2700;
     this.rotationSpeed  = 1.6;
     this.colors         = {
@@ -25,10 +28,8 @@ class Player extends createjs.Shape {
     };
     this.shadow         = new Neon(this.color);
     this.maxSpeed       = {
-      down: 1200,
-      up: 1200,
-      horizontal: 400,
-      any: 1200,
+      body: 1200,
+      move: 400,
     };
 
     this.graphics.c().s("#888").f("#000").dp(0,0,this.radius,3,0,-90);
@@ -43,9 +44,17 @@ class Player extends createjs.Shape {
       if (e.originalEvent.repeat) return ;
       if (this.state === "green") {
         this.state = "red";
-        this.momentum.elements[1] = -this.jumpForce;
+        this.momentums.body = $V([this.momentums.body.e(1), -this.jumpForce]);
       }
     });
+  }
+
+  get momentum() {
+    return _.values(this.momentums).reduce((a,b) => a.add(b),Vector.Zero(2));
+  }
+
+  set momentum(val) {
+    this.momentums.body = val.dup();
   }
 
   get color() {
@@ -55,20 +64,19 @@ class Player extends createjs.Shape {
   update(e) {
     var moveforce = input.direction.x(e.sdelta * this.acceleration);
     var gravforce = game.gravity.x(e.sdelta);
-    this.momentum = this.momentum.add(gravforce);
-    if (this.momentum.modulus() > this.maxSpeed.any) {
-      this.momentum = this.momentum.add(this.momentum.toUnitVector().x(-this.acceleration * e.sdelta));
-    } else if (!moveforce.modulus()) {
-      if (Math.abs(this.momentum.e(1)) < this.acceleration * e.sdelta)
-        this.momentum.elements[0] = 0;
-      else if (Math.abs(this.momentum.e(1)) <= this.maxSpeed.horizontal * 1.1)
-        this.momentum = this.momentum.add(this.momentum.toUnitVector().x(-this.acceleration * e.sdelta));
+    var body = this.momentums.body;
+    var move = this.momentums.move;
+
+    if(!input.direction.modulus()) {
+      if (move.modulus() <= this.acceleration * e.sdelta)
+        move = $V([0,0]);
       else
-        this.momentum = this.momentum.x(1 - 0.1 * e.sdelta);
-        // this.momentum = this.momentum.subtract($V([this.momentum.toUnitVector().e(1), 0]).x(this.acceleration * e.sdelta));
-    } else if (Math.abs(this.momentum.e(1)) <= this.maxSpeed.horizontal || Math.sign(this.momentum.e(1) * input.direction.e(1)) < 0) {
-      this.momentum = this.momentum.add(moveforce);
+        moveforce = move.toUnitVector().x(-this.acceleration * e.sdelta);
     }
+    this.momentums.move = move.add(moveforce).clamp([2*this.maxSpeed.move, 0]);
+
+    this.momentums.body = this.momentums.body.add(gravforce);
+    this.momentums.body = this.momentums.body.subtract(this.momentums.body.x(0.2 * e.sdelta));
 
     var oldpos = this.position.dup();
     this.setPos(this.position.add(this.momentum.x(e.sdelta)));
@@ -84,15 +92,13 @@ class Player extends createjs.Shape {
 
   onCollide(otherObj, collision, e) {
     if (otherObj.isSolid) {
-      var knockback = null;
       var anglefrom	= collision.overlapN.toSylv().angleFrom($V([0,1]));
+      var knockback = collision.overlapV.toSylv();
       if (anglefrom <= Math.PI / 4 || anglefrom >= 3 * Math.PI / 4) {
-        knockback = $V([0, collision.overlapV.y]);
-      } else {
-        knockback = collision.overlapV.toSylv();
+        knockback.elements[0] = 0;
       }
       this.setPos(this.position.subtract(knockback));
-      e.sdelta !== 0 && (this.momentum = this.momentum.subtract(knockback.x(1 / e.sdelta)));
+      e.sdelta && (this.momentums.body = this.momentums.body.subtract($V([0,knockback.e(2)]).x(1/e.sdelta)));
     }
   }
 

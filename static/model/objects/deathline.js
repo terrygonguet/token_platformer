@@ -11,7 +11,7 @@ class DeathLine extends createjs.Shape {
     this.height           = settings.height;
     this.position         = $V([0,settings.height]);
 
-    this.graphics.c().s("#E11").ss(2).mt(-2000,0).lt(2000,0);
+    this.graphics.c().s("#E11").ss(2).mt(-20000,0).lt(20000,0);
   }
 
   update(e) {
