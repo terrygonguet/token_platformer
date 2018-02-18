@@ -102,20 +102,6 @@
       "type": "Gate",
       "params": {
         "pt1": {
-          "x": 73,
-          "y": -551
-        },
-        "pt2": {
-          "x": 71,
-          "y": -319
-        },
-        "state": "green"
-      }
-    },
-    {
-      "type": "Gate",
-      "params": {
-        "pt1": {
           "x": 74,
           "y": -352
         },
@@ -222,6 +208,20 @@
         "state": "red",
         "radius": 30,
         "respawnTime": 4000
+      }
+    },
+    {
+      "type": "Gate",
+      "params": {
+        "pt1": {
+          "x": 75,
+          "y": -689
+        },
+        "pt2": {
+          "x": 75,
+          "y": -250
+        },
+        "state": "green"
       }
     }
   ]
