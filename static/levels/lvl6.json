@@ -15,11 +15,11 @@
       "type": "Plateform",
       "params": {
         "pt1": {
-          "x": 700,
-          "y": 0
+          "x": 755,
+          "y": 1
         },
         "pt2": {
-          "x": 800,
+          "x": 868,
           "y": 0
         },
         "thickness": 20,
@@ -32,8 +32,8 @@
       "type": "EndZone",
       "params": {
         "position": {
-          "x": 718,
-          "y": -61
+          "x": 762,
+          "y": -64
         },
         "dimensions": {
           "x": 83,
@@ -72,12 +72,12 @@
       "type": "ShittyPlateform",
       "params": {
         "pt1": {
-          "x": 339,
-          "y": 157
+          "x": 374,
+          "y": 149
         },
         "pt2": {
-          "x": 701,
-          "y": 0
+          "x": 751,
+          "y": 2
         },
         "thickness": 20,
         "edgeOffset": 15,
