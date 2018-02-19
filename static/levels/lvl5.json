@@ -2,24 +2,6 @@
   "name": "Leap Faith",
   "objects": [
     {
-      "type": "ColorPlateform",
-      "params": {
-        "pt1": {
-          "x": -850,
-          "y": -300
-        },
-        "pt2": {
-          "x": -750,
-          "y": -300
-        },
-        "thickness": 20,
-        "edgeOffset": 15,
-        "strokeColor": "#11ee11",
-        "fillColor": "#000000",
-        "state": "green"
-      }
-    },
-    {
       "type": "Gate",
       "params": {
         "pt1": {
@@ -34,21 +16,11 @@
       }
     },
     {
-      "type": "SpawnPoint",
-      "params": {
-        "point": {
-          "x": -800,
-          "y": -400
-        },
-        "state": "red"
-      }
-    },
-    {
       "type": "Pickup",
       "params": {
         "position": {
-          "x": -190,
-          "y": 125
+          "x": -300,
+          "y": 124
         },
         "state": "green",
         "radius": 10,
@@ -73,11 +45,45 @@
       }
     },
     {
+      "type": "DeathLine",
+      "params": {
+        "height": 425
+      }
+    },
+    {
+      "type": "ColorPlateform",
+      "params": {
+        "pt1": {
+          "x": -1000,
+          "y": -300
+        },
+        "pt2": {
+          "x": -750,
+          "y": -300
+        },
+        "thickness": 20,
+        "edgeOffset": 15,
+        "strokeColor": "#11ee11",
+        "fillColor": "#000000",
+        "state": "green"
+      }
+    },
+    {
+      "type": "SpawnPoint",
+      "params": {
+        "point": {
+          "x": -950,
+          "y": -400
+        },
+        "state": "red"
+      }
+    },
+    {
       "type": "EndZone",
       "params": {
         "position": {
-          "x": 349,
-          "y": 148
+          "x": 299,
+          "y": 154
         },
         "dimensions": {
           "x": 70,
@@ -86,12 +92,6 @@
         "color": "#3af735",
         "alpha": 0.3,
         "nextLevel": "lvl6"
-      }
-    },
-    {
-      "type": "DeathLine",
-      "params": {
-        "height": 425
       }
     }
   ]

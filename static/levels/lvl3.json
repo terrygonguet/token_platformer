@@ -1,12 +1,6 @@
 {
-  "name": "Bump it !",
+  "name": "Tutorial 3",
   "objects": [
-    {
-      "type": "DeathLine",
-      "params": {
-        "height": 250
-      }
-    },
     {
       "type": "SpawnPoint",
       "params": {
@@ -35,11 +29,28 @@
       }
     },
     {
+      "type": "Plateform",
+      "params": {
+        "pt1": {
+          "x": 395,
+          "y": 150
+        },
+        "pt2": {
+          "x": 559,
+          "y": 150
+        },
+        "thickness": 20,
+        "edgeOffset": 15,
+        "strokeColor": "#eeeeee",
+        "fillColor": "#000000"
+      }
+    },
+    {
       "type": "EndZone",
       "params": {
         "position": {
-          "x": 172,
-          "y": -118
+          "x": 522,
+          "y": 117
         },
         "dimensions": {
           "x": 69,
@@ -51,20 +62,9 @@
       }
     },
     {
-      "type": "Plateform",
+      "type": "DeathLine",
       "params": {
-        "pt1": {
-          "x": 100,
-          "y": -40
-        },
-        "pt2": {
-          "x": 155,
-          "y": -40
-        },
-        "thickness": 20,
-        "edgeOffset": 15,
-        "strokeColor": "#eeeeee",
-        "fillColor": "#000000"
+        "height": 300
       }
     }
   ]
