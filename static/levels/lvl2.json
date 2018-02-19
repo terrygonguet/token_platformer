@@ -21,23 +21,6 @@
       "type": "Plateform",
       "params": {
         "pt1": {
-          "x": 100,
-          "y": -20
-        },
-        "pt2": {
-          "x": 220,
-          "y": -20
-        },
-        "thickness": 20,
-        "edgeOffset": 15,
-        "strokeColor": "#EEEEEE",
-        "fillColor": "#000000"
-      }
-    },
-    {
-      "type": "Plateform",
-      "params": {
-        "pt1": {
           "x": -300,
           "y": 100
         },
@@ -52,19 +35,36 @@
       }
     },
     {
+      "type": "Plateform",
+      "params": {
+        "pt1": {
+          "x": -50,
+          "y": -100
+        },
+        "pt2": {
+          "x": 65,
+          "y": -100
+        },
+        "thickness": 20,
+        "edgeOffset": 15,
+        "strokeColor": "#eeeeee",
+        "fillColor": "#000000"
+      }
+    },
+    {
       "type": "EndZone",
       "params": {
         "position": {
-          "x": 130,
-          "y": -80
+          "x": 24,
+          "y": -136
         },
         "dimensions": {
-          "x": 60,
-          "y": 60
+          "x": 84,
+          "y": 80
         },
-        "nextLevel": "lvl3",
         "color": "#3af735",
-        "alpha": 0.3
+        "alpha": 0.3,
+        "nextLevel": "lvl3"
       }
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "name": "Gatorial",
+  "name": "Get pass",
   "objects": [
     {
       "type": "DeathLine",
@@ -37,20 +37,6 @@
       }
     },
     {
-      "type": "Gate",
-      "params": {
-        "pt1": {
-          "x": 200,
-          "y": -100
-        },
-        "pt2": {
-          "x": 200,
-          "y": 100
-        },
-        "state": "green"
-      }
-    },
-    {
       "type": "SpawnPoint",
       "params": {
         "point": {
@@ -61,15 +47,29 @@
       }
     },
     {
+      "type": "Gate",
+      "params": {
+        "pt1": {
+          "x": 200,
+          "y": -350
+        },
+        "pt2": {
+          "x": 200,
+          "y": 100
+        },
+        "state": "green"
+      }
+    },
+    {
       "type": "EndZone",
       "params": {
         "position": {
-          "x": 470,
-          "y": -84
+          "x": 448,
+          "y": -98
         },
         "dimensions": {
-          "x": 60,
-          "y": 60
+          "x": 86,
+          "y": 82
         },
         "color": "#3af735",
         "alpha": 0.3,
