@@ -69,12 +69,12 @@
       $("<label>State : </label>")
         .append(`<input type='text' size=4 id='state' list='states' min=0 value=${this.state}>`)
     );
-  dragManager.addPoint("pt1", this.position, pos => {
+  dragManager.addPoint("pt1", this.pt1, pos => {
     this.pt1 = pos.dup();
     dragManager.updatePoint("pt2", this.pt2);
     this.redraw();
-    $("#pt1x").val(this.position.e(1));
-    $("#pt1y").val(this.position.e(2));
+    $("#pt1x").val(this.pt1.e(1));
+    $("#pt1y").val(this.pt1.e(2));
   });
   dragManager.addPoint("pt2", this.pt2, pos => {
     this.pt2 = pos.dup();

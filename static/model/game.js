@@ -129,7 +129,12 @@ class Game extends createjs.Stage {
 
   loadLevel(filename) {
     if (this.isLoading) throw "The game is already loading a level";
-    $.getJSON(`levels/${filename}.json`, (data, status) => this.init(data))
+    $.getJSON(`levels/${filename}.json`, (data, status) => {
+      this.init(data);
+      var evt = new createjs.Event("levelloaded");
+      evt.level = filename;
+      game.dispatchEvent(evt);
+    })
     .fail(err => {
       console.log(err);
       $("#messagebox").show();
@@ -147,7 +152,9 @@ class Game extends createjs.Stage {
       data:this.toJSON(),
       success:res => {
         cb();
-        console.log("done");
+        var evt = new createjs.Event("levelsaved");
+        evt.level = name;
+        game.dispatchEvent(evt);
       },
       fail:err => {
         console.log(err);

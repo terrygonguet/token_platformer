@@ -174,14 +174,14 @@ TP.Editor.DragManager = DragManager;
       )
       .append(
         $("<label>Jump to level : </label>")
-        .append("<input type='text' id='txblvl' value='lvl1'/>")
+        .append("<input type='text' id='txblvl' list='levels' value='lvl1'/>")
         .append(
           $("<button class='NeonButton'>Jump</button>").click(e => game.loadLevel($("#txblvl").val()))
         )
       )
       .append(
         $("<label>Save level as : </label>")
-        .append("<input type='text' id='txbsave' value='lvl1'/>")
+        .append("<input type='text' id='txbsave' list='levels' value='lvl1'/>")
         .append(
           $("<button class='NeonButton'>Save</button>").click(function (e) {
             $(this).attr("disabled", "");
@@ -247,10 +247,10 @@ TP.Editor.DragManager = DragManager;
     <option value="red"/>
   </datalist>`);
 
-  $.getJSON("levellist", res => {
+  $.getJSON("/levellist", res => {
     var datalist = $("<datalist id='levels'></datalist>");
     for (let lvl of res) {
-      datalist.append($("<option value='"+lvl+"'></option>"));
+      datalist.append($("<option value='"+lvl+"'/> list='levels'"));
     }
     $(document.body).append(datalist);
   });
@@ -274,8 +274,13 @@ TP.Editor.DragManager = DragManager;
     game.removeChild(game.gbc("Grid"));
   }
 
-  debug && setTimeout(function tryGrid() {
-    if (game) showGrid();
+  setTimeout(function tryGrid() {
+    if (game) {
+      debug && showGrid();
+      game.on("levelloaded", e => {
+        $("#txbsave, #txblvl").val(e.level);
+      });
+    }
     else setTimeout(tryGrid, 50);
   }, 50);
 })();

@@ -57,7 +57,7 @@ class Pickup extends createjs.Shape {
       );
     dragManager.addPoint("position", this.position.add($V([0,25])), pos => {
       this.position = pos.subtract($V([0,25]));
-      this.body.position = pos.subtract($V([0,25])).toM();
+      Matter.Body.setPosition(this.body, pos.subtract($V([0,25])).toM());
       $("#pt1x").val(this.position.e(1));
       $("#pt1y").val(this.position.e(2));
     });
