@@ -17,10 +17,15 @@ class Pickup extends createjs.Shape {
     this.state            = settings.state;
     this.radius           = settings.radius;
     this.color            = game.player.colors[this.state];
-    this.hitbox           = new SAT.Circle(this.position.toSAT(), this.radius);
+    this.body             = Matter.Bodies.circle(...this.position.elements, this.radius, { isStatic:true, isSensor:true });
     this.time             = 0;
 
     this.graphics.c().f(this.color).dc(0,0,this.radius);
+    Matter.World.add(game.world, this.body);
+    this.body.displayObject = this;
+    this.body.label = "Pickup";
+
+    this.on("removed", e => Matter.World.remove(game.world, this.body), null, true);
   }
 
   update(e) {
@@ -52,7 +57,7 @@ class Pickup extends createjs.Shape {
       );
     dragManager.addPoint("position", this.position.add($V([0,25])), pos => {
       this.position = pos.subtract($V([0,25]));
-      this.hitbox.pos = pos.subtract($V([0,25])).toSAT();
+      this.body.position = pos.subtract($V([0,25])).toM();
       $("#pt1x").val(this.position.e(1));
       $("#pt1y").val(this.position.e(2));
     });
@@ -78,13 +83,13 @@ class Pickup extends createjs.Shape {
     };
   }
 
-  onCollide(otherObj, collision) {
-    if (otherObj.isPlayer) {
-      otherObj.state = this.state;
-      this.isCollidable = false;
-      this.alpha = 0.1;
-      this.time = this.respawnTime;
-    }
+  collisionStart(pair) {
+    var player = (pair.bodyA.displayObject.isPlayer ? pair.bodyA.displayObject : (pair.bodyB.displayObject.isPlayer ? pair.bodyB.displayObject : null));
+    if (!player || !this.isCollidable) return;
+    player.state = this.state;
+    this.isCollidable = false;
+    this.alpha = 0.1;
+    this.time = this.respawnTime;
   }
 
 }

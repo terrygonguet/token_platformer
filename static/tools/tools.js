@@ -107,10 +107,10 @@ function makeSettings(defaults, params) {
 
 /**
  * Transform a sylvester vector into a SAT Vector
- * @return {SAT.V} the same vector but from SAT
+ * @return {Matter.Vector} the same vector but from Matter
  */
-Vector.prototype.toSAT = function () {
-  return new SAT.V(this.e(1), this.e(2));
+Vector.prototype.toM = function () {
+  return Matter.Vector.create(this.e(1), this.e(2));
 };
 
 /**
@@ -122,11 +122,12 @@ Vector.prototype.clamp = function (dimensions) {
 }
 
 /**
- * Transform a SAT vector into a sylvester Vector
+ * Transform a Matter vector into a sylvester Vector
+ * @param {Matter.Vector}
  * @return {Vector} the same vector but from sylvester
  */
-SAT.Vector.prototype.toSylv = function () {
-  return $V([this.x, this.y]);
+function toSylv (v) {
+  return $V([v.x, v.y]);
 };
 
 /**

@@ -12,6 +12,8 @@ class EndZone extends Zone {
         game.children.find(c => c.isSpawnPoint).spawn();
       } else game.loadLevel(this.nextLevel);
     };
+
+    this.body.label = "EndZone";
   }
 
   getEditor(container, dragManager) {

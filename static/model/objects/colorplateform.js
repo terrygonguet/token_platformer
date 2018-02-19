@@ -10,8 +10,13 @@ class ColorPlateform extends Plateform {
     this.state              = settings.state;
   }
 
-  onCollide(otherObj, collision, e) {
-    if (otherObj.isPlayer) otherObj.state = this.state;
+  collisionStart(pair) {
+    var player = (pair.bodyA.displayObject.isPlayer ? pair.bodyA.displayObject : (pair.bodyB.displayObject.isPlayer ? pair.bodyB.displayObject : null));
+    if (player) player.state = this.state;
+  }
+
+  collisionActive(pair) {
+    this.collisionStart(pair);
   }
 
   getEditor(container, dragManager) {

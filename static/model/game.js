@@ -17,11 +17,15 @@ class Game extends createjs.Stage {
     this.txtrendertime= new QuickText({ x: 10, y: 50, dontRemove: true });
     this.txtqwerty    = new QuickText({ x: 10, y: 10, text: debug ? "Escape for the menu" : "", dontRemove: true });
     this.renderVals   = [];
-    this.collider     = new Collider();
+    // this.collider     = new Collider();
     this.camera       = new Camera();
+    this.engine       = Matter.Engine.create();
+    this.world        = this.engine.world;
+    this.delta        = 1000 / 60;
+    this.lastdelta    = 1000 / 60;
     this.player       = null;
     this.levelData    = null;
-    this.gravity      = $V([ 0, 900 ]);
+    // this.gravity      = $V([ 0, 900 ]);
     this.maxdelta     = 150;
     this.isLoading    = false;
 
@@ -40,6 +44,18 @@ class Game extends createjs.Stage {
     createjs.Ticker.timingMode = createjs.Ticker.RAF ;
     createjs.Ticker.framerate = 60;
     createjs.Ticker.on("tick", this.update, this);
+
+    function handleCollision(e) {
+      for (let pair of e.pairs) {
+        var a = pair.bodyA.displayObject;
+        var b = pair.bodyB.displayObject;
+        a[e.name] && a[e.name](pair);
+        b[e.name] && b[e.name](pair);
+      }
+    }
+    Matter.Events.on(this.engine, "collisionStart", handleCollision);
+    Matter.Events.on(this.engine, "collisionActive", handleCollision);
+    Matter.Events.on(this.engine, "collisionEnd", handleCollision);
   }
 
   get screencenter() {
@@ -90,6 +106,7 @@ class Game extends createjs.Stage {
    * @param {Object} data : the Object from the server
    */
   init (data) {
+    Matter.Composite.remove(this.world, Matter.Composite.allBodies(this.world));
     this.children.slice().forEach(c => !c.dontRemove && this.removeChild(c));
     this.levelData = data;
     this.isLoading = false;
@@ -98,7 +115,11 @@ class Game extends createjs.Stage {
     this.addChild(this.player);
 
     for (var object of data.objects) {
-      this.addChild(new TP[object.type](object.params));
+      try {
+        this.addChild(new TP[object.type](object.params));
+      } catch (e) {
+        console.log(e);
+      }
     }
 
     var sp = _.values(this.children).find(c => c.isSpawnPoint);
@@ -158,7 +179,10 @@ class Game extends createjs.Stage {
     this.rendertime = 0;
     if (e.delta <= this.maxdelta && !e.paused) {
       this.children.forEach(c => c.update && c.update(e));
-      this.collider.update(e);
+      this.delta = e.delta;
+      Matter.Engine.update(this.engine, e.delta);
+      this.lastdelta = e.delta;
+      // this.collider.update(e);
     }
     this.camera.update(e);
     super.update(e);

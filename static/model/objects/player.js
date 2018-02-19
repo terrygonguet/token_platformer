@@ -8,29 +8,27 @@ class Player extends createjs.Shape {
     const settings = makeSettings({
       position: { x:0, y:0 }
     }, params);
-    this.id             = nextID();
+    // this.id             = nextID();
     this.isPlayer       = true;
     this.isCollidable   = true;
     this.isSolid        = true;
     this.radius         = 20;
-    this.hitbox         = new SAT.Circle(settings.position.toSAT(), this.radius);
+    this.body           = Matter.Bodies.circle(...settings.position.elements, this.radius);
     this.position       = settings.position;
     this.state          = "green"; // enum { green, red }
-    this.jumpForce      = 500;
-    this.momentums      = {
-      body: $V([0,0]),
-      move: $V([0,0]),
-    };
+    this.jumpForce      = 12;
+    this.maxSpeed       = 4.5;
     this.acceleration   = 2700;
-    this.rotationSpeed  = 1.6;
     this.colors         = {
       green: "#11EE11", red: "#EE1111",
     };
     this.shadow         = new Neon(this.color);
-    this.maxSpeed       = {
-      body: 1200,
-      move: 400,
-    };
+
+    Matter.World.add(game.world, this.body);
+    this.body.label = "Player";
+    this.body.displayObject = this;
+    this.body.friction = 0.2;
+    // Matter.Body.setDensity(this.body, 0.01);
 
     this.graphics.c().s("#888").f("#000").dp(0,0,this.radius,3,0,-90);
     debug && this.graphics.ef().dc(0,0,this.radius);
@@ -44,62 +42,37 @@ class Player extends createjs.Shape {
       if (e.originalEvent.repeat) return ;
       if (this.state === "green") {
         this.state = "red";
-        this.momentums.body = $V([this.momentums.body.e(1), -this.jumpForce]);
+        var v = this.body.velocity;
+        Matter.Body.setVelocity(this.body, $V([v.x,-this.jumpForce]).toM());
       }
     });
-  }
-
-  get momentum() {
-    return _.values(this.momentums).reduce((a,b) => a.add(b),Vector.Zero(2));
-  }
-
-  set momentum(val) {
-    this.momentums.body = val.dup();
   }
 
   get color() {
     return this.colors[this.state];
   }
 
+  get position() {
+    return toSylv(this.body.position);
+  }
+
+  set position(val) {
+    Matter.Body.setPosition(this.body, val.toM());
+  }
+
   update(e) {
-    var moveforce = input.direction.x(e.sdelta * this.acceleration);
-    var gravforce = game.gravity.x(e.sdelta);
-    var body = this.momentums.body;
-    var move = this.momentums.move;
-
-    if(!input.direction.modulus()) {
-      if (move.modulus() <= this.acceleration * e.sdelta)
-        move = $V([0,0]);
-      else
-        moveforce = move.toUnitVector().x(-this.acceleration * e.sdelta);
+    var v = this.body.velocity;
+    if (Math.abs(v.x) < this.maxSpeed || Math.sign(v.x * input.direction.e(1)) < 0) {
+      Matter.Body.applyForce(this.body, this.body.position, input.direction.x(0.01).toM());
     }
-    this.momentums.move = move.add(moveforce).clamp([2*this.maxSpeed.move, 0]);
-
-    this.momentums.body = this.momentums.body.add(gravforce);
-    this.momentums.body = this.momentums.body.subtract(this.momentums.body.x(0.2 * e.sdelta));
-
-    var oldpos = this.position.dup();
-    this.setPos(this.position.add(this.momentum.x(e.sdelta)));
-    this.rotation += this.position.subtract(oldpos).e(1) * this.rotationSpeed;
+    if (!input.direction.modulus()) {
+      if (Math.abs(v.x) > 0.1) Matter.Body.applyForce(this.body, this.body.position, $V([v.x,0]).toUnitVector().x(-0.001).toM());
+      else Matter.Body.setVelocity(this.body, $V([0, v.y]).toM());
+    }
+    // Matter.Body.setAngularVelocity(this.body, 0);
+    this.rotation += this.body.velocity.x * 2.5;
 
     this.shadow.color !== this.color && (this.shadow = new Neon(this.color));
-  }
-
-  setPos(pos) {
-    this.position = pos.dup();
-    this.hitbox.pos = this.position.toSAT();
-  }
-
-  onCollide(otherObj, collision, e) {
-    if (otherObj.isSolid) {
-      var anglefrom	= collision.overlapN.toSylv().angleFrom($V([0,1]));
-      var knockback = collision.overlapV.toSylv();
-      if (anglefrom <= Math.PI / 4 || anglefrom >= 3 * Math.PI / 4) {
-        knockback.elements[0] = 0;
-      }
-      this.setPos(this.position.subtract(knockback));
-      e.sdelta && (this.momentums.body = this.momentums.body.subtract($V([0,knockback.e(2)]).x(1/e.sdelta)));
-    }
   }
 
 }

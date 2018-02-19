@@ -23,29 +23,42 @@
      this.strokeColor    = settings.strokeColor;
      this.fillColor      = settings.fillColor;
      this.points         = null;
-     this.hitbox         = null;
-     this.position       = settings.pt1.dup();
+     this.body           = null;
      this.pt1            = settings.pt1;
      this.pt2            = settings.pt2;
+     this.position       = null;
 
      this.redraw();
+     this.on("removed", e => Matter.World.remove(game.world, this.body), null, true);
    }
 
    redraw() {
-     const pt2offset = this.pt2.subtract(this.pt1);
-     const thickDir = pt2offset.toUnitVector().rotate(Math.PI/2, Vector.Zero(2)).x(this.thickness);
-     this.points = [
-       $V([0,0]), pt2offset,
-       pt2offset.subtract(pt2offset.toUnitVector().x(this.edgeOffset)).add(thickDir),
-       Vector.Zero(2).add(pt2offset.toUnitVector().x(this.edgeOffset)).add(thickDir),
-     ];
-     this.hitbox = new SAT.Polygon(this.pt1.toSAT(), this.points.map(p => p.toSAT()));
-     this.graphics.c().f(this.fillColor).s(this.strokeColor).ss(3)
-      .mt(0,0)
-      .lt(...this.points[1].elements)
-      .lt(...this.points[2].elements)
-      .lt(...this.points[3].elements)
-      .lt(0,0).cp();
+    const pt2offset = this.pt2.subtract(this.pt1);
+    const thickDir = pt2offset.toUnitVector().rotate(Math.PI/2, Vector.Zero(2)).x(this.thickness);
+    this.position = this.pt1.add(pt2offset.x(0.5)).add(thickDir.x(0.5));
+    this.points = [
+      $V([0,0]),
+      pt2offset,
+      Vector.Zero(2).add(pt2offset.toUnitVector().x(this.edgeOffset)).add(thickDir),
+      pt2offset.subtract(pt2offset.toUnitVector().x(this.edgeOffset)).add(thickDir),
+    ];
+    this.body && Matter.World.remove(game.world, this.body);
+    this.body = Matter.Bodies.fromVertices(
+     ...this.position.elements,
+     this.points.map(p => p.toM()),
+     { isStatic:true }
+    );
+    Matter.World.add(game.world, this.body);
+    this.body.label = "Plateform";
+    this.body.displayObject = this;
+    this.body.friction = 1;
+    var v = this.body.vertices.map(v => toSylv(v).subtract(this.position));
+    this.graphics.c().f(this.fillColor).s(this.strokeColor).ss(3)
+     .mt(...v[0].elements)
+     .lt(...v[1].elements)
+     .lt(...v[2].elements)
+     .lt(...v[3].elements)
+     .cp();
    }
 
    getEditor(container, dragManager) {
@@ -78,12 +91,11 @@
           .append(`<input type='color' size=4 id='fillColor' value=${this.fillColor}>`)
       );
     dragManager.addPoint("pt1", this.pt1, pos => {
-      this.position = pos.dup();
       this.pt1 = pos.dup();
       dragManager.updatePoint("pt2", this.pt2);
       this.redraw();
-      $("#pt1x").val(this.position.e(1));
-      $("#pt1y").val(this.position.e(2));
+      $("#pt1x").val(this.pt1.e(1));
+      $("#pt1y").val(this.pt1pt1.e(2));
     });
     dragManager.addPoint("pt2", this.pt2, pos => {
       this.pt2 = pos.dup();
@@ -108,7 +120,7 @@
      return {
        type: "Plateform",
        params: {
-         pt1: { x:this.position.e(1), y:this.position.e(2) },
+         pt1: { x:this.pt1.e(1), y:this.pt1.e(2) },
          pt2: { x:this.pt2.e(1), y:this.pt2.e(2) },
          thickness: this.thickness,
          edgeOffset: this.edgeOffset,

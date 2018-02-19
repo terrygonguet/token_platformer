@@ -18,20 +18,24 @@ class Zone extends createjs.Shape {
     this.isCollidable  = true;
     this.onInside      = null;
     this.onTouch       = null;
-    this.hitbox        = null;
+    this.body          = null;
 
     this.redraw();
+    this.on("removed", e => Matter.World.remove(game.world, this.body), null, true);
   }
 
   redraw() {
-    this.hitbox = (new SAT.Box(this.position.toSAT(), this.dimensions.e(1), this.dimensions.e(2))).toPolygon();
-    const pts = this.hitbox.points;
+    this.body && Matter.World.remove(game.world, this.body);
+    this.body = Matter.Bodies.rectangle(...this.position.elements, ...this.dimensions.elements, { isStatic:true, isSensor:true });
+    Matter.World.add(game.world, this.body);
+    this.body.label = "Zone";
+    this.body.displayObject = this;
+    const pts = this.body.vertices.map(v => toSylv(v).subtract(this.position));
     this.graphics.c().f(this.color)
-      .mt(0,0)
-      .lt(...pts[1].toSylv().elements)
-      .lt(...pts[2].toSylv().elements)
-      .lt(...pts[3].toSylv().elements)
-      .lt(0,0)
+      .mt(...pts[0].elements)
+      .lt(...pts[1].elements)
+      .lt(...pts[2].elements)
+      .lt(...pts[3].elements)
       .cp();
   }
 
@@ -61,13 +65,13 @@ class Zone extends createjs.Shape {
       );
     dragManager.addPoint("position", this.position, pos => {
       this.position = pos.dup();
-      this.hitbox.pos = pos.toSAT();
-      dragManager.updatePoint("dimensions", this.position.add(this.dimensions));
+      Matter.Body.setPosition(this.body, pos.toM());
+      dragManager.updatePoint("dimensions", this.position.add(this.dimensions.x(0.5)));
       $("#pt1x").val(this.position.e(1));
       $("#pt1y").val(this.position.e(2));
     });
-    dragManager.addPoint("dimensions", this.position.add(this.dimensions), pos => {
-      this.dimensions = pos.subtract(this.position);
+    dragManager.addPoint("dimensions", this.position.add(this.dimensions.x(0.5)), pos => {
+      this.dimensions = pos.subtract(this.position).x(2);
       this.redraw();
       $("#width").val(this.dimensions.e(1));
       $("#height").val(this.dimensions.e(2));
@@ -94,12 +98,17 @@ class Zone extends createjs.Shape {
     };
   }
 
-  onCollide(otherObj, collision, e) {
-    if (!otherObj.isPlayer) return;
-    if (collision.aInB) {
-      this.onInside && this.onInside.bind(this)(otherObj, collision, e);
+  collisionStart(pair) {
+    var player = (pair.bodyA.displayObject.isPlayer ? pair.bodyA.displayObject : (pair.bodyB.displayObject.isPlayer ? pair.bodyB.displayObject : null));
+    if (!player) return;
+    if (pair.separation >= player.radius * 2) {
+      this.onInside && this.onInside.bind(this)(player, pair);
     }
-    this.onTouch && this.onTouch.bind(this)(otherObj, collision, e);
+    this.onTouch && this.onTouch.bind(this)(player, pair);
+  }
+
+  collisionActive(pair) {
+    this.collisionStart(pair);
   }
 
 }

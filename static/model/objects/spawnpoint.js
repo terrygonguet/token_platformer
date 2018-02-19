@@ -14,9 +14,11 @@ class SpawnPoint extends createjs.DisplayObject {
   }
 
   spawn() {
-    game.player.setPos(this.point.dup());
+    Matter.Body.set(game.player.body, {
+      position: this.point.toM(),
+      velocity: { x:0, y:0 },
+    })
     game.player.state = this.state;
-    game.player.momentum = $V([0,0]);
   }
 
   getEditor(container, dragManager) {

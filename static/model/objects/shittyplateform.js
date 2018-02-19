@@ -13,11 +13,16 @@ class ShittyPlateform extends Plateform {
     this.state               = "fixed"; // enum { fixed, crumbling, broken }
   }
 
-  onCollide(otherObj) {
-    if (this.state === "fixed" && otherObj.isPlayer) {
+  collisionStart(pair) {
+    var player = (pair.bodyA.displayObject.isPlayer ? pair.bodyA.displayObject : (pair.bodyB.displayObject.isPlayer ? pair.bodyB.displayObject : null));
+    if (this.state === "fixed" && player) {
       this.state = "crumbling";
       this.time = this.disapearTime;
     }
+  }
+
+  collisionActive(pair) {
+    this.collisionStart(pair);
   }
 
   update(e) {
@@ -29,7 +34,7 @@ class ShittyPlateform extends Plateform {
         if ((this.time -= e.delta) <= 0) {
           this.state = "broken";
           this.time = this.respawnTime;
-          this.isSolid = false;
+          Matter.World.remove(game.world, this.body);
         }
         break;
       case "broken":
@@ -37,7 +42,7 @@ class ShittyPlateform extends Plateform {
           this.state = "fixed";
           this.time = 0;
           this.alpha = 1;
-          this.isSolid = true;
+          Matter.World.add(game.world, this.body);
         }
         break;
     }
