@@ -57,7 +57,7 @@ class Editor {
         Editor.createContainer.show();
         Editor.propsContainer.empty().show();
         for (let object of game.children) {
-          if (object.inEditorList) {
+          if (object.toJSON && object.inEditorList) {
             $(`<p objID='${object.id}'>${object.toJSON().type} : ${object.id}</p>`).click(function (e) {
               Editor.objID = Number($(this).attr("objID"));
               Editor.containers.hide();

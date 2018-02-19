@@ -19,6 +19,7 @@ class SpawnPoint extends createjs.DisplayObject {
       velocity: { x:0, y:0 },
     })
     game.player.state = this.state;
+    if (!game.gbc("Player")) game.addChild(game.player);
   }
 
   getEditor(container, dragManager) {
