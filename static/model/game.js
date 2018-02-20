@@ -187,7 +187,7 @@ class Game extends createjs.Stage {
     if (e.delta <= this.maxdelta && !e.paused) {
       this.children.forEach(c => c.update && c.update(e));
       this.delta = e.delta;
-      Matter.Engine.update(this.engine, e.delta);
+      Matter.Engine.update(this.engine, e.delta, this.delta/this.lastdelta);
       this.lastdelta = e.delta;
       // this.collider.update(e);
     }
