@@ -208,6 +208,7 @@ class Game extends createjs.Stage {
   }
 
   removeChild (child) {
+    child.body && Matter.Composite.remove(this.world, child.body);
     return super.removeChild(child);
   }
 
