@@ -3,48 +3,9 @@
   "name": "Intuition",
   "objects": [
     {
-      "type": "Plateform",
-      "params": {
-        "pt1": {
-          "x": -601,
-          "y": 100
-        },
-        "pt2": {
-          "x": -450,
-          "y": 100
-        },
-        "thickness": 20,
-        "edgeOffset": 15,
-        "strokeColor": "#EEEEEE",
-        "fillColor": "#000000"
-      }
-    },
-    {
-      "type": "SpawnPoint",
-      "params": {
-        "point": {
-          "x": -526,
-          "y": -5
-        },
-        "state": "green"
-      }
-    },
-    {
       "type": "DeathLine",
       "params": {
         "height": 300
-      }
-    },
-    {
-      "type": "Pickup",
-      "params": {
-        "position": {
-          "x": -50,
-          "y": 100
-        },
-        "state": "green",
-        "radius": 10,
-        "respawnTime": 500
       }
     },
     {
@@ -99,12 +60,208 @@
       "type": "Pickup",
       "params": {
         "position": {
+          "x": -500,
+          "y": -350
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 500
+      }
+    },
+    {
+      "type": "Gate",
+      "params": {
+        "pt1": {
+          "x": 352,
+          "y": -592
+        },
+        "pt2": {
+          "x": 447,
+          "y": -159
+        },
+        "state": "green"
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -350,
+          "y": -499
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 500
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -500,
+          "y": -650
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 500
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -200,
+          "y": 100
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 500
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 250,
+          "y": -200
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 500
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
           "x": 450,
           "y": -350
         },
         "state": "green",
         "radius": 10,
-        "respawnTime": 4000
+        "respawnTime": 500
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -500,
+          "y": -950
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 500
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -350,
+          "y": -1100
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 500
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -351,
+          "y": -801
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 500
+      }
+    },
+    {
+      "type": "SpawnPoint",
+      "params": {
+        "point": {
+          "x": -600,
+          "y": -50
+        },
+        "state": "green"
+      }
+    },
+    {
+      "type": "Plateform",
+      "params": {
+        "pt1": {
+          "x": -750,
+          "y": 100
+        },
+        "pt2": {
+          "x": -450,
+          "y": 100
+        },
+        "thickness": 20,
+        "edgeOffset": 15,
+        "strokeColor": "#eeeeee",
+        "fillColor": "#000000"
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": 50,
+          "y": 101
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 500
+      }
+    },
+    {
+      "type": "ShittyPlateform",
+      "params": {
+        "pt1": {
+          "x": -200,
+          "y": -200
+        },
+        "pt2": {
+          "x": 0,
+          "y": -200
+        },
+        "thickness": 20,
+        "edgeOffset": 15,
+        "strokeColor": "#eeeeee",
+        "fillColor": "#000000",
+        "disapearTime": 300,
+        "respawnTime": 2000
+      }
+    },
+    {
+      "type": "Pickup",
+      "params": {
+        "position": {
+          "x": -52,
+          "y": -226
+        },
+        "state": "green",
+        "radius": 10,
+        "respawnTime": 500
+      }
+    },
+    {
+      "type": "EndZone",
+      "params": {
+        "position": {
+          "x": 250,
+          "y": -700
+        },
+        "dimensions": {
+          "x": 100,
+          "y": 100
+        },
+        "color": "#3af735",
+        "alpha": 0.3,
+        "nextLevel": "lvl9"
       }
     }
   ]

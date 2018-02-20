@@ -38,22 +38,6 @@
       }
     },
     {
-      "type": "EndZone",
-      "params": {
-        "position": {
-          "x": -194,
-          "y": 64
-        },
-        "dimensions": {
-          "x": 72,
-          "y": 68
-        },
-        "color": "#3af735",
-        "alpha": 0.3,
-        "nextLevel": "lvl8"
-      }
-    },
-    {
       "type": "DeathLine",
       "params": {
         "height": 250
@@ -111,6 +95,22 @@
           "y": -229
         },
         "state": "red"
+      }
+    },
+    {
+      "type": "EndZone",
+      "params": {
+        "position": {
+          "x": -194,
+          "y": 64
+        },
+        "dimensions": {
+          "x": 80,
+          "y": 78
+        },
+        "color": "#3af735",
+        "alpha": 0.3,
+        "nextLevel": "lvl8"
       }
     }
   ]
