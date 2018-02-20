@@ -174,16 +174,20 @@ TP.Editor.DragManager = DragManager;
       )
       .append(
         $("<label>Jump to level : </label>")
-        .append("<input type='text' id='txblvl' list='levels' value='lvl1'/>")
         .append(
-          $("<button class='NeonButton'>Jump</button>").click(e => game.loadLevel($("#txblvl").val()))
+          $("<input type='text' id='txblvl' list='levels' value='lvl1'/>").keydown(e => e.key==="Enter" && $("#btnJump").click() || true)
+        )
+        .append(
+          $("<button id='btnJump' class='NeonButton'>Jump</button>").click(e => game.loadLevel($("#txblvl").val()))
         )
       )
       .append(
         $("<label>Save level as : </label>")
-        .append("<input type='text' id='txbsave' list='levels' value='lvl1'/>")
         .append(
-          $("<button class='NeonButton'>Save</button>").click(function (e) {
+          $("<input type='text' id='txbsave' list='levels' value='lvl1'/>").keydown(e => e.key==="Enter" && $("#btnSave").click() || true)
+        )
+        .append(
+          $("<button id='btnSave' class='NeonButton'>Save</button>").click(function (e) {
             $(this).attr("disabled", "");
             game.saveLevel($("#txbsave").val(), ()=>{
               var message = $("<label>Saved</label>").insertAfter(Editor.createContainer);
@@ -240,6 +244,7 @@ TP.Editor.DragManager = DragManager;
     if (debug) showGrid();
     else hideGrid();
   });
+  window.addEventListener("keydown", e => e.key==="Escape" && Editor.close());
 
   $(document.body).append(`
   <datalist id="states">

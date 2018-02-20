@@ -12,39 +12,6 @@
       }
     },
     {
-      "type": "Plateform",
-      "params": {
-        "pt1": {
-          "x": 755,
-          "y": 1
-        },
-        "pt2": {
-          "x": 868,
-          "y": 0
-        },
-        "thickness": 20,
-        "edgeOffset": 15,
-        "strokeColor": "#eeeeee",
-        "fillColor": "#000000"
-      }
-    },
-    {
-      "type": "EndZone",
-      "params": {
-        "position": {
-          "x": 762,
-          "y": -64
-        },
-        "dimensions": {
-          "x": 83,
-          "y": 63
-        },
-        "color": "#3af735",
-        "alpha": 0.3,
-        "nextLevel": "lvl7"
-      }
-    },
-    {
       "type": "DeathLine",
       "params": {
         "height": 400
@@ -69,15 +36,48 @@
       }
     },
     {
+      "type": "Plateform",
+      "params": {
+        "pt1": {
+          "x": 600,
+          "y": 60
+        },
+        "pt2": {
+          "x": 840,
+          "y": 60
+        },
+        "thickness": 20,
+        "edgeOffset": 15,
+        "strokeColor": "#eeeeee",
+        "fillColor": "#000000"
+      }
+    },
+    {
+      "type": "EndZone",
+      "params": {
+        "position": {
+          "x": 799,
+          "y": 23
+        },
+        "dimensions": {
+          "x": 82,
+          "y": 78
+        },
+        "color": "#3af735",
+        "alpha": 0.3,
+        "nextLevel": "lvl7"
+      }
+    },
+    {
       "type": "ShittyPlateform",
       "params": {
         "pt1": {
-          "x": 374,
-          "y": 149
+          "x": 300,
+          "y": 160
         },
         "pt2": {
-          "x": 751,
-          "y": 2
+          "x": 600,
+          "y": 60
         },
         "thickness": 20,
         "edgeOffset": 15,
