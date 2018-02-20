@@ -24,7 +24,7 @@
    this.position       = null;
 
    this.redraw();
-   this.on("removed", e => Matter.World.remove(game.world, this.body), null, true);
+   this.on("removed", e => Matter.Composite.remove(game.world, this.body), null, true);
   }
 
   redraw() {
@@ -37,7 +37,7 @@
      Vector.Zero(2).subtract(thickDir),
      pt2offset.subtract(thickDir),
    ];
-   this.body && Matter.World.remove(game.world, this.body);
+   this.body && Matter.Composite.remove(game.world, this.body);
    this.body = Matter.Bodies.fromVertices(
     ...this.position.elements,
     this.points.map(p => p.toM()),
@@ -108,7 +108,7 @@
       Matter.World.add(game.world, this.body);
       this.isSolid = true;
     } else if (game.player.state === this.state && this.isSolid) {
-      Matter.World.remove(game.world, this.body);
+      Matter.Composite.remove(game.world, this.body);
       this.isSolid = false;
     }
   }

@@ -34,7 +34,7 @@ class ShittyPlateform extends Plateform {
         if ((this.time -= e.delta) <= 0) {
           this.state = "broken";
           this.time = this.respawnTime;
-          Matter.World.remove(game.world, this.body);
+          Matter.Composite.remove(game.world, this.body);
         }
         break;
       case "broken":

@@ -21,11 +21,11 @@ class Zone extends createjs.Shape {
     this.body          = null;
 
     this.redraw();
-    this.on("removed", e => Matter.World.remove(game.world, this.body), null, true);
+    this.on("removed", e => Matter.Composite.remove(game.world, this.body), null, true);
   }
 
   redraw() {
-    this.body && Matter.World.remove(game.world, this.body);
+    this.body && Matter.Composite.remove(game.world, this.body);
     this.body = Matter.Bodies.rectangle(...this.position.elements, ...this.dimensions.elements, { isStatic:true, isSensor:true });
     Matter.World.add(game.world, this.body);
     this.body.label = "Zone";
