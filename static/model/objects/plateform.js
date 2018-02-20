@@ -95,7 +95,7 @@
       dragManager.updatePoint("pt2", this.pt2);
       this.redraw();
       $("#pt1x").val(this.pt1.e(1));
-      $("#pt1y").val(this.pt1pt1.e(2));
+      $("#pt1y").val(this.pt1.e(2));
     });
     dragManager.addPoint("pt2", this.pt2, pos => {
       this.pt2 = pos.dup();

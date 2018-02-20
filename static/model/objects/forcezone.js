@@ -2,15 +2,17 @@ class ForceZone extends Zone {
 
   constructor(params={}) {
     const settings = makeSettings({
-      acceleration: 1700,
+      acceleration: 0.01,
       direction: { x:0, y:-1 },
     }, params);
     super(settings);
     this.isForceZone   = true;
     this.acceleration  = settings.acceleration;
     this.direction     = settings.direction.toUnitVector();
-    this.onTouch       = function (player, collision, e) {
-      player.momentum = player.momentum.add(this.direction.x(this.acceleration * e.sdelta));
+    this.onTouch       = (player) => {
+      setTimeout(()=>{
+        Matter.Body.applyForce(player.body, player.body.position, this.direction.x(this.acceleration).toM());
+      }, 10);
     };
   }
 
@@ -27,9 +29,9 @@ class ForceZone extends Zone {
         .append(`Y : <input type='number' placeholder='y' size=4 id='diry' value=${this.direction.e(2)}>`)
       );
     dragManager.addPoint("direction",
-      this.position.add(this.dimensions.x(1/2)).add(this.direction.x(100)),
+      this.position.add(this.direction.x(100)),
       pos => {
-        this.direction = pos.subtract(this.position.add(this.dimensions.x(1/2))).toUnitVector();
+        this.direction = pos.subtract(this.position).toUnitVector();
         $("#dirx").val(this.direction.e(1));
         $("#diry").val(this.direction.e(2));
       });

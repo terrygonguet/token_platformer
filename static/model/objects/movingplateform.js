@@ -17,7 +17,7 @@ class MovingPlateform extends Plateform {
     else if (this.position.distanceFrom(this.pt1) <= this.speed * e.sdelta) this.direction = 1;
     const direction = this.moveTo.subtract(this.pt1).toUnitVector().x(this.direction * this.speed * e.sdelta);
     this.position = this.position.add(direction);
-    this.hitbox.pos = this.position.toSAT();
+    Matter.Body.setPosition(this.body, this.position.toM());
   }
 
   getEditor(container, dragManager) {

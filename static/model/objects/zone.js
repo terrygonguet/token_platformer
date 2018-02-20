@@ -101,10 +101,10 @@ class Zone extends createjs.Shape {
   collisionStart(pair) {
     var player = (pair.bodyA.displayObject.isPlayer ? pair.bodyA.displayObject : (pair.bodyB.displayObject.isPlayer ? pair.bodyB.displayObject : null));
     if (!player) return;
-    if (pair.separation >= player.radius * 2) {
-      this.onInside && this.onInside.bind(this)(player, pair);
+    if (pair.separation >= player.radius * 1.9) {
+      this.onInside && this.onInside(player, pair);
     }
-    this.onTouch && this.onTouch.bind(this)(player, pair);
+    this.onTouch && this.onTouch(player, pair);
   }
 
   collisionActive(pair) {
