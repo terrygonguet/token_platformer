@@ -3,24 +3,6 @@
   "name": "Getting high",
   "objects": [
     {
-      "type": "ColorPlateform",
-      "params": {
-        "pt1": {
-          "x": -100,
-          "y": -150
-        },
-        "pt2": {
-          "x": 100,
-          "y": -150
-        },
-        "thickness": 20,
-        "edgeOffset": 15,
-        "strokeColor": "#ff0000",
-        "fillColor": "#000000",
-        "state": "red"
-      }
-    },
-    {
       "type": "Plateform",
       "params": {
         "pt1": {
@@ -56,25 +38,15 @@
       }
     },
     {
-      "type": "SpawnPoint",
-      "params": {
-        "point": {
-          "x": -50,
-          "y": -300
-        },
-        "state": "red"
-      }
-    },
-    {
       "type": "EndZone",
       "params": {
         "position": {
-          "x": -250,
-          "y": 42
+          "x": -194,
+          "y": 64
         },
         "dimensions": {
-          "x": 60,
-          "y": 60
+          "x": 72,
+          "y": 68
         },
         "color": "#3af735",
         "alpha": 0.3,
@@ -88,15 +60,57 @@
       }
     },
     {
+      "type": "Gate",
+      "params": {
+        "pt1": {
+          "x": -70,
+          "y": -198
+        },
+        "pt2": {
+          "x": 442,
+          "y": -394
+        },
+        "state": "green"
+      }
+    },
+    {
       "type": "Pickup",
       "params": {
         "position": {
-          "x": 49,
-          "y": -291
+          "x": 411,
+          "y": -410
         },
         "state": "green",
         "radius": 10,
         "respawnTime": 1000
+      }
+    },
+    {
+      "type": "ColorPlateform",
+      "params": {
+        "pt1": {
+          "x": -100,
+          "y": -150
+        },
+        "pt2": {
+          "x": 247,
+          "y": -150
+        },
+        "thickness": 20,
+        "edgeOffset": 15,
+        "strokeColor": "#ff0000",
+        "fillColor": "#000000",
+        "state": "red"
+      }
+    },
+    {
+      "type": "SpawnPoint",
+      "params": {
+        "point": {
+          "x": 102,
+          "y": -229
+        },
+        "state": "red"
       }
     }
   ]
