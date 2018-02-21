@@ -176,10 +176,10 @@ TP.classes.push(function () {
       .append(
         $("<label>Jump to level : </label>")
         .append(
-          $("<input type='text' id='txblvl' list='levels' value='lvl1'/>").keydown(e => e.key==="Enter" && $("#btnJump").click() || true)
+          $("<select id='ddllvl'></select>")//.keydown(e => e.key==="Enter" && $("#btnJump").click() || true)
         )
         .append(
-          $("<button id='btnJump' class='NeonButton'>Jump</button>").click(e => game.loadLevel($("#txblvl").val()))
+          $("<button id='btnJump' class='NeonButton'>Jump</button>").click(e => game.loadLevel($("#ddllvl").val()))
         )
       )
       .append(
@@ -281,7 +281,7 @@ TP.classes.push(function () {
       $.getJSON("/levellist", res => {
         var datalist = $("<datalist id='levels'></datalist>");
         for (let lvl of res) {
-          datalist.append($("<option value='"+lvl+"'/> list='levels'"));
+          $("<option value='"+lvl+"'>" + lvl + "</option>").appendTo(datalist).appendTo("#ddllvl");
         }
         $(document.body).append(datalist);
       });

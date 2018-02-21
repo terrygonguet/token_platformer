@@ -13,6 +13,7 @@
        edgeOffset: 15,
        strokeColor: "#EEEEEE",
        fillColor: "#000000",
+       friction: 1,
      }, params);
      // this.id             = nextID();
      this.isPlateform    = true;
@@ -23,6 +24,7 @@
      this.edgeOffset     = settings.edgeOffset;
      this.strokeColor    = settings.strokeColor;
      this.fillColor      = settings.fillColor;
+     this.friction       = settings.friction;
      this.points         = null;
      this.body           = null;
      this.pt1            = settings.pt1;
@@ -52,7 +54,7 @@
     Matter.World.add(game.world, this.body);
     this.body.label = "Plateform";
     this.body.displayObject = this;
-    this.body.friction = 1;
+    this.body.friction = this.friction;
     var v = this.body.vertices.map(v => toSylv(v).subtract(this.position));
     this.graphics.c().f(this.fillColor).s(this.strokeColor).ss(3)
      .mt(...v[0].elements)
@@ -90,6 +92,10 @@
       .append(
         $("<label>Fill color : </label>")
           .append(`<input type='color' size=4 id='fillColor' value=${this.fillColor}>`)
+      )
+      .append(
+        $("<label>Friction : </label>")
+          .append(`<input type='number' size=4 id='friction' max=1 min=0 step=0.01 value=${this.friction}>`)
       );
     dragManager.addPoint("pt1", this.pt1, pos => {
       this.pt1 = pos.dup();
@@ -113,6 +119,7 @@
         edgeOffset: Number($("#edgeOffset").val()),
         strokeColor: $("#strokeColor").val(),
         fillColor: $("#fillColor").val(),
+        friction: $("#friction").val(),
       });
     };
    }
@@ -127,6 +134,7 @@
          edgeOffset: this.edgeOffset,
          strokeColor: this.strokeColor,
          fillColor: this.fillColor,
+         friction: this.friction,
        }
      };
    }

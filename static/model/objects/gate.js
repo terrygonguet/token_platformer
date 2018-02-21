@@ -10,6 +10,7 @@
      pt1: $V([0,0]),
      pt2: $V([100,0]),
      state: "green",
+     friction: 0,
    }, params);
    // this.id             = nextID();
    this.isGate         = true;
@@ -18,6 +19,7 @@
    this.inEditorList   = true;
    this.state          = settings.state;
    this.color          = game.player.colors[this.state];
+   this.friction       = settings.friction;
    this.points         = null;
    this.body           = null;
    this.pt1            = settings.pt1;
@@ -47,7 +49,7 @@
    Matter.World.add(game.world, this.body);
    this.body.label = "Gate";
    this.body.displayObject = this;
-   this.body.friction = 0;
+   this.body.friction = this.friction;
    this.graphics.c().s(this.color).ss(3)
     .mt(...pt2offset.x(-0.5).elements)
     .lt(...pt2offset.x(0.5).elements);
@@ -69,6 +71,10 @@
     .append(
       $("<label>State : </label>")
         .append(`<input type='text' size=4 id='state' list='states' min=0 value=${this.state}>`)
+    )
+    .append(
+      $("<label>Friction : </label>")
+        .append(`<input type='number' size=4 id='friction' max=1 min=0 step=0.01 value=${this.friction}>`)
     );
   dragManager.addPoint("pt1", this.pt1, pos => {
     this.pt1 = pos.dup();
@@ -89,6 +95,7 @@
       pt1: { x:Number($("#pt1x").val()), y:Number($("#pt1y").val()) },
       pt2: { x:Number($("#pt2x").val()), y:Number($("#pt2y").val()) },
       state: $("#state").val(),
+      friction: $("#friction").val(),
     });
   };
   }
@@ -100,6 +107,7 @@
        pt1: { x:this.pt1.e(1), y:this.pt1.e(2) },
        pt2: { x:this.pt2.e(1), y:this.pt2.e(2) },
        state: this.state,
+       friction: this.friction,
      }
    };
   }
