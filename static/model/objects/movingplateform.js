@@ -1,3 +1,4 @@
+TP.classes.push(function () {
 class MovingPlateform extends Plateform {
 
   constructor(params={}) {
@@ -60,3 +61,5 @@ class MovingPlateform extends Plateform {
 }
 TP.MovingPlateform = MovingPlateform;
 MovingPlateform.inCreate = true;
+window.MovingPlateform = MovingPlateform;
+})

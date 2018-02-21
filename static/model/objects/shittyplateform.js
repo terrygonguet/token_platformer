@@ -1,3 +1,4 @@
+TP.classes.push(function () {
 class ShittyPlateform extends Plateform {
 
   constructor(params={}) {
@@ -80,3 +81,5 @@ class ShittyPlateform extends Plateform {
 }
 TP.ShittyPlateform = ShittyPlateform;
 ShittyPlateform.inCreate = true;
+window.ShittyPlateform = ShittyPlateform;
+})

@@ -1,3 +1,4 @@
+TP.classes.push(function () {
 class Propulsor extends createjs.Shape {
 
   constructor(params={}) {
@@ -99,5 +100,7 @@ class Propulsor extends createjs.Shape {
   }
 
 }
-TP.Propulsor = Propulsor;
-Propulsor.inCreate = true;
+// TP.Propulsor = Propulsor;
+// Propulsor.inCreate = true;
+// window.Propulsor = Propulsor;
+})

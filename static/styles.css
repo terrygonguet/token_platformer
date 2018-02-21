@@ -7,7 +7,7 @@ html, body {
 	height: 100%;
 	width: 100%;
 	color: #EEE;
-	font-family: Montserrat;
+	font-family: Joystix;
 	background-color: #111;
 }
 
@@ -42,6 +42,11 @@ html, body {
 
 .a-enter-vr {
 	display: none;
+}
+
+@font-face {
+	font-family: "Joystix";
+	src: url("resources/joystix.ttf");
 }
 
 /* --------------- Config --------------- */
@@ -144,7 +149,7 @@ html, body {
 #editor {
 	position: absolute;
 	left: 0;
-	top: 10vh;
+	top: 15vh;
 	color: #ff83aa;
 	background: rgba(0, 0, 0, 0.7);
 	display: flex;
@@ -195,14 +200,15 @@ html, body {
 
 .NeonButton{
 	background-color: #00000000;
-    border: none;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px;
-    color: #ff83aa;
-    text-shadow: 0 0 1px #ff0051, 0 0 2px #ff0051, 0 0 4px #ff0051, 0 0 8px #ff0051, 0 0 16px #ff0051, 0 0 32px #ff0051, 0 0 64px #ff0051, 0 0 128px #ff0051;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-family: Joystix;
+  margin: 10px;
+  color: #ff83aa;
+  text-shadow: 0 0 1px #ff0051, 0 0 2px #ff0051, 0 0 4px #ff0051, 0 0 8px #ff0051, 0 0 16px #ff0051, 0 0 32px #ff0051, 0 0 64px #ff0051, 0 0 128px #ff0051;
 }
 
 .NeonButton:hover{

@@ -1,6 +1,7 @@
 /**
  * Manages collisions every updates
  */
+ TP.classes.push(function () {
  class Collider extends createjs.EventDispatcher {
 
   constructor() {
@@ -34,3 +35,5 @@
   }
 
 }
+window.Collider = Collider;
+})

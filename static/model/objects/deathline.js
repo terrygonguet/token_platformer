@@ -1,3 +1,4 @@
+TP.classes.push(function () {
 class DeathLine extends createjs.Shape {
 
   constructor(params={}) {
@@ -51,3 +52,5 @@ class DeathLine extends createjs.Shape {
 }
 TP.DeathLine = DeathLine;
 DeathLine.inCreate = true;
+window.DeathLine = DeathLine;
+})

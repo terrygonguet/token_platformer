@@ -1,3 +1,4 @@
+TP.classes.push(function () {
 class Camera extends createjs.EventDispatcher {
 
   constructor() {
@@ -43,3 +44,5 @@ class Camera extends createjs.EventDispatcher {
 
 }
 TP.Camera = Camera;
+window.Camera = Camera;
+})

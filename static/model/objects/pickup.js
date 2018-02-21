@@ -1,3 +1,4 @@
+TP.classes.push(function () {
 class Pickup extends createjs.Shape {
 
   constructor(params={}) {
@@ -95,3 +96,5 @@ class Pickup extends createjs.Shape {
 }
 TP.Pickup = Pickup;
 Pickup.inCreate = true;
+window.Pickup = Pickup;
+})

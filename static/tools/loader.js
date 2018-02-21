@@ -4,107 +4,100 @@
  *  game, input, queue, debug, config
  */
 var game;
-const queue = new createjs.LoadQueue();
+var assets = [];
 var debug = location.host === "localhost";
-const TP = {}; // Namespace
+const TP = {
+  classes:[]
+}; // Namespace
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 (function () {
-  queue.on("complete", handleComplete, this);
-  queue.on("fileload", handleFileLoad, this);
-  queue.on("fileerror", handleFileError, this);
-  queue.installPlugin(createjs.Sound);
+  const assetQueue = new createjs.LoadQueue();
+  const scriptQueue = new createjs.LoadQueue();
+  var manifests = null;
 
-  // loading screen
-  const stage = new createjs.Stage("game");
-  const bar = new createjs.Shape();
-  bar.graphics.ss(5);
-  bar.set({
-    x: window.innerWidth / 2,
-    y: window.innerHeight / 2
+  scriptQueue.on("complete", handleComplete, this);
+  scriptQueue.on("fileload", handleFileLoad, this);
+  scriptQueue.on("fileerror", handleFileError, this);
+
+  assetQueue.on("complete", handleComplete, this);
+  assetQueue.on("fileload", handleFileLoad, this);
+  assetQueue.on("fileerror", handleFileError, this);
+  assetQueue.installPlugin(createjs.Sound);
+  var nbassets = 0;
+  var nbscripts = 0;
+
+  $.getJSON("/filestoload", res => {
+    scriptQueue.loadManifest(res.scripts.map(a => ({ id:a.match(/\/(\w+?)\..+$/)[1], src:a })));
+    assetQueue.loadManifest(res.assets.map(a => ({ id:a.match(/\/(\w+?)\..+$/)[1], src:a })));
+    manifests = res;
   });
-  const txt = new createjs.Text("Loading", "50px Montserrat", "#EEE");
-  txt.set({
-    x: window.innerWidth / 2,
-    y: window.innerHeight / 3,
-    textAlign: "center"
-  });
-  let nbLoaded = 0;
-  stage.canvas.width = window.innerWidth;
-  stage.canvas.height = window.innerHeight;
-  stage.addChild(bar);
-  stage.addChild(txt);
-  stage.update();
-
-  // Files to load
-  queue.manifest = [
-    // Scripts ----------------------------------
-    {id: "Tools", src:"tools/tools.js"},
-    {id: "Input Manager", src:"tools/input.js"},
-    {id: "Mobile controls", src:"tools/mobile.js"},
-    {id: "Game", src:"model/game.js"},
-    {id: "Config", src:"model/config.js"},
-    // {id: "Collider", src:"model/collider.js"},
-    {id: "Camera", src:"model/camera.js"},
-
-    {id: "Player", src:"model/objects/player.js"},
-    {id: "Plateform", src:"model/objects/plateform.js"},
-    {id: "ColorPlateform", src:"model/objects/colorplateform.js"},
-    {id: "MovingPlateform", src:"model/objects/movingplateform.js"},
-    {id: "ShittyPlateform", src:"model/objects/shittyplateform.js"},
-    // // {id: "BouncyPlateform", src:"model/objects/bouncyplateform.js"},
-    {id: "Zone", src:"model/objects/zone.js"},
-    {id: "EndZone", src:"model/objects/endzone.js"},
-    {id: "ForceZone", src:"model/objects/forcezone.js"},
-    {id: "SpawnPoint", src:"model/objects/spawnpoint.js"},
-    {id: "Gate", src:"model/objects/gate.js"},
-    {id: "Pickup", src:"model/objects/pickup.js"},
-    {id: "DeathLine", src:"model/objects/deathline.js"},
-    // {id: "Propulsor", src:"model/objects/propulsor.js"},
-
-    {id: "Editor", src:"tools/editor.js"},
-
-    {id: "QuickText", src:"model/quickText.js"},
-    {id: "Neon", src:"model/neon.js"},
-
-    // Sprites ----------------------------------------
-
-    // Sounds ----------------------------------------
-    // {id: "Pew", src:"resources/sounds/pew.wav"},
-    // {id: "Boup", src:"resources/sounds/boup.wav"},
-    // {id: "Ping", src:"resources/sounds/ping.wav"},
-    // {id: "RadarSearch", src:"resources/sounds/radar.wav"},
-    // {id: "RadarWrong", src:"resources/sounds/radar_wrong.wav"},
-    // {id: "Kick", src:"resources/sounds/kick.wav"}
-
-  ];
-  queue.loadManifest(queue.manifest);
 
   function handleComplete() {
-    console.log("Loading complete.");
-    stage.removeChild(bar);
-    stage.removeChild(txt);
-    stage.update();
-    game = new Game("game");
-    resizeCanvas();
+    update();
+    if (assetQueue.loaded && scriptQueue.loaded) finish();
   }
 
   function handleFileLoad	(e) {
-    nbLoaded ++;
-    bar.graphics.s("#EEE").a(0, 0, 50, -Math.PI/2, (nbLoaded / queue.manifest.length) * (2 * Math.PI) - Math.PI/2).es();
-    stage.update();
     console.log(e.item.id + " loaded.");
+    nbassets += (e.target === assetQueue ? 1 : 0);
+    nbscripts += (e.target === scriptQueue ? 1 : 0);
+    update();
   }
 
   function handleFileError (e) {
     console.log(e.item.id + " failed.");
+    update();
+  }
+
+  function finish() {
+    console.log("Loading complete.");
+    assets = assetQueue.getItems();
+    var i = 0;
+    while (TP.classes.length) {
+      try {
+        TP.classes[0]();
+        TP.classes.shift();
+      } catch (e) {
+        TP.classes.push(TP.classes.shift());
+      }
+      if(i++ > 100) break;
+    }
+    stage.removeAllChildren();
+    stage = container = txtLoading = txtAssets = txtScripts = null;
+    game = new Game("game");
   }
 
   // to keep the canvas in full page size
-  window.addEventListener('resize', resizeCanvas, false);
-  function resizeCanvas() {
-    if (!game) return;
-    game.canvas.width = window.innerWidth;
-    game.canvas.height = window.innerHeight;
+  window.addEventListener('resize', function resize() {
+    $("#game")[0].width = window.innerWidth;
+    $("#game")[0].height = window.innerHeight;
+    stage && update();
+  }, false);
+  window.dispatchEvent(new Event("resize"));
+
+  var stage = new createjs.Stage("game");
+  var container = new createjs.Container();
+  var txtLoading = new createjs.Text("Loading", (0.2 * (innerHeight < innerWidth ? innerHeight : innerWidth)) + "px Joystix", "#EEE");
+  var txtAssets = new createjs.Text("Assets", "30px Joystix", "#EEE");
+  var txtScripts = new createjs.Text("Scripts", "30px Joystix", "#EEE");
+  container.shadow = new createjs.Shadow("#E1E", 0, 0, 15);
+  container.addChild(txtLoading);
+  container.addChild(txtAssets);
+  container.addChild(txtScripts);
+  stage.addChild(container);
+
+  function update() {
+    if (manifests) {
+      txtLoading.set({ x:20, y:0, maxWidth:innerWidth });
+      var loadHeight = txtLoading.getMeasuredHeight();
+      txtAssets.set({ x:20, y:loadHeight });
+      txtScripts.set({ x:20, y:loadHeight + 30 });
+      var bounds = container.getBounds();
+      container.set({ x:innerWidth/2 - bounds.width/2, y:innerHeight/2 - bounds.height/2 });
+      txtAssets.text = txtAssets.text.match(/(\w+)/)[1].padEnd(8, " ") + " [" + ">".repeat(nbassets).padEnd(manifests.assets.length, " ") + "]";
+      txtScripts.text = txtScripts.text.match(/(\w+)/)[1].padEnd(8, " ") + " [" + ">".repeat(nbscripts).padEnd(manifests.scripts.length, " ") + "]";
+      stage.update();
+    }
   }
 })();

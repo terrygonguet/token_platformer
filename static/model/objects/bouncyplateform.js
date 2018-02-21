@@ -1,3 +1,4 @@
+TP.classes.push(function () {
 class BouncyPlateform extends Plateform {
 
   constructor(params={}) {
@@ -37,3 +38,5 @@ class BouncyPlateform extends Plateform {
 }
 TP.BouncyPlateform = BouncyPlateform;
 BouncyPlateform.inCreate = true;
+window.BouncyPlateform = BouncyPlateform;
+})

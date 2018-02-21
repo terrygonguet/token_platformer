@@ -1,6 +1,7 @@
 /**
  * A plateform in the world
  */
+ TP.classes.push(function () {
  class Plateform extends createjs.Shape {
 
    constructor(params={}) {
@@ -141,3 +142,5 @@
  }
  TP.Plateform = Plateform;
 Plateform.inCreate = true;
+window.Plateform = Plateform;
+})

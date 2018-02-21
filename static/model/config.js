@@ -1,3 +1,4 @@
+TP.classes.push(function () {
 class Config extends createjs.EventDispatcher {
 
   constructor () {
@@ -104,5 +105,5 @@ class Config extends createjs.EventDispatcher {
   }
 
 }
-
-const config = new Config();
+window.config = new Config();
+})

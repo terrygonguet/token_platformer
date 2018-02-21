@@ -1,6 +1,7 @@
 /**
  * A Gate in the world
  */
+ TP.classes.push(function () {
  class Gate extends createjs.Shape {
 
   constructor(params={}) {
@@ -116,3 +117,5 @@
  }
  TP.Gate = Gate;
 Gate.inCreate = true;
+window.Gate = Gate;
+})

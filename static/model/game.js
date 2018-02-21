@@ -2,6 +2,7 @@
  * The main class handling updates and graphics
  */
 
+ TP.classes.push(function () {
 class Game extends createjs.Stage {
 
   /**
@@ -214,3 +215,5 @@ class Game extends createjs.Stage {
 
 }
 TP.Game = Game;
+window.Game = Game;
+})

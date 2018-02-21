@@ -1,6 +1,7 @@
 /**
  * The player object
  */
+ TP.classes.push(function () {
 class Player extends createjs.Shape {
 
   constructor(params) {
@@ -100,3 +101,5 @@ class Player extends createjs.Shape {
 
 }
 TP.Player = Player;
+window.Player = Player;
+})

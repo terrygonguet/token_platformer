@@ -1,3 +1,4 @@
+TP.classes.push(function () {
 class Zone extends createjs.Shape {
 
   constructor(params={}) {
@@ -113,3 +114,5 @@ class Zone extends createjs.Shape {
 
 }
 TP.Zone = Zone;
+window.Zone = Zone;
+});

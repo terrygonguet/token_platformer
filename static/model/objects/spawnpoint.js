@@ -1,3 +1,4 @@
+TP.classes.push(function () {
 class SpawnPoint extends createjs.DisplayObject {
 
   constructor(params={}) {
@@ -60,3 +61,5 @@ class SpawnPoint extends createjs.DisplayObject {
 }
 TP.SpawnPoint = SpawnPoint;
 SpawnPoint.inCreate = true;
+window.SpawnPoint = SpawnPoint;
+})

@@ -1,3 +1,4 @@
+TP.classes.push(function () {
 class Neon extends createjs.Shadow {
 
   /**
@@ -10,3 +11,5 @@ class Neon extends createjs.Shadow {
 
 }
 TP.Neon = Neon;
+window.Neon = Neon;
+})

@@ -1,3 +1,4 @@
+TP.classes.push(function () {
 class EndZone extends Zone {
 
   constructor(params={}) {
@@ -42,3 +43,5 @@ class EndZone extends Zone {
 }
 TP.EndZone = EndZone;
 EndZone.inCreate = true;
+window.EndZone = EndZone;
+})

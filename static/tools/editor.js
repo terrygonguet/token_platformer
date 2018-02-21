@@ -144,7 +144,7 @@ class DragManager extends createjs.Container {
 }
 TP.Editor.DragManager = DragManager;
 
-(function () {
+TP.classes.push(function () {
   Editor.el               = $("#editor");
   Editor.propsContainer   = $("<div id='propsContainer'></div>");
   Editor.btnContainer     = $("<div id='btnContainer'></div>");
@@ -288,4 +288,4 @@ TP.Editor.DragManager = DragManager;
     }
     else setTimeout(tryGrid, 50);
   }, 50);
-})();
+});

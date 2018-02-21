@@ -1,3 +1,4 @@
+TP.classes.push(function () {
 class ColorPlateform extends Plateform {
 
   constructor(params={}) {
@@ -41,3 +42,5 @@ class ColorPlateform extends Plateform {
 }
 TP.ColorPlateform = ColorPlateform;
 ColorPlateform.inCreate = true;
+window.ColorPlateform = ColorPlateform;
+})

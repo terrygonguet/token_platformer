@@ -1,3 +1,4 @@
+TP.classes.push(function () {
 class ForceZone extends Zone {
 
   constructor(params={}) {
@@ -56,3 +57,5 @@ class ForceZone extends Zone {
 }
 TP.ForceZone = ForceZone;
 ForceZone.inCreate = true;
+window.ForceZone = ForceZone;
+})
