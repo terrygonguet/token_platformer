@@ -176,7 +176,7 @@ TP.classes.push(function () {
       .append(
         $("<label>Jump to level : </label>")
         .append(
-          $("<select id='ddllvl'></select>")//.keydown(e => e.key==="Enter" && $("#btnJump").click() || true)
+          $("<select id='ddllvl'></select>").change(e =>$("#btnJump").click())
         )
         .append(
           $("<button id='btnJump' class='NeonButton'>Jump</button>").click(e => game.loadLevel($("#ddllvl").val()))

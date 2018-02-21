@@ -66,6 +66,7 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
     stage.removeAllChildren();
     stage = container = txtLoading = txtAssets = txtScripts = null;
     game = new Game("game");
+    // $("body").css("background-color", "rgba(0,0,0,0)");
   }
 
   // to keep the canvas in full page size
@@ -76,6 +77,7 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
   }, false);
   window.dispatchEvent(new Event("resize"));
 
+  $("body").css("background-color", "#111");
   var stage = new createjs.Stage("game");
   var container = new createjs.Container();
   var txtLoading = new createjs.Text("Loading", (0.2 * (innerHeight < innerWidth ? innerHeight : innerWidth)) + "px Joystix", "#EEE");

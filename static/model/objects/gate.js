@@ -21,13 +21,14 @@
    this.color          = game.player.colors[this.state];
    this.friction       = settings.friction;
    this.points         = null;
-   this.body           = null;
+   this.body           = Matter.Body.create({ isStatic:true, friction:settings.friction, label:"Gate" });
    this.pt1            = settings.pt1;
    this.pt2            = settings.pt2;
    this.position       = null;
 
+   this.body.displayObject = this;
+
    this.redraw();
-   this.on("removed", e => Matter.Composite.remove(game.world, this.body), null, true);
   }
 
   redraw() {
@@ -37,19 +38,13 @@
    this.points = [
      Vector.Zero(2).add(thickDir),
      pt2offset.add(thickDir),
-     Vector.Zero(2).subtract(thickDir),
      pt2offset.subtract(thickDir),
+     Vector.Zero(2).subtract(thickDir),
    ];
-   this.body && Matter.Composite.remove(game.world, this.body);
-   this.body = Matter.Bodies.fromVertices(
-    ...this.position.elements,
-    this.points.map(p => p.toM()),
-    { isStatic:true }
-   );
-   Matter.World.add(game.world, this.body);
-   this.body.label = "Gate";
-   this.body.displayObject = this;
-   this.body.friction = this.friction;
+   Matter.Body.set(this.body, {
+     vertices: this.points.map(p => p.toM()),
+     position: this.position.toM()
+   });
    this.graphics.c().s(this.color).ss(3)
     .mt(...pt2offset.x(-0.5).elements)
     .lt(...pt2offset.x(0.5).elements);

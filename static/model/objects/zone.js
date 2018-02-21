@@ -19,18 +19,25 @@ class Zone extends createjs.Shape {
     this.isCollidable  = true;
     this.onInside      = null;
     this.onTouch       = null;
-    this.body          = null;
+    this.body           = Matter.Body.create({ isStatic:true, isSensor:true, label:"Zone" });
+
+    this.body.displayObject = this;
 
     this.redraw();
-    this.on("removed", e => Matter.Composite.remove(game.world, this.body), null, true);
   }
 
   redraw() {
-    this.body && Matter.Composite.remove(game.world, this.body);
-    this.body = Matter.Bodies.rectangle(...this.position.elements, ...this.dimensions.elements, { isStatic:true, isSensor:true });
-    Matter.World.add(game.world, this.body);
-    this.body.label = "Zone";
-    this.body.displayObject = this;
+    var half = this.dimensions.x(0.5);
+    this.points = [
+      $V([half.e(1), half.e(2)]),
+      $V([-half.e(1), half.e(2)]),
+      $V([-half.e(1), -half.e(2)]),
+      $V([half.e(1), -half.e(2)]),
+    ];
+    Matter.Body.set(this.body, {
+      vertices: this.points.map(p => p.toM()),
+      position: this.position.toM()
+    });
     const pts = this.body.vertices.map(v => toSylv(v).subtract(this.position));
     this.graphics.c().f(this.color)
       .mt(...pts[0].elements)

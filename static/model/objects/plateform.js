@@ -26,13 +26,14 @@
      this.fillColor      = settings.fillColor;
      this.friction       = settings.friction;
      this.points         = null;
-     this.body           = null;
+     this.body           = Matter.Body.create({ isStatic:true, friction:settings.friction, label:"Plateform" });
      this.pt1            = settings.pt1;
      this.pt2            = settings.pt2;
      this.position       = null;
 
+     this.body.displayObject = this;
+
      this.redraw();
-     this.on("removed", e => Matter.Composite.remove(game.world, this.body));
    }
 
    redraw() {
@@ -42,19 +43,13 @@
     this.points = [
       $V([0,0]),
       pt2offset,
-      Vector.Zero(2).add(pt2offset.toUnitVector().x(this.edgeOffset)).add(thickDir),
       pt2offset.subtract(pt2offset.toUnitVector().x(this.edgeOffset)).add(thickDir),
+      Vector.Zero(2).add(pt2offset.toUnitVector().x(this.edgeOffset)).add(thickDir),
     ];
-    this.body && Matter.Composite.remove(game.world, this.body);
-    this.body = Matter.Bodies.fromVertices(
-     ...this.position.elements,
-     this.points.map(p => p.toM()),
-     { isStatic:true }
-    );
-    Matter.World.add(game.world, this.body);
-    this.body.label = "Plateform";
-    this.body.displayObject = this;
-    this.body.friction = this.friction;
+    Matter.Body.set(this.body, {
+      vertices: this.points.map(p => p.toM()),
+      position: this.position.toM()
+    });
     var v = this.body.vertices.map(v => toSylv(v).subtract(this.position));
     this.graphics.c().f(this.fillColor).s(this.strokeColor).ss(3)
      .mt(...v[0].elements)
@@ -138,14 +133,6 @@
        }
      };
    }
-
-   // update(e) {
-   //
-   // }
-
-   // onCollide(otherObj, collision) {
-   //
-   // }
 
  }
  TP.Plateform = Plateform;

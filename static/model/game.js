@@ -18,7 +18,6 @@ class Game extends createjs.Stage {
     this.txtrendertime= new QuickText({ x: 10, y: 50, dontRemove: true });
     this.txtqwerty    = new QuickText({ x: 10, y: 10, text: debug ? "Escape for the menu" : "", dontRemove: true });
     this.renderVals   = [];
-    // this.collider     = new Collider();
     this.camera       = new Camera();
     this.engine       = Matter.Engine.create();
     this.world        = this.engine.world;
@@ -26,7 +25,6 @@ class Game extends createjs.Stage {
     this.lastdelta    = 1000 / 60;
     this.player       = null;
     this.levelData    = null;
-    // this.gravity      = $V([ 0, 900 ]);
     this.maxdelta     = 150;
     this.isLoading    = false;
 
@@ -190,7 +188,6 @@ class Game extends createjs.Stage {
       this.delta = e.delta;
       Matter.Engine.update(this.engine, e.delta, this.delta/this.lastdelta);
       this.lastdelta = e.delta;
-      // this.collider.update(e);
     }
     this.camera.update(e);
     super.update(e);
@@ -205,6 +202,7 @@ class Game extends createjs.Stage {
   }
 
   addChild (child) {
+    child.body && Matter.Composite.add(this.world, child.body);
     return super.addChild(child);
   }
 
