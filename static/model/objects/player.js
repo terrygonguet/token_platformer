@@ -95,6 +95,7 @@ class Player extends createjs.Shape {
       this.maxSpeed = Number($("#maxSpeed").val());
       this.acceleration = Number($("#acceleration").val());
       this.jumpForce = Number($("#jumpForce").val());
+      Matter.World.add(game.world, this.body);
       return this;
     };
   }

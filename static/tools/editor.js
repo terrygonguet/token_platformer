@@ -67,6 +67,7 @@ class Editor {
         }
         break;
     }
+    $("input", Editor.el).keydown(e => e.key==="Enter" && Editor.btnApply.click() || true)
     Editor.el.show();
     input.enableMouseMouve(true);
     Editor.cursorPos.show();
@@ -210,56 +211,6 @@ TP.classes.push(function () {
     )
     .append(Editor.txtJSON);
 
-  Editor.close();
-
-  for (var className in TP) {
-    if (TP[className].inCreate) {
-      Editor.ddlClassName.append(`<option value="${className}">${className}</option>`);
-    }
-  }
-  $("#className:first-child").attr("selected", "selected");
-
-  input.on("mouse1", e => {
-    if (!debug) return;
-    const objs = game.getObjectsUnderPoint(...input.mousePos.elements);
-    const anchor = objs.find(o => o.isDragAnchor);
-    if (!anchor && objs[0] && objs[0].inEditorList) {
-      Editor.object = objs[0];
-      Editor.open();
-    }
-  });
-  input.on("mouse2", e => Editor.open("create"));
-  input.on("mousemove", e => {
-    if (!debug) {
-      Editor.cursorPos.hide();
-      return;
-    }
-    var pos = game.camera.globalToLocal(input.mousePos);
-    Editor.cursorPos
-      .show()
-      .text(pos.round().inspect())
-      .css({ top:input.mousePos.e(2), left:input.mousePos.e(1) });
-  });
-  input.on("debug", () => {
-    if (debug) showGrid();
-    else hideGrid();
-  });
-  window.addEventListener("keydown", e => e.key==="Escape" && Editor.close());
-
-  $(document.body).append(`
-  <datalist id="states">
-    <option value="green"/>
-    <option value="red"/>
-  </datalist>`);
-
-  $.getJSON("/levellist", res => {
-    var datalist = $("<datalist id='levels'></datalist>");
-    for (let lvl of res) {
-      datalist.append($("<option value='"+lvl+"'/> list='levels'"));
-    }
-    $(document.body).append(datalist);
-  });
-
   function showGrid() {
     var grid = new createjs.Shape();
     grid.position = Vector.Zero(2);
@@ -284,6 +235,55 @@ TP.classes.push(function () {
       debug && showGrid();
       game.on("levelloaded", e => {
         $("#txbsave, #txblvl").val(e.level);
+      });
+      Editor.close();
+
+      for (var className in TP) {
+        if (TP[className].inCreate) {
+          Editor.ddlClassName.append(`<option value="${className}">${className}</option>`);
+        }
+      }
+      $("#className:first-child").attr("selected", "selected");
+
+      input.on("mouse1", e => {
+        if (!debug) return;
+        const objs = game.getObjectsUnderPoint(...input.mousePos.elements);
+        const anchor = objs.find(o => o.isDragAnchor);
+        if (!anchor && objs[0] && objs[0].inEditorList) {
+          Editor.object = objs[0];
+          Editor.open();
+        }
+      });
+      input.on("mouse2", e => Editor.open("create"));
+      input.on("mousemove", e => {
+        if (!debug) {
+          Editor.cursorPos.hide();
+          return;
+        }
+        var pos = game.camera.globalToLocal(input.mousePos);
+        Editor.cursorPos
+          .show()
+          .text(pos.round().inspect())
+          .css({ top:input.mousePos.e(2), left:input.mousePos.e(1) });
+      });
+      input.on("debug", () => {
+        if (debug) showGrid();
+        else hideGrid();
+      });
+      window.addEventListener("keydown", e => e.key==="Escape" && Editor.close());
+
+      $(document.body).append(`
+      <datalist id="states">
+        <option value="green"/>
+        <option value="red"/>
+      </datalist>`);
+
+      $.getJSON("/levellist", res => {
+        var datalist = $("<datalist id='levels'></datalist>");
+        for (let lvl of res) {
+          datalist.append($("<option value='"+lvl+"'/> list='levels'"));
+        }
+        $(document.body).append(datalist);
       });
     }
     else setTimeout(tryGrid, 50);
