@@ -22,11 +22,9 @@ class Pickup extends createjs.Shape {
     this.time             = 0;
 
     this.graphics.c().f(this.color).dc(0,0,this.radius);
-    Matter.World.add(game.world, this.body);
     this.body.displayObject = this;
     this.body.label = "Pickup";
 
-    this.on("removed", e => Matter.Composite.remove(game.world, this.body), null, true);
   }
 
   update(e) {

@@ -26,12 +26,13 @@
      this.fillColor      = settings.fillColor;
      this.friction       = settings.friction;
      this.points         = null;
-     this.body           = Matter.Body.create({ isStatic:true, friction:settings.friction, label:"Plateform" });
+     this.body           = Matter.Body.create({ isStatic:true, label:"Plateform" });
      this.pt1            = settings.pt1;
      this.pt2            = settings.pt2;
      this.position       = null;
 
      this.body.displayObject = this;
+     Matter.Body.set(this.body, "friction", settings.friction);
 
      this.redraw();
    }
@@ -114,7 +115,7 @@
         edgeOffset: Number($("#edgeOffset").val()),
         strokeColor: $("#strokeColor").val(),
         fillColor: $("#fillColor").val(),
-        friction: $("#friction").val(),
+        friction: Number($("#friction").val()),
       });
     };
    }

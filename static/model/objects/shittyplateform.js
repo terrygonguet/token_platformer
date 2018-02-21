@@ -12,6 +12,8 @@ class ShittyPlateform extends Plateform {
     this.respawnTime         = settings.respawnTime;
     this.time                = 0;
     this.state               = "fixed"; // enum { fixed, crumbling, broken }
+
+    this.body.label = "ShittyPlateform";
   }
 
   collisionStart(pair) {

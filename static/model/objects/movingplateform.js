@@ -11,6 +11,8 @@ class MovingPlateform extends Plateform {
     this.moveTo              = settings.moveTo;
     this.speed               = settings.speed;
     this.direction           = 1;
+
+    this.body.label = "MovingPlateform";
   }
 
   update(e) {
