@@ -79,7 +79,8 @@
           "x": 447,
           "y": -159
         },
-        "state": "green"
+        "state": "green",
+        "friction": 0
       }
     },
     {
@@ -189,23 +190,6 @@
       }
     },
     {
-      "type": "Plateform",
-      "params": {
-        "pt1": {
-          "x": -750,
-          "y": 100
-        },
-        "pt2": {
-          "x": -450,
-          "y": 100
-        },
-        "thickness": 20,
-        "edgeOffset": 15,
-        "strokeColor": "#eeeeee",
-        "fillColor": "#000000"
-      }
-    },
-    {
       "type": "Pickup",
       "params": {
         "position": {
@@ -232,6 +216,7 @@
         "edgeOffset": 15,
         "strokeColor": "#eeeeee",
         "fillColor": "#000000",
+        "friction": 1,
         "disapearTime": 300,
         "respawnTime": 2000
       }
@@ -262,6 +247,25 @@
         "color": "#3af735",
         "alpha": 0.3,
         "nextLevel": "lvl9"
+      }
+    },
+    {
+      "type": "ColorPlateform",
+      "params": {
+        "pt1": {
+          "x": -750,
+          "y": 100
+        },
+        "pt2": {
+          "x": -450,
+          "y": 100
+        },
+        "thickness": 20,
+        "edgeOffset": 15,
+        "strokeColor": "#11ee11",
+        "fillColor": "#000000",
+        "friction": 1,
+        "state": "green"
       }
     }
   ]
