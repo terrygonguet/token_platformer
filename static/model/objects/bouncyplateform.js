@@ -37,6 +37,6 @@ class BouncyPlateform extends Plateform {
 
 }
 TP.BouncyPlateform = BouncyPlateform;
-BouncyPlateform.inCreate = true;
-window.BouncyPlateform = BouncyPlateform;
+// BouncyPlateform.inCreate = true;
+// window.BouncyPlateform = BouncyPlateform;
 })

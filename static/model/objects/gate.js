@@ -21,38 +21,41 @@
    this.color          = game.player.colors[this.state];
    this.friction       = settings.friction;
    this.points         = null;
-   this.body           = null;
+   this.body           = Matter.Body.create({ isStatic:true, label:"Gate" });
    this.pt1            = settings.pt1;
    this.pt2            = settings.pt2;
    this.position       = null;
 
+   this.body.displayObject = this;
+   Matter.Body.set(this.body, "friction", settings.friction);
+
    this.redraw();
-   this.on("removed", e => Matter.Composite.remove(game.world, this.body), null, true);
   }
 
   redraw() {
    const pt2offset = this.pt2.subtract(this.pt1);
-   const thickDir = pt2offset.toUnitVector().rotate(Math.PI/2, Vector.Zero(2));
-   this.position = this.pt1.add(pt2offset.x(0.5)).add(thickDir.x(0.5));
+   const thickDir = pt2offset.toUnitVector().rotate(Math.PI/2, Vector.Zero(2)).x(2);
+   this.position = this.pt1.add(pt2offset.x(0.5));
    this.points = [
-     Vector.Zero(2).add(thickDir),
-     pt2offset.add(thickDir),
      Vector.Zero(2).subtract(thickDir),
      pt2offset.subtract(thickDir),
+     pt2offset.add(thickDir),
+     Vector.Zero(2).add(thickDir),
    ];
-   this.body && Matter.Composite.remove(game.world, this.body);
-   this.body = Matter.Bodies.fromVertices(
-    ...this.position.elements,
-    this.points.map(p => p.toM()),
-    { isStatic:true }
-   );
-   Matter.World.add(game.world, this.body);
-   this.body.label = "Gate";
-   this.body.displayObject = this;
-   this.body.friction = this.friction;
-   this.graphics.c().s(this.color).ss(3)
-    .mt(...pt2offset.x(-0.5).elements)
-    .lt(...pt2offset.x(0.5).elements);
+   Matter.Body.set(this.body, {
+     vertices: this.points.map(p => p.toM()),
+     position: this.position.toM()
+   });
+   // this.graphics.c().s(this.color).ss(3)
+   //  .mt(...pt2offset.x(-0.5).elements)
+   //  .lt(...pt2offset.x(0.5).elements);
+   var v = this.body.vertices.map(v => toSylv(v).subtract(this.position));
+   this.graphics.c().f(this.color)
+    .mt(...v[0].elements)
+    .lt(...v[1].elements)
+    .lt(...v[2].elements)
+    .lt(...v[3].elements)
+    .cp();
   }
 
   getEditor(container, dragManager) {
@@ -95,7 +98,7 @@
       pt1: { x:Number($("#pt1x").val()), y:Number($("#pt1y").val()) },
       pt2: { x:Number($("#pt2x").val()), y:Number($("#pt2y").val()) },
       state: $("#state").val(),
-      friction: $("#friction").val(),
+      friction: Number($("#friction").val()),
     });
   };
   }

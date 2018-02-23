@@ -16,7 +16,8 @@
         "thickness": 20,
         "edgeOffset": 15,
         "strokeColor": "#eeeeee",
-        "fillColor": "#000000"
+        "fillColor": "#000000",
+        "friction": 1
       }
     },
     {
@@ -34,6 +35,7 @@
         "edgeOffset": 16,
         "strokeColor": "#ff0000",
         "fillColor": "#000000",
+        "friction": 1,
         "state": "red"
       }
     },
@@ -54,7 +56,8 @@
           "x": 442,
           "y": -394
         },
-        "state": "green"
+        "state": "green",
+        "friction": 0
       }
     },
     {
@@ -84,6 +87,7 @@
         "edgeOffset": 15,
         "strokeColor": "#ff0000",
         "fillColor": "#000000",
+        "friction": 1,
         "state": "red"
       }
     },
@@ -101,12 +105,12 @@
       "type": "EndZone",
       "params": {
         "position": {
-          "x": -194,
-          "y": 64
+          "x": -190,
+          "y": 70
         },
         "dimensions": {
-          "x": 80,
-          "y": 78
+          "x": 72,
+          "y": 68
         },
         "color": "#3af735",
         "alpha": 0.3,

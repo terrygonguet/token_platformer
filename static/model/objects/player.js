@@ -27,7 +27,6 @@ class Player extends createjs.Shape {
     };
     this.shadow         = new Neon(this.color);
 
-    Matter.World.add(game.world, this.body);
     this.body.label = "Player";
     this.body.displayObject = this;
     this.body.friction = 0.2;

@@ -9,6 +9,8 @@ class ColorPlateform extends Plateform {
     super(settings);
     this.isColorPlateform   = true;
     this.state              = settings.state;
+
+    this.body.label = "ColorPlateform";
   }
 
   collisionStart(pair) {
