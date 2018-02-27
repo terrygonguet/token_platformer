@@ -8,12 +8,9 @@ class BouncyPlateform extends Plateform {
     super(settings);
     this.isBouncyPlateform   = true;
     this.bounciness          = settings.bounciness;
-  }
 
-  onCollide(otherObj, collision, e) {
-    if (otherObj.isPlayer) {
-      otherObj.momentum.elements[1] *= -this.bounciness;
-    }
+    this.body.label = "BouncyPlateform";
+    this.body.restitution = settings.bounciness;
   }
 
   getEditor(container, dragManager) {
@@ -21,10 +18,10 @@ class BouncyPlateform extends Plateform {
     $(container)
       .append(
         $("<label>Bounciness : </label>")
-          .append(`<input type='text' size=4 id='bounciness' value=${this.bounciness}>`)
+          .append(`<input type='number' min=0 max=1 step=0.05 size=4 id='bounciness' value=${this.bounciness}>`)
       );
     return ()=>{
-      return new BouncyPlateform(_.merge(apply().toJSON().params, { bounciness: Number($("#bounciness").val()) }));
+      return new BouncyPlateform(_.merge(apply().toJSON().params, { bounciness: Number($("#bounciness").val()).clamp(0,1) }));
     };
   }
 
@@ -37,6 +34,6 @@ class BouncyPlateform extends Plateform {
 
 }
 TP.BouncyPlateform = BouncyPlateform;
-// BouncyPlateform.inCreate = true;
-// window.BouncyPlateform = BouncyPlateform;
+BouncyPlateform.inCreate = true;
+window.BouncyPlateform = BouncyPlateform;
 })

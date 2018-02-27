@@ -93,8 +93,8 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
     if (manifests) {
       txtLoading.set({ x:20, y:0, maxWidth:innerWidth });
       var loadHeight = txtLoading.getMeasuredHeight();
-      txtAssets.set({ x:20, y:loadHeight });
-      txtScripts.set({ x:20, y:loadHeight + 30 });
+      txtAssets.set({ x:20, y:loadHeight + 30 });
+      txtScripts.set({ x:20, y:loadHeight });
       var bounds = container.getBounds();
       container.set({ x:innerWidth/2 - bounds.width/2, y:innerHeight/2 - bounds.height/2 });
       txtAssets.text = txtAssets.text.match(/(\w+)/)[1].padEnd(8, " ") + " [" + ">".repeat(nbassets).padEnd(manifests.assets.length, " ") + "]";
