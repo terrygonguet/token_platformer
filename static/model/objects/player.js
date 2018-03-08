@@ -90,11 +90,15 @@ class Player extends createjs.Shape {
         $("<label>Jump force : </label>")
           .append(`<input type='number' size=4 id='jumpForce' value=${this.jumpForce}>`)
       )
+      .append(
+        $("<label>Gravity force : </label>")
+          .append(`<input type='number' size=4 id='gravity' value=${game.world.gravity.scale}>`)
+      )
     return ()=>{
       this.maxSpeed = Number($("#maxSpeed").val());
       this.acceleration = Number($("#acceleration").val());
       this.jumpForce = Number($("#jumpForce").val());
-      Matter.World.add(game.world, this.body);
+      game.world.gravity.scale = Number($("#gravity").val())
       return this;
     };
   }
